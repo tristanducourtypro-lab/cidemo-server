@@ -137,6 +137,50 @@ app.get('/create-admin', (req, res) => {
     res.send('❌ Erreur : ' + e.message);
   }
 });
+// ===== CRÉATION DES TABLES =====
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    role TEXT DEFAULT 'client',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )
+`);
+
+// Ajout des nouvelles tables
+db.exec(`
+  CREATE TABLE IF NOT EXISTS prospects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    canal TEXT,
+    status TEXT NOT NULL,
+    notes TEXT,
+    date TEXT,
+    user_id INTEGER,
+    FOREIGN KEY(user_id) REFERENCES users(id)
+  );
+
+  CREATE TABLE IF NOT EXISTS activities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    text TEXT NOT NULL,
+    date TEXT,
+    FOREIGN KEY(user_id) REFERENCES users(id)
+  );
+
+  CREATE TABLE IF NOT EXISTS calls (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    prospect_id INTEGER,
+    type TEXT NOT NULL,
+    date TEXT,
+    result TEXT,
+    notes TEXT,
+    FOREIGN KEY(prospect_id) REFERENCES prospects(id)
+  );
+`);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
