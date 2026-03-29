@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Database = require('better-sqlite3');
@@ -7,6 +8,7 @@ const Database = require('better-sqlite3');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 const SECRET = 'cidemo_secret_key_2025';
 const db = new Database('cidemo.db');
@@ -49,8 +51,6 @@ function adminOnly(req, res, next) {
 }
 
 // ===== ROUTES AUTH =====
-
-// Inscription (tout le monde peut créer un compte client)
 app.post('/api/register', (req, res) => {
   const { nom, email, password } = req.body;
   if (!nom || !email || !password) return res.status(400).json({ error: 'Champs requis' });
@@ -66,7 +66,6 @@ app.post('/api/register', (req, res) => {
   res.json({ token, user: { id: result.lastInsertRowid, nom, email, role: 'client' } });
 });
 
-// Connexion
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Champs requis' });
@@ -80,7 +79,6 @@ app.post('/api/login', (req, res) => {
   res.json({ token, user: { id: user.id, nom: user.nom, email: user.email, role: user.role } });
 });
 
-// Vérifier le token (auto-login)
 app.get('/api/me', authMiddleware, (req, res) => {
   const user = db.prepare('SELECT id, nom, email, role, created_at FROM users WHERE id = ?').get(req.user.id);
   if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
@@ -88,14 +86,11 @@ app.get('/api/me', authMiddleware, (req, res) => {
 });
 
 // ===== ROUTES ADMIN =====
-
-// Liste des utilisateurs (admin seulement)
 app.get('/api/users', authMiddleware, adminOnly, (req, res) => {
   const users = db.prepare('SELECT id, nom, email, role, created_at FROM users ORDER BY created_at DESC').all();
   res.json({ users });
 });
 
-// Créer un utilisateur (admin peut créer admin ou client)
 app.post('/api/users', authMiddleware, adminOnly, (req, res) => {
   const { nom, email, password, role } = req.body;
   if (!nom || !email || !password) return res.status(400).json({ error: 'Champs requis' });
@@ -108,7 +103,6 @@ app.post('/api/users', authMiddleware, adminOnly, (req, res) => {
   res.json({ success: true, id: result.lastInsertRowid });
 });
 
-// Supprimer un utilisateur (admin seulement)
 app.delete('/api/users/:id', authMiddleware, adminOnly, (req, res) => {
   if (req.user.id === parseInt(req.params.id)) return res.status(400).json({ error: 'Tu ne peux pas te supprimer toi-même' });
   db.prepare('DELETE FROM users WHERE id = ?').run(req.params.id);
