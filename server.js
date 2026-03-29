@@ -137,6 +137,40 @@ app.get('/create-admin', (req, res) => {
     res.send('❌ Erreur : ' + e.message);
   }
 });
+// ===== ROUTES POUR LES PROSPECTS =====
+app.get('/api/prospects', authMiddleware, (req, res) => {
+  try {
+    const prospects = db.prepare(`
+      SELECT * FROM prospects
+      WHERE user_id = ?
+      ORDER BY date DESC
+    `).all(req.user.id);
+    res.json(prospects);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/prospects', authMiddleware, (req, res) => {
+  try {
+    const { name, type, canal, status, notes } = req.body;
+    const result = db.prepare(`
+      INSERT INTO prospects (name, type, canal, status, notes, date, user_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(name, type, canal, status, notes, new Date().toLocaleDateString('fr-FR'), req.user.id);
+
+    // Ajouter une activité
+    db.prepare(`
+      INSERT INTO activities (user_id, text, date)
+      VALUES (?, ?, ?)
+    `).run(req.user.id, `${name} ajouté en tant que prospect (${type === 'createur' ? 'Créateur' : 'Entrepreneur'})`, new Date().toLocaleDateString('fr-FR'));
+
+    res.json({ success: true, id: result.lastInsertRowid });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ===== CRÉATION DES TABLES =====
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
