@@ -42,7 +42,7 @@
             padding: 20px;
         }
 
-        .login-card {
+        .login-box {
             background: white;
             border-radius: 16px;
             padding: 48px 40px;
@@ -52,24 +52,24 @@
         }
 
         .login-logo {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
-        .login-sub {
-            text-align: center;
+        .login-tagline {
+            font-size: 10px;
             color: var(--beige);
-            font-size: 12px;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 40px;
+            text-align: center;
+            margin-bottom: 32px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
@@ -79,60 +79,53 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--beige);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 12px 16px;
-            border: 1.5px solid var(--beige-medium);
-            border-radius: 10px;
+            padding: 10px 14px;
+            border: 1px solid var(--beige-medium);
+            border-radius: 8px;
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: var(--noir);
+            font-size: 13px;
             background: var(--creme);
-            transition: border-color 0.2s;
+            color: var(--noir);
+            transition: border-color 0.15s;
         }
 
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--beige);
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: 'Inter', sans-serif;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
         }
 
         .btn-primary {
             background: var(--noir);
-            color: var(--creme);
+            color: white;
             width: 100%;
-            padding: 14px;
+            padding: 12px;
         }
 
-        .btn-primary:hover {
-            opacity: 0.85;
-        }
+        .btn-primary:hover { opacity: 0.85; }
 
         .btn-secondary {
             background: var(--beige-light);
             color: var(--noir);
-        }
-
-        .btn-secondary:hover {
-            background: var(--beige-medium);
-        }
-
-        .btn-small {
-            padding: 8px 16px;
-            font-size: 12px;
         }
 
         .btn-danger {
@@ -140,14 +133,27 @@
             color: var(--red);
         }
 
-        .btn-success {
-            background: var(--green-light);
-            color: var(--green);
+        .btn-small {
+            padding: 6px 14px;
+            font-size: 12px;
+        }
+
+        .login-error {
+            color: var(--red);
+            font-size: 12px;
+            text-align: center;
+            margin-top: 12px;
+            display: none;
         }
 
         /* APP LAYOUT */
-        .app { display: none; min-height: 100vh; }
-        .app.active { display: flex; }
+        .app {
+            display: none;
+        }
+
+        .app.active {
+            display: flex;
+        }
 
         .sidebar {
             width: 240px;
@@ -260,22 +266,19 @@
             font-weight: 700;
         }
 
+        .kpi-value.green { color: var(--green); }
+
         .kpi-sub {
             font-size: 11px;
             color: var(--beige);
             margin-top: 4px;
         }
 
-        .kpi-value.green { color: var(--green); }
-        .kpi-value.orange { color: var(--orange); }
-        .kpi-value.red { color: var(--red); }
-
         /* PIPELINE */
         .pipeline {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 12px;
-            margin-bottom: 32px;
         }
 
         .pipeline-col {
@@ -291,7 +294,8 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 4px;
+            color: var(--beige);
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -300,9 +304,8 @@
         .pipeline-count {
             background: var(--beige-light);
             padding: 2px 8px;
-            border-radius: 20px;
+            border-radius: 10px;
             font-size: 11px;
-            font-weight: 600;
         }
 
         .pipeline-cards { margin-top: 12px; }
@@ -503,6 +506,20 @@
 
         .logout-btn:hover { color: var(--red); }
 
+        .fathom-link {
+            color: var(--green);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .fathom-link:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             .sidebar { display: none; }
             .main { margin-left: 0; padding: 16px; }
@@ -515,18 +532,19 @@
 
 <!-- LOGIN -->
 <div class="login-page" id="loginPage">
-    <div class="login-card">
+    <div class="login-box">
         <div class="login-logo">CIDEMO</div>
-        <div class="login-sub">Content · CRM</div>
+        <div class="login-tagline">Content · Strategy · Growth</div>
         <div class="form-group">
             <label>Email</label>
-            <input type="email" id="loginEmail" placeholder="tristan@cidemocontent.com">
+            <input type="email" id="login-email" placeholder="ton@email.com">
         </div>
         <div class="form-group">
             <label>Mot de passe</label>
-            <input type="password" id="loginPassword" placeholder="••••••••">
+            <input type="password" id="login-password" placeholder="••••••••">
         </div>
-        <button class="btn btn-primary" onclick="login()" style="margin-top: 8px;">Se connecter</button>
+        <button class="btn btn-primary" onclick="login()">Se connecter</button>
+        <div class="login-error" id="login-error">Email ou mot de passe incorrect</div>
     </div>
 </div>
 
@@ -534,24 +552,24 @@
 <div class="app" id="app">
     <nav class="sidebar">
         <div class="sidebar-logo">CIDEMO</div>
-        <div class="sidebar-tagline">Content · CRM</div>
+        <div class="sidebar-tagline">Content · Strategy · Growth</div>
 
         <div class="sidebar-section">Général</div>
         <div class="nav-item active" onclick="showPage('dashboard')">
-            <span class="nav-icon">◉</span> Dashboard
+            <span class="nav-icon">◐</span> Dashboard
         </div>
 
         <div class="sidebar-section">Acquisition</div>
         <div class="nav-item" onclick="showPage('pipeline')">
-            <span class="nav-icon">◫</span> Pipeline
+            <span class="nav-icon">◑</span> Pipeline
         </div>
         <div class="nav-item" onclick="showPage('prospects')">
-            <span class="nav-icon">☷</span> Prospects
+            <span class="nav-icon">◒</span> Prospects
         </div>
 
         <div class="sidebar-section">Clients</div>
         <div class="nav-item" onclick="showPage('clients')">
-            <span class="nav-icon">◎</span> Clients
+            <span class="nav-icon">◓</span> Clients
         </div>
 
         <div class="sidebar-section">Suivi</div>
@@ -571,7 +589,7 @@
 
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <div class="kpi-label">Prospects total</div>
+                    <div class="kpi-label">Total contactés</div>
                     <div class="kpi-value" id="kpi-total">0</div>
                 </div>
                 <div class="kpi-card">
@@ -591,41 +609,22 @@
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-label">Taux de closing</div>
-                    <div class="kpi-value green" id="kpi-closing">0%</div>
+                    <div class="kpi-value" id="kpi-closing">0%</div>
                     <div class="stat-bar"><div class="stat-bar-fill fill-green" id="bar-closing" style="width:0%"></div></div>
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-label">Clients actifs</div>
                     <div class="kpi-value green" id="kpi-clients">0</div>
                 </div>
-            </div>
-
-            <div class="kpi-grid" style="grid-template-columns: 1fr 1fr;">
-                <div class="card">
-                    <div class="card-title">Par type de client</div>
-                    <div style="display:flex;gap:24px;margin-top:8px;">
-                        <div>
-                            <div class="kpi-label">Créateurs</div>
-                            <div class="kpi-value" style="font-size:22px;" id="kpi-createurs">0</div>
-                        </div>
-                        <div>
-                            <div class="kpi-label">Entrepreneurs</div>
-                            <div class="kpi-value" style="font-size:22px;" id="kpi-entrepreneurs">0</div>
-                        </div>
-                    </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Créateurs</div>
+                    <div class="kpi-value" id="kpi-createurs">0</div>
+                    <div class="kpi-sub">dont <strong id="kpi-c3">0</strong> clients</div>
                 </div>
-                <div class="card">
-                    <div class="card-title">Méthode</div>
-                    <div style="display:flex;gap:24px;margin-top:8px;">
-                        <div>
-                            <div class="kpi-label">C³ (Créateurs)</div>
-                            <div class="kpi-value" style="font-size:22px;" id="kpi-c3">0</div>
-                        </div>
-                        <div>
-                            <div class="kpi-label">CCC (Entrepreneurs)</div>
-                            <div class="kpi-value" style="font-size:22px;" id="kpi-ccc">0</div>
-                        </div>
-                    </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Entrepreneurs</div>
+                    <div class="kpi-value" id="kpi-entrepreneurs">0</div>
+                    <div class="kpi-sub">dont <strong id="kpi-ccc">0</strong> clients</div>
                 </div>
             </div>
 
@@ -688,6 +687,7 @@
                             <th>Type</th>
                             <th>Canal</th>
                             <th>Statut</th>
+                            <th>Fathom</th>
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
@@ -701,13 +701,7 @@
         <!-- CLIENTS -->
         <div class="page" id="page-clients">
             <div class="page-title">Clients</div>
-            <div class="page-subtitle">Tes clients actifs</div>
-
-            <div class="tabs">
-                <div class="tab active" onclick="filterClients('all', this)">Tous</div>
-                <div class="tab" onclick="filterClients('createur', this)">Créateurs · C³</div>
-                <div class="tab" onclick="filterClients('pro', this)">Entrepreneurs · CCC</div>
-            </div>
+            <div class="page-subtitle">Tes clients actifs en accompagnement</div>
 
             <div class="card">
                 <table>
@@ -715,8 +709,8 @@
                         <tr>
                             <th>Nom</th>
                             <th>Type</th>
-                            <th>Méthode</th>
-                            <th>Étape en cours</th>
+                            <th>Programme</th>
+                            <th>Phase</th>
                             <th>Depuis</th>
                         </tr>
                     </thead>
@@ -729,12 +723,12 @@
         <!-- CALLS -->
         <div class="page" id="page-calls">
             <div class="page-title">Appels R1 / R2</div>
-            <div class="page-subtitle">Suivi de tes appels de diagnostic et closing</div>
+            <div class="page-subtitle">Historique de tous tes calls</div>
 
             <div class="tabs">
                 <div class="tab active" onclick="filterCalls('all', this)">Tous</div>
-                <div class="tab" onclick="filterCalls('r1', this)">R1 — Diagnostic</div>
-                <div class="tab" onclick="filterCalls('r2', this)">R2 — Closing</div>
+                <div class="tab" onclick="filterCalls('r1', this)">R1</div>
+                <div class="tab" onclick="filterCalls('r2', this)">R2</div>
             </div>
 
             <div class="card">
@@ -746,6 +740,7 @@
                             <th>Appel</th>
                             <th>Date</th>
                             <th>Résultat</th>
+                            <th>Fathom</th>
                             <th>Notes</th>
                         </tr>
                     </thead>
@@ -764,40 +759,32 @@
         <div class="modal-title">Nouveau prospect</div>
         <div class="form-group">
             <label>Nom / Pseudo</label>
-            <input type="text" id="p-name" placeholder="Ex: Marie Dupont">
+            <input type="text" id="p-name" placeholder="Ex: Jean Dupont">
         </div>
         <div class="form-group">
             <label>Type</label>
             <select id="p-type">
                 <option value="createur">Créateur de contenu</option>
-                <option value="pro">Entrepreneur / Solopreneur</option>
+                <option value="pro">Entrepreneur / Pro</option>
             </select>
         </div>
         <div class="form-group">
             <label>Canal d'acquisition</label>
             <select id="p-canal">
-                <option value="DM Instagram">DM Instagram</option>
-                <option value="DM TikTok">DM TikTok</option>
+                <option value="Instagram DM">Instagram DM</option>
                 <option value="LinkedIn">LinkedIn</option>
-                <option value="Email">Email</option>
                 <option value="Bouche à oreille">Bouche à oreille</option>
+                <option value="Contenu organique">Contenu organique</option>
                 <option value="Autre">Autre</option>
             </select>
         </div>
         <div class="form-group">
-            <label>Statut</label>
-            <select id="p-status">
-                <option value="contacte">Contacté</option>
-                <option value="repondu">A répondu</option>
-                <option value="r1">R1 booké</option>
-                <option value="r2">R2 closing</option>
-                <option value="client">Client ✓</option>
-                <option value="perdu">Perdu</option>
-            </select>
+            <label>Lien Fathom (call)</label>
+            <input type="url" id="p-fathom" placeholder="https://fathom.video/...">
         </div>
         <div class="form-group">
             <label>Notes</label>
-            <textarea id="p-notes" rows="3" placeholder="Contexte, douleur identifiée..."></textarea>
+            <textarea id="p-notes" rows="3" placeholder="Notes sur ce prospect..."></textarea>
         </div>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal('addProspect')">Annuler</button>
@@ -823,6 +810,10 @@
             </select>
         </div>
         <div class="form-group">
+            <label>Lien Fathom (call)</label>
+            <input type="url" id="move-fathom" placeholder="https://fathom.video/...">
+        </div>
+        <div class="form-group">
             <label>Notes</label>
             <textarea id="move-notes" rows="3" placeholder="Notes sur cet avancement..."></textarea>
         </div>
@@ -841,64 +832,52 @@ let prospects = JSON.parse(localStorage.getItem('cidemo_prospects') || '[]');
 let activities = JSON.parse(localStorage.getItem('cidemo_activities') || '[]');
 let currentProspectId = null;
 
-// Remplacez la fonction save() par :
+// SAVE
 async function save() {
-  try {
-    // Envoie les prospects au backend
-    await fetch(API_URL + '/prospects', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(prospects)
-    });
-
-    // Envoie les activités au backend
-    await fetch(API_URL + '/activities', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(activities)
-    });
-  } catch (e) {
-    console.error("Erreur lors de la sauvegarde:", e);
-  }
+    try {
+        await fetch(API_URL + '/prospects', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(prospects)
+        });
+        await fetch(API_URL + '/activities', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(activities)
+        });
+    } catch (e) {
+        console.error("Erreur lors de la sauvegarde:", e);
+    }
 }
 
-// Remplacez addActivity() par :
+// ACTIVITY
 async function addActivity(text) {
-  try {
-    const newActivity = { text, date: new Date().toLocaleDateString('fr-FR') };
-    activities.unshift(newActivity);
-
-    // Envoie la nouvelle activité au backend
-    await fetch(API_URL + '/activities', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(newActivity)
-    });
-
-    // Limite à 20 activités
-    if (activities.length > 20) activities.pop();
-  } catch (e) {
-    console.error("Erreur lors de l'ajout de l'activité:", e);
-  }
+    try {
+        const newActivity = { text, date: new Date().toLocaleDateString('fr-FR') };
+        activities.unshift(newActivity);
+        await fetch(API_URL + '/activities', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(newActivity)
+        });
+    } catch (e) {
+        console.error("Erreur activité:", e);
+    }
 }
 
-
-// LOGIN
+// AUTH
 async function login() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-
-    if (!email || !password) return alert('Remplis tous les champs');
-
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
     try {
         const res = await fetch(API_URL + '/login', {
             method: 'POST',
@@ -906,28 +885,46 @@ async function login() {
             body: JSON.stringify({ email, password })
         });
         const data = await res.json();
+        if (res.ok) {
+            token = data.token;
+            localStorage.setItem('cidemo_token', token);
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('app').classList.add('active');
 
-        if (!res.ok) return alert(data.error || 'Erreur de connexion');
+            // Charger les données depuis le serveur
+            const pRes = await fetch(API_URL + '/prospects', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (pRes.ok) {
+                const pData = await pRes.json();
+                prospects = pData;
+                localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+            }
 
-        token = data.token;
-        localStorage.setItem('cidemo_token', token);
+            const aRes = await fetch(API_URL + '/activities', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (aRes.ok) {
+                const aData = await aRes.json();
+                activities = aData;
+                localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+            }
 
-        document.getElementById('loginPage').style.display = 'none';
-        document.getElementById('app').classList.add('active');
-        refreshAll();
-    } catch (err) {
-        alert('Serveur inaccessible — réessaie dans 30s');
+            refreshAll();
+        } else {
+            document.getElementById('login-error').style.display = 'block';
+        }
+    } catch (e) {
+        document.getElementById('login-error').style.display = 'block';
     }
 }
 
 function logout() {
     token = null;
     localStorage.removeItem('cidemo_token');
-    document.getElementById('app').classList.remove('active');
-    document.getElementById('loginPage').style.display = 'flex';
+    location.reload();
 }
 
-// Auto-login si token existant
 async function checkAuth() {
     if (!token) return;
     try {
@@ -937,6 +934,23 @@ async function checkAuth() {
         if (res.ok) {
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('app').classList.add('active');
+
+            const pRes = await fetch(API_URL + '/prospects', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (pRes.ok) {
+                prospects = await pRes.json();
+                localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+            }
+
+            const aRes = await fetch(API_URL + '/activities', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (aRes.ok) {
+                activities = await aRes.json();
+                localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+            }
+
             refreshAll();
         } else {
             localStorage.removeItem('cidemo_token');
@@ -964,23 +978,33 @@ function addProspect() {
     const name = document.getElementById('p-name').value.trim();
     if (!name) return;
 
+    const type = document.getElementById('p-type').value;
+    const canal = document.getElementById('p-canal').value;
+    const notes = document.getElementById('p-notes').value.trim();
+    const fathom = document.getElementById('p-fathom').value.trim();
+
     const prospect = {
         id: Date.now(),
         name,
-        type: document.getElementById('p-type').value,
-        canal: document.getElementById('p-canal').value,
-        status: document.getElementById('p-status').value,
-        notes: document.getElementById('p-notes').value,
+        type,
+        canal,
+        notes,
+        fathom,
+        status: 'contacte',
         date: new Date().toLocaleDateString('fr-FR'),
         calls: []
     };
 
     prospects.push(prospect);
-    addActivity(`${name} ajouté en tant que prospect (${prospect.type === 'createur' ? 'Créateur' : 'Entrepreneur'})`);
+    addActivity(`Nouveau prospect : ${name} (${canal})`);
     save();
-    closeModal('addProspect');
+
+    // Reset form
     document.getElementById('p-name').value = '';
     document.getElementById('p-notes').value = '';
+    document.getElementById('p-fathom').value = '';
+
+    closeModal('addProspect');
     refreshAll();
 }
 
@@ -991,23 +1015,27 @@ function openMoveModal(id) {
     document.getElementById('move-prospect-name').textContent = `${p.name} — actuellement : ${statusLabel(p.status)}`;
     document.getElementById('move-status').value = p.status;
     document.getElementById('move-notes').value = '';
+    document.getElementById('move-fathom').value = p.fathom || '';
     openModal('moveProspect');
 }
 
 function moveProspect() {
     const p = prospects.find(x => x.id === currentProspectId);
-    const oldStatus = p.status;
     const newStatus = document.getElementById('move-status').value;
-    const notes = document.getElementById('move-notes').value;
+    const notes = document.getElementById('move-notes').value.trim();
+    const fathom = document.getElementById('move-fathom').value.trim();
+    const oldStatus = p.status;
 
     p.status = newStatus;
     if (notes) p.notes = notes;
+    if (fathom) p.fathom = fathom;
 
     if ((newStatus === 'r1' || newStatus === 'r2') && oldStatus !== newStatus) {
         p.calls.push({
             type: newStatus,
             date: new Date().toLocaleDateString('fr-FR'),
             notes: notes,
+            fathom: fathom,
             result: newStatus === 'r1' ? 'R1 effectué' : 'R2 effectué'
         });
     }
@@ -1028,6 +1056,7 @@ function deleteCurrentProspect() {
     refreshAll();
 }
 
+// HELPERS
 function statusLabel(s) {
     const labels = { contacte: 'Contacté', repondu: 'A répondu', r1: 'R1 booké', r2: 'R2 closing', client: 'Client ✓', perdu: 'Perdu' };
     return labels[s] || s;
@@ -1044,36 +1073,40 @@ function typeBadge(t) {
         : '<span class="prospect-type type-pro">Entrepreneur</span>';
 }
 
+function fathomBadge(url) {
+    if (!url) return '<span style="color:var(--beige);font-size:11px;">—</span>';
+    return `<a href="${url}" target="_blank" class="fathom-link">▶ Revoir</a>`;
+}
+
 // REFRESH ALL
 function refreshAll() {
-    refreshKPI();
+    refreshKPIs();
     refreshPipeline();
     refreshProspectsTable();
     refreshClientsTable();
     refreshCallsTable();
-    refreshActivities();
+    refreshActivityFeed();
 }
 
-function refreshKPI() {
+// KPIs
+function refreshKPIs() {
     const total = prospects.length;
-    const contacted = prospects.filter(p => p.status !== 'perdu').length;
-    const replied = prospects.filter(p => ['repondu','r1','r2','client'].includes(p.status)).length;
-    const booked = prospects.filter(p => ['r1','r2','client'].includes(p.status)).length;
-    const showed = prospects.filter(p => ['r1','r2','client'].includes(p.status) && p.calls.length > 0).length;
-    const closed = prospects.filter(p => p.status === 'client').length;
+    const repondus = prospects.filter(p => p.status !== 'contacte').length;
+    const booked = prospects.filter(p => ['r1', 'r2', 'client'].includes(p.status)).length;
+    const showups = prospects.filter(p => p.calls && p.calls.length > 0).length;
+    const clients = prospects.filter(p => p.status === 'client').length;
+
+    const rReponse = total > 0 ? Math.round(repondus / total * 100) : 0;
+    const rBooking = repondus > 0 ? Math.round(booked / repondus * 100) : 0;
+    const rShowup = booked > 0 ? Math.round(showups / booked * 100) : 0;
+    const rClosing = showups > 0 ? Math.round(clients / showups * 100) : 0;
 
     document.getElementById('kpi-total').textContent = total;
-    document.getElementById('kpi-clients').textContent = closed;
-
-    const rReponse = total > 0 ? Math.round(replied / total * 100) : 0;
-    const rBooking = replied > 0 ? Math.round(booked / replied * 100) : 0;
-    const rShowup = booked > 0 ? Math.round(showed / booked * 100) : 0;
-    const rClosing = showed > 0 ? Math.round(closed / showed * 100) : 0;
-
     document.getElementById('kpi-reponse').textContent = rReponse + '%';
     document.getElementById('kpi-booking').textContent = rBooking + '%';
     document.getElementById('kpi-showup').textContent = rShowup + '%';
     document.getElementById('kpi-closing').textContent = rClosing + '%';
+    document.getElementById('kpi-clients').textContent = clients;
 
     document.getElementById('bar-reponse').style.width = rReponse + '%';
     document.getElementById('bar-booking').style.width = rBooking + '%';
@@ -1088,53 +1121,49 @@ function refreshKPI() {
     document.getElementById('kpi-ccc').textContent = entrepreneurs.filter(p => p.status === 'client').length;
 }
 
+// PIPELINE
 function refreshPipeline() {
     const cols = { contacte: 'col-contacte', repondu: 'col-repondu', r1: 'col-r1', r2: 'col-r2', client: 'col-client' };
-
     Object.values(cols).forEach(id => document.getElementById(id).innerHTML = '');
-
     const counts = { contacte: 0, repondu: 0, r1: 0, r2: 0, client: 0 };
 
     prospects.filter(p => p.status !== 'perdu').forEach(p => {
-        const col = document.getElementById(cols[p.status]);
-        if (!col) return;
+        if (!cols[p.status]) return;
         counts[p.status]++;
-        col.innerHTML += `
+        document.getElementById(cols[p.status]).innerHTML += `
             <div class="prospect-card" onclick="openMoveModal(${p.id})">
                 <div class="prospect-name">${p.name}</div>
                 ${typeBadge(p.type)}
                 <div class="prospect-detail">${p.canal}</div>
+                ${p.fathom ? '<div style="margin-top:4px;">' + fathomBadge(p.fathom) + '</div>' : ''}
             </div>
         `;
     });
 
     Object.keys(counts).forEach(k => {
-        const el = document.getElementById('count-' + (k === 'client' ? 'client' : k));
-        if (el) el.textContent = counts[k];
+        document.getElementById('count-' + k).textContent = counts[k];
     });
 }
 
-let currentProspectFilter = 'all';
+// PROSPECTS TABLE
+let currentFilter = 'all';
 function filterProspects(filter, el) {
-    currentProspectFilter = filter;
+    currentFilter = filter;
     el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
     refreshProspectsTable();
 }
 
-async function refreshProspects() {
-  try {
-    const res = await fetch(API_URL + '/prospects', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    prospects = await res.json();
-    renderProspects();
-  } catch (e) {
-    console.error("Erreur lors de la récupération des prospects:", e);
-  }
-}
+function refreshProspectsTable() {
+    const tbody = document.getElementById('prospects-table');
+    let filtered = prospects;
+    if (currentFilter !== 'all') filtered = prospects.filter(p => p.type === currentFilter);
 
-    {
+    if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        document.getElementById('prospects-empty').style.display = 'block';
+        return;
+    }
 
     document.getElementById('prospects-empty').style.display = 'none';
     tbody.innerHTML = filtered.map(p => `
@@ -1143,24 +1172,17 @@ async function refreshProspects() {
             <td>${typeBadge(p.type)}</td>
             <td>${p.canal}</td>
             <td>${statusBadge(p.status)}</td>
+            <td>${fathomBadge(p.fathom)}</td>
             <td>${p.date}</td>
-            <td><button class="btn btn-secondary btn-small" onclick="openMoveModal(${p.id})">Modifier</button></td>
+            <td><button class="btn btn-secondary btn-small" onclick="openMoveModal(${p.id})">Gérer</button></td>
         </tr>
     `).join('');
 }
 
-let currentClientFilter = 'all';
-function filterClients(filter, el) {
-    currentClientFilter = filter;
-    el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    refreshClientsTable();
-}
-
+// CLIENTS TABLE
 function refreshClientsTable() {
     const tbody = document.getElementById('clients-table');
-    let clients = prospects.filter(p => p.status === 'client');
-    if (currentClientFilter !== 'all') clients = clients.filter(p => p.type === currentClientFilter);
+    const clients = prospects.filter(p => p.status === 'client');
 
     if (clients.length === 0) {
         tbody.innerHTML = '';
@@ -1180,6 +1202,7 @@ function refreshClientsTable() {
     `).join('');
 }
 
+// CALLS TABLE
 let currentCallFilter = 'all';
 function filterCalls(filter, el) {
     currentCallFilter = filter;
@@ -1193,7 +1216,7 @@ function refreshCallsTable() {
     let allCalls = [];
     prospects.forEach(p => {
         p.calls.forEach(c => {
-            allCalls.push({ ...c, prospectName: p.name, prospectType: p.type });
+            allCalls.push({ ...c, prospectName: p.name, prospectType: p.type, prospectFathom: c.fathom || p.fathom });
         });
     });
 
@@ -1212,32 +1235,20 @@ function refreshCallsTable() {
             <td>${typeBadge(c.prospectType)}</td>
             <td><span class="badge ${c.type === 'r1' ? 'badge-r1' : 'badge-r2'}">${c.type.toUpperCase()}</span></td>
             <td>${c.date}</td>
-            <td>${c.result || '—'}</td>
-            <td style="font-size:12px;color:var(--beige);">${c.notes || '—'}</td>
+            <td>${c.result}</td>
+            <td>${fathomBadge(c.prospectFathom)}</td>
+            <td style="font-size:11px;color:var(--beige);">${c.notes || '—'}</td>
         </tr>
     `).join('');
-async function refreshActivities() {
-  try {
-    const res = await fetch(API_URL + '/activities', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    activities = await res.json();
-    const feed = document.getElementById('activity-feed');
-    if (activities.length === 0) {
-      feed.innerHTML = '<div class="empty-state">Aucune activité pour le moment</div>';
-      return;
-    }
-    feed.innerHTML = activities.slice(0, 10).map(a => `
-      <div style="padding:8px 0;border-bottom:1px solid var(--beige-light);font-size:13px;display:flex;justify-content:space-between;">
-        <span>${a.text}</span>
-        <span style="color:var(--beige);font-size:11px;">${a.date}</span>
-      </div>
-    `).join('');
-  } catch (e) {
-    console.error("Erreur lors de la récupération des activités:", e);
-  }
 }
 
+// ACTIVITY FEED
+function refreshActivityFeed() {
+    const feed = document.getElementById('activity-feed');
+    if (activities.length === 0) {
+        feed.innerHTML = '<div class="empty-state">Aucune activité pour le moment</div>';
+        return;
+    }
     feed.innerHTML = activities.slice(0, 10).map(a => `
         <div style="padding:8px 0;border-bottom:1px solid var(--beige-light);font-size:13px;display:flex;justify-content:space-between;">
             <span>${a.text}</span>
@@ -1249,7 +1260,6 @@ async function refreshActivities() {
 // Init
 refreshAll();
 </script>
-
 
 </body>
 </html>
