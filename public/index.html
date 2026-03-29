@@ -526,6 +526,63 @@
             .pipeline { grid-template-columns: 1fr; }
             .kpi-grid { grid-template-columns: repeat(2, 1fr); }
         }
+        .date-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.date-filter-bar label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--beige);
+}
+
+.date-filter-bar input[type="date"] {
+    padding: 8px 12px;
+    border: 1px solid var(--beige-medium);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    background: white;
+    color: var(--noir);
+}
+
+.date-filter-bar input[type="date"]:focus {
+    outline: none;
+    border-color: var(--beige);
+}
+
+.date-filter-bar .quick-filters {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.quick-filter-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--beige-medium);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    background: white;
+    color: var(--noir);
+    transition: all 0.15s;
+}
+
+.quick-filter-btn:hover,
+.quick-filter-btn.active {
+    background: var(--noir);
+    color: white;
+    border-color: var(--noir);
+}
+
     </style>
 </head>
 <body>
@@ -582,51 +639,72 @@
 
     <div class="main">
 
-        <!-- DASHBOARD -->
-        <div class="page active" id="page-dashboard">
-            <div class="page-title">Dashboard</div>
-            <div class="page-subtitle">Vue d'ensemble de ton acquisition</div>
+       <div class="page active" id="page-dashboard">
+    <div class="page-title">Dashboard</div>
+    <div class="page-subtitle">Vue d'ensemble de ton acquisition</div>
 
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-label">Total contactés</div>
-                    <div class="kpi-value" id="kpi-total">0</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Taux de réponse</div>
-                    <div class="kpi-value" id="kpi-reponse">0%</div>
-                    <div class="stat-bar"><div class="stat-bar-fill fill-beige" id="bar-reponse" style="width:0%"></div></div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Taux de booking</div>
-                    <div class="kpi-value" id="kpi-booking">0%</div>
-                    <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-booking" style="width:0%"></div></div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Taux de show-up</div>
-                    <div class="kpi-value" id="kpi-showup">0%</div>
-                    <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-showup" style="width:0%"></div></div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Taux de closing</div>
-                    <div class="kpi-value" id="kpi-closing">0%</div>
-                    <div class="stat-bar"><div class="stat-bar-fill fill-green" id="bar-closing" style="width:0%"></div></div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Clients actifs</div>
-                    <div class="kpi-value green" id="kpi-clients">0</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Créateurs</div>
-                    <div class="kpi-value" id="kpi-createurs">0</div>
-                    <div class="kpi-sub">dont <strong id="kpi-c3">0</strong> clients</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Entrepreneurs</div>
-                    <div class="kpi-value" id="kpi-entrepreneurs">0</div>
-                    <div class="kpi-sub">dont <strong id="kpi-ccc">0</strong> clients</div>
-                </div>
-            </div>
+    <div class="date-filter-bar">
+        <label>Du</label>
+        <input type="date" id="dash-date-from" onchange="refreshAll()">
+        <label>Au</label>
+        <input type="date" id="dash-date-to" onchange="refreshAll()">
+        <button class="quick-filter-btn" onclick="clearDateFilter('dash', this)">Tout</button>
+        <div class="quick-filters">
+            <button class="quick-filter-btn" onclick="setQuickFilter('dash', 7, this)">7j</button>
+            <button class="quick-filter-btn" onclick="setQuickFilter('dash', 30, this)">30j</button>
+            <button class="quick-filter-btn" onclick="setQuickFilter('dash', 90, this)">90j</button>
+        </div>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-label">Total contactés</div>
+            <div class="kpi-value" id="kpi-total">0</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Taux de réponse</div>
+            <div class="kpi-value" id="kpi-reponse">0%</div>
+            <div class="stat-bar"><div class="stat-bar-fill fill-beige" id="bar-reponse" style="width:0%"></div></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Taux de booking</div>
+            <div class="kpi-value" id="kpi-booking">0%</div>
+            <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-booking" style="width:0%"></div></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Taux de show-up</div>
+            <div class="kpi-value" id="kpi-showup">0%</div>
+            <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-showup" style="width:0%"></div></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Taux de closing</div>
+            <div class="kpi-value" id="kpi-closing">0%</div>
+            <div class="stat-bar"><div class="stat-bar-fill fill-green" id="bar-closing" style="width:0%"></div></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Clients actifs</div>
+            <div class="kpi-value green" id="kpi-clients">0</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Créateurs</div>
+            <div class="kpi-value" id="kpi-createurs">0</div>
+            <div class="kpi-sub">dont <strong id="kpi-c3">0</strong> clients</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Entrepreneurs</div>
+            <div class="kpi-value" id="kpi-entrepreneurs">0</div>
+            <div class="kpi-sub">dont <strong id="kpi-ccc">0</strong> clients</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Dernières activités</div>
+        <div id="activity-feed">
+            <div class="empty-state">Aucune activité pour le moment</div>
+        </div>
+    </div>
+</div>
+
 
             <div class="card">
                 <div class="card-title">Dernières activités</div>
@@ -664,39 +742,51 @@
             </div>
         </div>
 
-        <!-- PROSPECTS -->
         <div class="page" id="page-prospects">
-            <div class="page-title">Prospects</div>
-            <div class="page-subtitle">Gestion de tous tes prospects</div>
+    <div class="page-title">Prospects</div>
+    <div class="page-subtitle">Gestion de tous tes prospects</div>
 
-            <div style="display:flex;gap:10px;margin-bottom:20px;">
-                <button class="btn btn-primary btn-small" onclick="openModal('addProspect')">+ Ajouter un prospect</button>
-            </div>
+    <div style="display:flex;gap:10px;margin-bottom:20px;align-items:center;">
+        <button class="btn btn-primary" style="width:auto;padding:10px 20px;" onclick="openModal('addProspect')">+ Nouveau prospect</button>
+    </div>
 
-            <div class="tabs">
-                <div class="tab active" onclick="filterProspects('all', this)">Tous</div>
-                <div class="tab" onclick="filterProspects('createur', this)">Créateurs</div>
-                <div class="tab" onclick="filterProspects('pro', this)">Entrepreneurs</div>
-            </div>
+    <div class="tabs">
+        <div class="tab active" onclick="filterProspects('all', this)">Tous</div>
+        <div class="tab" onclick="filterProspects('createur', this)">Créateurs</div>
+        <div class="tab" onclick="filterProspects('pro', this)">Entrepreneurs</div>
+    </div>
 
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Type</th>
-                            <th>Canal</th>
-                            <th>Statut</th>
-                            <th>Fathom</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="prospects-table"></tbody>
-                </table>
-                <div class="empty-state" id="prospects-empty">Aucun prospect ajouté</div>
-            </div>
+    <div class="date-filter-bar">
+        <label>Du</label>
+        <input type="date" id="prospect-date-from" onchange="refreshProspectsTable()">
+        <label>Au</label>
+        <input type="date" id="prospect-date-to" onchange="refreshProspectsTable()">
+        <button class="quick-filter-btn" onclick="clearDateFilter('prospect', this)">Tout</button>
+        <div class="quick-filters">
+            <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 7, this)">7j</button>
+            <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 30, this)">30j</button>
+            <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 90, this)">90j</button>
         </div>
+    </div>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Canal</th>
+                    <th>Statut</th>
+                    <th>Fathom</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="prospects-table"></tbody>
+        </table>
+        <div class="empty-state" id="prospects-empty">Aucun prospect pour le moment</div>
+    </div>
+</div>
 
         <!-- CLIENTS -->
         <div class="page" id="page-clients">
@@ -720,78 +810,48 @@
             </div>
         </div>
 
-        <!-- CALLS -->
-        <div class="page" id="page-calls">
-            <div class="page-title">Appels R1 / R2</div>
-            <div class="page-subtitle">Historique de tous tes calls</div>
+       <div class="page" id="page-calls">
+    <div class="page-title">Appels R1 / R2</div>
+    <div class="page-subtitle">Historique de tous tes calls</div>
 
-            <div class="tabs">
-                <div class="tab active" onclick="filterCalls('all', this)">Tous</div>
-                <div class="tab" onclick="filterCalls('r1', this)">R1</div>
-                <div class="tab" onclick="filterCalls('r2', this)">R2</div>
-            </div>
+    <div class="tabs">
+        <div class="tab active" onclick="filterCalls('all', this)">Tous</div>
+        <div class="tab" onclick="filterCalls('r1', this)">R1</div>
+        <div class="tab" onclick="filterCalls('r2', this)">R2</div>
+    </div>
 
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Prospect</th>
-                            <th>Type</th>
-                            <th>Appel</th>
-                            <th>Date</th>
-                            <th>Résultat</th>
-                            <th>Fathom</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="calls-table"></tbody>
-                </table>
-                <div class="empty-state" id="calls-empty">Aucun appel enregistré</div>
-            </div>
+    <div class="date-filter-bar">
+        <label>Du</label>
+        <input type="date" id="calls-date-from" onchange="refreshCallsTable()">
+        <label>Au</label>
+        <input type="date" id="calls-date-to" onchange="refreshCallsTable()">
+        <button class="quick-filter-btn" onclick="clearDateFilter('calls', this)">Tout</button>
+        <div class="quick-filters">
+            <button class="quick-filter-btn" onclick="setQuickFilter('calls', 7, this)">7j</button>
+            <button class="quick-filter-btn" onclick="setQuickFilter('calls', 30, this)">30j</button>
+            <button class="quick-filter-btn" onclick="setQuickFilter('calls', 90, this)">90j</button>
         </div>
+    </div>
 
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Prospect</th>
+                    <th>Type</th>
+                    <th>Appel</th>
+                    <th>Date</th>
+                    <th>Résultat</th>
+                    <th>Fathom</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="calls-table"></tbody>
+        </table>
+        <div class="empty-state" id="calls-empty">Aucun appel enregistré</div>
     </div>
 </div>
 
-<!-- MODAL: ADD PROSPECT -->
-<div class="modal-overlay" id="modal-addProspect">
-    <div class="modal">
-        <div class="modal-title">Nouveau prospect</div>
-        <div class="form-group">
-            <label>Nom / Pseudo</label>
-            <input type="text" id="p-name" placeholder="Ex: Jean Dupont">
-        </div>
-        <div class="form-group">
-            <label>Type</label>
-            <select id="p-type">
-                <option value="createur">Créateur de contenu</option>
-                <option value="pro">Entrepreneur / Pro</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Canal d'acquisition</label>
-            <select id="p-canal">
-                <option value="Instagram DM">Instagram DM</option>
-                <option value="LinkedIn">LinkedIn</option>
-                <option value="Bouche à oreille">Bouche à oreille</option>
-                <option value="Contenu organique">Contenu organique</option>
-                <option value="Autre">Autre</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Lien Fathom (call)</label>
-            <input type="url" id="p-fathom" placeholder="https://fathom.video/...">
-        </div>
-        <div class="form-group">
-            <label>Notes</label>
-            <textarea id="p-notes" rows="3" placeholder="Notes sur ce prospect..."></textarea>
-        </div>
-        <div class="modal-actions">
-            <button class="btn btn-secondary" onclick="closeModal('addProspect')">Annuler</button>
-            <button class="btn btn-primary" style="width:auto" onclick="addProspect()">Ajouter</button>
-        </div>
-    </div>
-</div>
 
 <!-- MODAL: MOVE PROSPECT -->
 <div class="modal-overlay" id="modal-moveProspect">
@@ -832,49 +892,95 @@ let prospects = JSON.parse(localStorage.getItem('cidemo_prospects') || '[]');
 let activities = JSON.parse(localStorage.getItem('cidemo_activities') || '[]');
 let currentProspectId = null;
 
-// SAVE
+// ========== DATE UTILS ==========
+function parseFRDate(str) {
+    if (!str) return null;
+    const parts = str.split('/');
+    if (parts.length === 3) {
+        return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+    return new Date(str);
+}
+
+function isInDateRange(dateStr, fromId, toId) {
+    const fromEl = document.getElementById(fromId);
+    const toEl = document.getElementById(toId);
+    if (!fromEl || !toEl) return true;
+    const from = fromEl.value;
+    const to = toEl.value;
+    if (!from && !to) return true;
+
+    const d = parseFRDate(dateStr);
+    if (!d || isNaN(d)) return true;
+
+    if (from) {
+        const fromDate = new Date(from);
+        fromDate.setHours(0, 0, 0, 0);
+        if (d < fromDate) return false;
+    }
+    if (to) {
+        const toDate = new Date(to);
+        toDate.setHours(23, 59, 59, 999);
+        if (d > toDate) return false;
+    }
+    return true;
+}
+
+function setQuickFilter(prefix, days, btn) {
+    const to = new Date();
+    const from = new Date();
+    from.setDate(from.getDate() - days);
+
+    document.getElementById(prefix + '-date-from').value = from.toISOString().split('T')[0];
+    document.getElementById(prefix + '-date-to').value = to.toISOString().split('T')[0];
+
+    // Active state
+    btn.closest('.date-filter-bar').querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    refreshAll();
+}
+
+function clearDateFilter(prefix, btn) {
+    document.getElementById(prefix + '-date-from').value = '';
+    document.getElementById(prefix + '-date-to').value = '';
+
+    btn.closest('.date-filter-bar').querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    refreshAll();
+}
+
+// ========== SAVE ==========
 async function save() {
     try {
         await fetch(API_URL + '/prospects', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify(prospects)
         });
         await fetch(API_URL + '/activities', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify(activities)
         });
-    } catch (e) {
-        console.error("Erreur lors de la sauvegarde:", e);
-    }
+    } catch (e) { console.error("Erreur sauvegarde:", e); }
 }
 
-// ACTIVITY
+// ========== ACTIVITY ==========
 async function addActivity(text) {
     try {
         const newActivity = { text, date: new Date().toLocaleDateString('fr-FR') };
         activities.unshift(newActivity);
         await fetch(API_URL + '/activities', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify(newActivity)
         });
-    } catch (e) {
-        console.error("Erreur activité:", e);
-    }
+    } catch (e) { console.error("Erreur activité:", e); }
 }
 
-// AUTH
+// ========== AUTH ==========
 async function login() {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
@@ -891,32 +997,17 @@ async function login() {
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('app').classList.add('active');
 
-            // Charger les données depuis le serveur
-            const pRes = await fetch(API_URL + '/prospects', {
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            if (pRes.ok) {
-                const pData = await pRes.json();
-                prospects = pData;
-                localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
-            }
+            const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+            if (pRes.ok) { prospects = await pRes.json(); localStorage.setItem('cidemo_prospects', JSON.stringify(prospects)); }
 
-            const aRes = await fetch(API_URL + '/activities', {
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            if (aRes.ok) {
-                const aData = await aRes.json();
-                activities = aData;
-                localStorage.setItem('cidemo_activities', JSON.stringify(activities));
-            }
+            const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
+            if (aRes.ok) { activities = await aRes.json(); localStorage.setItem('cidemo_activities', JSON.stringify(activities)); }
 
             refreshAll();
         } else {
             document.getElementById('login-error').style.display = 'block';
         }
-    } catch (e) {
-        document.getElementById('login-error').style.display = 'block';
-    }
+    } catch (e) { document.getElementById('login-error').style.display = 'block'; }
 }
 
 function logout() {
@@ -928,39 +1019,24 @@ function logout() {
 async function checkAuth() {
     if (!token) return;
     try {
-        const res = await fetch(API_URL + '/me', {
-            headers: { 'Authorization': 'Bearer ' + token }
-        });
+        const res = await fetch(API_URL + '/me', { headers: { 'Authorization': 'Bearer ' + token } });
         if (res.ok) {
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('app').classList.add('active');
 
-            const pRes = await fetch(API_URL + '/prospects', {
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            if (pRes.ok) {
-                prospects = await pRes.json();
-                localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
-            }
+            const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+            if (pRes.ok) { prospects = await pRes.json(); localStorage.setItem('cidemo_prospects', JSON.stringify(prospects)); }
 
-            const aRes = await fetch(API_URL + '/activities', {
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            if (aRes.ok) {
-                activities = await aRes.json();
-                localStorage.setItem('cidemo_activities', JSON.stringify(activities));
-            }
+            const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
+            if (aRes.ok) { activities = await aRes.json(); localStorage.setItem('cidemo_activities', JSON.stringify(activities)); }
 
             refreshAll();
-        } else {
-            localStorage.removeItem('cidemo_token');
-            token = null;
-        }
+        } else { localStorage.removeItem('cidemo_token'); token = null; }
     } catch (e) {}
 }
 checkAuth();
 
-// NAVIGATION
+// ========== NAVIGATION ==========
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -969,11 +1045,10 @@ function showPage(id) {
     refreshAll();
 }
 
-// MODAL
 function openModal(id) { document.getElementById('modal-' + id).classList.add('active'); }
 function closeModal(id) { document.getElementById('modal-' + id).classList.remove('active'); }
 
-// ADD PROSPECT
+// ========== ADD PROSPECT ==========
 function addProspect() {
     const name = document.getElementById('p-name').value.trim();
     if (!name) return;
@@ -985,11 +1060,7 @@ function addProspect() {
 
     const prospect = {
         id: Date.now(),
-        name,
-        type,
-        canal,
-        notes,
-        fathom,
+        name, type, canal, notes, fathom,
         status: 'contacte',
         date: new Date().toLocaleDateString('fr-FR'),
         calls: []
@@ -999,7 +1070,6 @@ function addProspect() {
     addActivity(`Nouveau prospect : ${name} (${canal})`);
     save();
 
-    // Reset form
     document.getElementById('p-name').value = '';
     document.getElementById('p-notes').value = '';
     document.getElementById('p-fathom').value = '';
@@ -1008,7 +1078,7 @@ function addProspect() {
     refreshAll();
 }
 
-// MOVE PROSPECT
+// ========== MOVE PROSPECT ==========
 function openMoveModal(id) {
     currentProspectId = id;
     const p = prospects.find(x => x.id === id);
@@ -1034,8 +1104,7 @@ function moveProspect() {
         p.calls.push({
             type: newStatus,
             date: new Date().toLocaleDateString('fr-FR'),
-            notes: notes,
-            fathom: fathom,
+            notes, fathom,
             result: newStatus === 'r1' ? 'R1 effectué' : 'R2 effectué'
         });
     }
@@ -1056,7 +1125,7 @@ function deleteCurrentProspect() {
     refreshAll();
 }
 
-// HELPERS
+// ========== HELPERS ==========
 function statusLabel(s) {
     const labels = { contacte: 'Contacté', repondu: 'A répondu', r1: 'R1 booké', r2: 'R2 closing', client: 'Client ✓', perdu: 'Perdu' };
     return labels[s] || s;
@@ -1078,7 +1147,7 @@ function fathomBadge(url) {
     return `<a href="${url}" target="_blank" class="fathom-link">▶ Revoir</a>`;
 }
 
-// REFRESH ALL
+// ========== REFRESH ==========
 function refreshAll() {
     refreshKPIs();
     refreshPipeline();
@@ -1088,13 +1157,18 @@ function refreshAll() {
     refreshActivityFeed();
 }
 
+function getFilteredProspects(prefix) {
+    return prospects.filter(p => isInDateRange(p.date, prefix + '-date-from', prefix + '-date-to'));
+}
+
 // KPIs
 function refreshKPIs() {
-    const total = prospects.length;
-    const repondus = prospects.filter(p => p.status !== 'contacte').length;
-    const booked = prospects.filter(p => ['r1', 'r2', 'client'].includes(p.status)).length;
-    const showups = prospects.filter(p => p.calls && p.calls.length > 0).length;
-    const clients = prospects.filter(p => p.status === 'client').length;
+    const filtered = getFilteredProspects('dash');
+    const total = filtered.length;
+    const repondus = filtered.filter(p => p.status !== 'contacte').length;
+    const booked = filtered.filter(p => ['r1', 'r2', 'client'].includes(p.status)).length;
+    const showups = filtered.filter(p => p.calls && p.calls.length > 0).length;
+    const clients = filtered.filter(p => p.status === 'client').length;
 
     const rReponse = total > 0 ? Math.round(repondus / total * 100) : 0;
     const rBooking = repondus > 0 ? Math.round(booked / repondus * 100) : 0;
@@ -1113,8 +1187,8 @@ function refreshKPIs() {
     document.getElementById('bar-showup').style.width = rShowup + '%';
     document.getElementById('bar-closing').style.width = rClosing + '%';
 
-    const createurs = prospects.filter(p => p.type === 'createur');
-    const entrepreneurs = prospects.filter(p => p.type === 'pro');
+    const createurs = filtered.filter(p => p.type === 'createur');
+    const entrepreneurs = filtered.filter(p => p.type === 'pro');
     document.getElementById('kpi-createurs').textContent = createurs.length;
     document.getElementById('kpi-entrepreneurs').textContent = entrepreneurs.length;
     document.getElementById('kpi-c3').textContent = createurs.filter(p => p.status === 'client').length;
@@ -1156,8 +1230,8 @@ function filterProspects(filter, el) {
 
 function refreshProspectsTable() {
     const tbody = document.getElementById('prospects-table');
-    let filtered = prospects;
-    if (currentFilter !== 'all') filtered = prospects.filter(p => p.type === currentFilter);
+    let filtered = getFilteredProspects('prospect');
+    if (currentFilter !== 'all') filtered = filtered.filter(p => p.type === currentFilter);
 
     if (filtered.length === 0) {
         tbody.innerHTML = '';
@@ -1180,9 +1254,18 @@ function refreshProspectsTable() {
 }
 
 // CLIENTS TABLE
+let currentClientFilter = 'all';
+function filterClients(filter, el) {
+    currentClientFilter = filter;
+    el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    refreshClientsTable();
+}
+
 function refreshClientsTable() {
     const tbody = document.getElementById('clients-table');
-    const clients = prospects.filter(p => p.status === 'client');
+    let clients = prospects.filter(p => p.status === 'client');
+    if (currentClientFilter !== 'all') clients = clients.filter(p => p.type === currentClientFilter);
 
     if (clients.length === 0) {
         tbody.innerHTML = '';
@@ -1222,6 +1305,9 @@ function refreshCallsTable() {
 
     if (currentCallFilter !== 'all') allCalls = allCalls.filter(c => c.type === currentCallFilter);
 
+    // Date filter for calls
+    allCalls = allCalls.filter(c => isInDateRange(c.date, 'calls-date-from', 'calls-date-to'));
+
     if (allCalls.length === 0) {
         tbody.innerHTML = '';
         document.getElementById('calls-empty').style.display = 'block';
@@ -1257,7 +1343,6 @@ function refreshActivityFeed() {
     `).join('');
 }
 
-// Init
 refreshAll();
 </script>
 
