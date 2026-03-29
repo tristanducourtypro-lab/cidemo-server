@@ -1,9 +1,12 @@
+Ton `server.js` utilise encore `better-sqlite3` partout mais ton `package.json` ne l'a plus. Il faut **tout convertir en MongoDB**. Voici ton `server.js` complet corrigé :
+
+```javascript
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Database = require('better-sqlite3');
+const { MongoClient, ObjectId } = require('mongodb');
 
 const app = express();
 app.use(cors());
@@ -11,26 +14,31 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const SECRET = 'cidemo_secret_key_2025';
-const db = new Database('cidemo.db');
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://user:pass@cluster.mongodb.net/cidemo';
 
-// ===== CRÉATION DES TABLES =====
-db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    role TEXT DEFAULT 'client',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  )
-`);
+let db;
 
-// Créer un admin par défaut s'il n'existe pas
-const adminExists = db.prepare('SELECT id FROM users WHERE role = ?').get('admin');
-if (!adminExists) {
-  const hash = bcrypt.hashSync('admin123', 10);
-  db.prepare('INSERT INTO users (nom, email, password, role) VALUES (?, ?, ?, ?)').run('Admin CiDemo', 'admin@cidemo.com', hash, 'admin');
-  console.log('Admin créé : admin@cidemo.com / admin123');
+async function start() {
+  const client = await MongoClient.connect(MONGO_URI);
+  db = client.db();
+  console.log('✅ MongoDB connecté');
+
+  // Créer admin par défaut s'il n'existe pas
+  const adminExists = await db.collection('users').findOne({ role: 'admin' });
+  if (!adminExists) {
+    const hash = bcrypt.hashSync('admin123', 10);
+    await db.collection('users').insertOne({
+      nom: 'Admin CiDemo',
+      email: 'admin@cidemo.com',
+      password: hash,
+      role: 'admin',
+      created_at: new Date()
+    });
+    console.log('Admin créé : admin@cidemo.com / admin123');
+  }
+
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
 }
 
 // ===== MIDDLEWARE AUTH =====
@@ -51,84 +59,110 @@ function adminOnly(req, res, next) {
 }
 
 // ===== ROUTES AUTH =====
-app.post('/api/register', (req, res) => {
-  const { nom, email, password } = req.body;
-  if (!nom || !email || !password) return res.status(400).json({ error: 'Champs requis' });
-  if (password.length < 6) return res.status(400).json({ error: 'Mot de passe min 6 caractères' });
+app.post('/api/register', async (req, res) => {
+  try {
+    const { nom, email, password } = req.body;
+    if (!nom || !email || !password) return res.status(400).json({ error: 'Champs requis' });
+    if (password.length < 6) return res.status(400).json({ error: 'Mot de passe min 6 caractères' });
 
-  const exists = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
-  if (exists) return res.status(400).json({ error: 'Email déjà utilisé' });
+    const exists = await db.collection('users').findOne({ email });
+    if (exists) return res.status(400).json({ error: 'Email déjà utilisé' });
 
-  const hash = bcrypt.hashSync(password, 10);
-  const result = db.prepare('INSERT INTO users (nom, email, password, role) VALUES (?, ?, ?, ?)').run(nom, email, hash, 'client');
+    const hash = bcrypt.hashSync(password, 10);
+    const result = await db.collection('users').insertOne({ nom, email, password: hash, role: 'client', created_at: new Date() });
 
-  const token = jwt.sign({ id: result.lastInsertRowid, email, role: 'client', nom }, SECRET, { expiresIn: '7d' });
-  res.json({ token, user: { id: result.lastInsertRowid, nom, email, role: 'client' } });
+    const token = jwt.sign({ id: result.insertedId, email, role: 'client', nom }, SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { id: result.insertedId, nom, email, role: 'client' } });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
-app.post('/api/login', (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: 'Champs requis' });
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ error: 'Champs requis' });
 
-  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
-  if (!user) return res.status(400).json({ error: 'Email non trouvé' });
+    const user = await db.collection('users').findOne({ email });
+    if (!user) return res.status(400).json({ error: 'Email non trouvé' });
 
-  if (!bcrypt.compareSync(password, user.password)) return res.status(400).json({ error: 'Mot de passe incorrect' });
+    if (!bcrypt.compareSync(password, user.password)) return res.status(400).json({ error: 'Mot de passe incorrect' });
 
-  const token = jwt.sign({ id: user.id, email: user.email, role: user.role, nom: user.nom }, SECRET, { expiresIn: '7d' });
-  res.json({ token, user: { id: user.id, nom: user.nom, email: user.email, role: user.role } });
+    const token = jwt.sign({ id: user._id, email: user.email, role: user.role, nom: user.nom }, SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { id: user._id, nom: user.nom, email: user.email, role: user.role } });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
-app.get('/api/me', authMiddleware, (req, res) => {
-  const user = db.prepare('SELECT id, nom, email, role, created_at FROM users WHERE id = ?').get(req.user.id);
-  if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
-  res.json({ user });
+app.get('/api/me', authMiddleware, async (req, res) => {
+  try {
+    const user = await db.collection('users').findOne({ _id: new ObjectId(req.user.id) }, { projection: { password: 0 } });
+    if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
+    res.json({ user });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 // ===== ROUTES ADMIN =====
-app.get('/api/users', authMiddleware, adminOnly, (req, res) => {
-  const users = db.prepare('SELECT id, nom, email, role, created_at FROM users ORDER BY created_at DESC').all();
-  res.json({ users });
+app.get('/api/users', authMiddleware, adminOnly, async (req, res) => {
+  try {
+    const users = await db.collection('users').find({}, { projection: { password: 0 } }).sort({ created_at: -1 }).toArray();
+    res.json({ users });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
-app.post('/api/users', authMiddleware, adminOnly, (req, res) => {
-  const { nom, email, password, role } = req.body;
-  if (!nom || !email || !password) return res.status(400).json({ error: 'Champs requis' });
+app.post('/api/users', authMiddleware, adminOnly, async (req, res) => {
+  try {
+    const { nom, email, password, role } = req.body;
+    if (!nom || !email || !password) return res.status(400).json({ error: 'Champs requis' });
 
-  const exists = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
-  if (exists) return res.status(400).json({ error: 'Email déjà utilisé' });
+    const exists = await db.collection('users').findOne({ email });
+    if (exists) return res.status(400).json({ error: 'Email déjà utilisé' });
 
-  const hash = bcrypt.hashSync(password, 10);
-  const result = db.prepare('INSERT INTO users (nom, email, password, role) VALUES (?, ?, ?, ?)').run(nom, email, hash, role || 'client');
-  res.json({ success: true, id: result.lastInsertRowid });
+    const hash = bcrypt.hashSync(password, 10);
+    const result = await db.collection('users').insertOne({ nom, email, password: hash, role: role || 'client', created_at: new Date() });
+    res.json({ success: true, id: result.insertedId });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
-app.delete('/api/users/:id', authMiddleware, adminOnly, (req, res) => {
-  if (req.user.id === parseInt(req.params.id)) return res.status(400).json({ error: 'Tu ne peux pas te supprimer toi-même' });
-  db.prepare('DELETE FROM users WHERE id = ?').run(req.params.id);
-  res.json({ success: true });
+app.delete('/api/users/:id', authMiddleware, adminOnly, async (req, res) => {
+  try {
+    if (req.user.id === req.params.id) return res.status(400).json({ error: 'Tu ne peux pas te supprimer toi-même' });
+    await db.collection('users').deleteOne({ _id: new ObjectId(req.params.id) });
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
-// ===== DÉMARRAGE =====
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
-
+// ===== ROUTE CRÉATION ADMIN PERSO =====
 app.get('/create-admin', async (req, res) => {
   try {
-    const bcrypt = require('bcryptjs');
-    const { MongoClient } = require('mongodb');
-    const client = await MongoClient.connect(process.env.MONGO_URI);
-    const database = client.db();
     const hash = await bcrypt.hash('Tr1st@nDUCOURTYpro', 10);
-    await database.collection('users').insertOne({
+    await db.collection('users').insertOne({
       nom: 'Tristan Ducourty',
       email: 'tristanducourtypro@gmail.com',
-      password: hash
+      password: hash,
+      role: 'admin',
+      created_at: new Date()
     });
-    client.close();
     res.send('✅ Compte admin créé !');
-  } catch(e) {
+  } catch (e) {
     res.send('❌ Erreur : ' + e.message);
   }
 });
 
+start().catch(err => console.error('❌ Erreur démarrage :', err));
+```
+
+**Ensuite sur Render**, ajoute la variable d'environnement :
+- **Clé** : `MONGO_URI`
+- **Valeur** : ton URI MongoDB Atlas (celle que tu as déjà)
+
+Puis redéploie.
