@@ -112,3 +112,19 @@ app.delete('/api/users/:id', authMiddleware, adminOnly, (req, res) => {
 // ===== DÉMARRAGE =====
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
+
+// Route temporaire pour créer un admin
+app.get('/create-admin', async (req, res) => {
+  try {
+    const bcrypt = require('bcryptjs');
+    const hash = await bcrypt.hash('Tr1st@nDUCOURTYpro', 10);
+    await mongoose.connection.db.collection('users').insertOne({
+      nom: 'Tristan Ducourty',
+      email: 'tristanducourtypro@gmail.com',
+      password: hash
+    });
+    res.send('✅ Compte admin créé !');
+  } catch(e) {
+    res.send('❌ Erreur : ' + e.message);
+  }
+});
