@@ -841,16 +841,56 @@ let prospects = JSON.parse(localStorage.getItem('cidemo_prospects') || '[]');
 let activities = JSON.parse(localStorage.getItem('cidemo_activities') || '[]');
 let currentProspectId = null;
 
-function save() {
-    localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
-    localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+// Remplacez la fonction save() par :
+async function save() {
+  try {
+    // Envoie les prospects au backend
+    await fetch(API_URL + '/prospects', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(prospects)
+    });
+
+    // Envoie les activités au backend
+    await fetch(API_URL + '/activities', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(activities)
+    });
+  } catch (e) {
+    console.error("Erreur lors de la sauvegarde:", e);
+  }
 }
 
-function addActivity(text) {
-    activities.unshift({ text, date: new Date().toLocaleDateString('fr-FR') });
+// Remplacez addActivity() par :
+async function addActivity(text) {
+  try {
+    const newActivity = { text, date: new Date().toLocaleDateString('fr-FR') };
+    activities.unshift(newActivity);
+
+    // Envoie la nouvelle activité au backend
+    await fetch(API_URL + '/activities', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(newActivity)
+    });
+
+    // Limite à 20 activités
     if (activities.length > 20) activities.pop();
-    save();
+  } catch (e) {
+    console.error("Erreur lors de l'ajout de l'activité:", e);
+  }
 }
+
 
 // LOGIN
 async function login() {
@@ -1082,14 +1122,18 @@ function filterProspects(filter, el) {
     refreshProspectsTable();
 }
 
-function refreshProspectsTable() {
-    const tbody = document.getElementById('prospects-table');
-    const filtered = currentProspectFilter === 'all' ? prospects : prospects.filter(p => p.type === currentProspectFilter);
+async function refreshProspects() {
+  try {
+    const res = await fetch(API_URL + '/prospects', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    prospects = await res.json();
+    renderProspects();
+  } catch (e) {
+    console.error("Erreur lors de la récupération des prospects:", e);
+  }
+}
 
-    if (filtered.length === 0) {
-        tbody.innerHTML = '';
-        document.getElementById('prospects-empty').style.display = 'block';
-        return;
     }
 
     document.getElementById('prospects-empty').style.display = 'none';
@@ -1172,14 +1216,28 @@ function refreshCallsTable() {
             <td style="font-size:12px;color:var(--beige);">${c.notes || '—'}</td>
         </tr>
     `).join('');
-}
-
-function refreshActivities() {
+async function refreshActivities() {
+  try {
+    const res = await fetch(API_URL + '/activities', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    activities = await res.json();
     const feed = document.getElementById('activity-feed');
     if (activities.length === 0) {
-        feed.innerHTML = '<div class="empty-state">Aucune activité pour le moment</div>';
-        return;
+      feed.innerHTML = '<div class="empty-state">Aucune activité pour le moment</div>';
+      return;
     }
+    feed.innerHTML = activities.slice(0, 10).map(a => `
+      <div style="padding:8px 0;border-bottom:1px solid var(--beige-light);font-size:13px;display:flex;justify-content:space-between;">
+        <span>${a.text}</span>
+        <span style="color:var(--beige);font-size:11px;">${a.date}</span>
+      </div>
+    `).join('');
+  } catch (e) {
+    console.error("Erreur lors de la récupération des activités:", e);
+  }
+}
+
     feed.innerHTML = activities.slice(0, 10).map(a => `
         <div style="padding:8px 0;border-bottom:1px solid var(--beige-light);font-size:13px;display:flex;justify-content:space-between;">
             <span>${a.text}</span>
