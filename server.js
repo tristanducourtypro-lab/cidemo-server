@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { MongoClient, ObjectId } = require('mongodb');
+const Database = require('better-sqlite3');
 
 const app = express();
 app.use(cors());
@@ -11,32 +11,30 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const SECRET = 'cidemo_secret_key_2025';
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://user:pass@cluster.mongodb.net/cidemo';
+const db = new Database('cidemo.db');
 
-let db;
+// ===== CRÉATION DES TABLES =====
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    role TEXT DEFAULT 'client',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )
+`);
 
-async function start() {
-  const client = await MongoClient.connect(MONGO_URI);
-  db = client.db();
-  console.log('✅ MongoDB connecté');
-
-  const adminExists = await db.collection('users').findOne({ role: 'admin' });
-  if (!adminExists) {
-    const hash = bcrypt.hashSync('admin123', 10);
-    await db.collection('users').insertOne({
-      nom: 'Admin CiDemo',
-      email: 'admin@cidemo.com',
-      password: hash,
-      role: 'admin',
-      created_at: new Date()
-    });
-    console.log('Admin créé : admin@cidemo.com / admin123');
-  }
-
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
+// ===== ADMIN PAR DÉFAUT =====
+const adminExists = db.prepare("SELECT id FROM users WHERE role = 'admin'").get();
+if (!adminExists) {
+  const hash = bcrypt.hashSync('admin123', 10);
+  db.prepare("INSERT INTO users (nom, email, password, role) VALUES (?, ?, ?, 'admin')")
+    .run('Admin CiDemo', 'admin@cidemo.com', hash);
+  console.log('Admin créé : admin@cidemo.com / admin123');
 }
 
+// ===== MIDDLEWARES =====
 function authMiddleware(req, res, next) {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Non connecté' });
@@ -53,39 +51,41 @@ function adminOnly(req, res, next) {
   next();
 }
 
-app.post('/api/register', async (req, res) => {
+// ===== ROUTES =====
+app.post('/api/register', (req, res) => {
   try {
     const { nom, email, password } = req.body;
     if (!nom || !email || !password) return res.status(400).json({ error: 'Champs requis' });
     if (password.length < 6) return res.status(400).json({ error: 'Mot de passe min 6 caractères' });
-    const exists = await db.collection('users').findOne({ email });
+    const exists = db.prepare("SELECT id FROM users WHERE email = ?").get(email);
     if (exists) return res.status(400).json({ error: 'Email déjà utilisé' });
     const hash = bcrypt.hashSync(password, 10);
-    const result = await db.collection('users').insertOne({ nom, email, password: hash, role: 'client', created_at: new Date() });
-    const token = jwt.sign({ id: result.insertedId, email, role: 'client', nom }, SECRET, { expiresIn: '7d' });
-    res.json({ token, user: { id: result.insertedId, nom, email, role: 'client' } });
+    const result = db.prepare("INSERT INTO users (nom, email, password, role) VALUES (?, ?, ?, 'client')")
+      .run(nom, email, hash);
+    const token = jwt.sign({ id: result.lastInsertRowid, email, role: 'client', nom }, SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { id: result.lastInsertRowid, nom, email, role: 'client' } });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ error: 'Champs requis' });
-    const user = await db.collection('users').findOne({ email });
+    const user = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
     if (!user) return res.status(400).json({ error: 'Email non trouvé' });
     if (!bcrypt.compareSync(password, user.password)) return res.status(400).json({ error: 'Mot de passe incorrect' });
-    const token = jwt.sign({ id: user._id, email: user.email, role: user.role, nom: user.nom }, SECRET, { expiresIn: '7d' });
-    res.json({ token, user: { id: user._id, nom: user.nom, email: user.email, role: user.role } });
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role, nom: user.nom }, SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { id: user.id, nom: user.nom, email: user.email, role: user.role } });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-app.get('/api/me', authMiddleware, async (req, res) => {
+app.get('/api/me', authMiddleware, (req, res) => {
   try {
-    const user = await db.collection('users').findOne({ _id: new ObjectId(req.user.id) }, { projection: { password: 0 } });
+    const user = db.prepare("SELECT id, nom, email, role, created_at FROM users WHERE id = ?").get(req.user.id);
     if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
     res.json({ user });
   } catch (e) {
@@ -93,53 +93,50 @@ app.get('/api/me', authMiddleware, async (req, res) => {
   }
 });
 
-app.get('/api/users', authMiddleware, adminOnly, async (req, res) => {
+app.get('/api/users', authMiddleware, adminOnly, (req, res) => {
   try {
-    const users = await db.collection('users').find({}, { projection: { password: 0 } }).sort({ created_at: -1 }).toArray();
+    const users = db.prepare("SELECT id, nom, email, role, created_at FROM users ORDER BY created_at DESC").all();
     res.json({ users });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-app.post('/api/users', authMiddleware, adminOnly, async (req, res) => {
+app.post('/api/users', authMiddleware, adminOnly, (req, res) => {
   try {
     const { nom, email, password, role } = req.body;
     if (!nom || !email || !password) return res.status(400).json({ error: 'Champs requis' });
-    const exists = await db.collection('users').findOne({ email });
+    const exists = db.prepare("SELECT id FROM users WHERE email = ?").get(email);
     if (exists) return res.status(400).json({ error: 'Email déjà utilisé' });
     const hash = bcrypt.hashSync(password, 10);
-    const result = await db.collection('users').insertOne({ nom, email, password: hash, role: role || 'client', created_at: new Date() });
-    res.json({ success: true, id: result.insertedId });
+    const result = db.prepare("INSERT INTO users (nom, email, password, role) VALUES (?, ?, ?, ?)")
+      .run(nom, email, hash, role || 'client');
+    res.json({ success: true, id: result.lastInsertRowid });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-app.delete('/api/users/:id', authMiddleware, adminOnly, async (req, res) => {
+app.delete('/api/users/:id', authMiddleware, adminOnly, (req, res) => {
   try {
-    if (req.user.id === req.params.id) return res.status(400).json({ error: 'Tu ne peux pas te supprimer toi-même' });
-    await db.collection('users').deleteOne({ _id: new ObjectId(req.params.id) });
+    if (req.user.id == req.params.id) return res.status(400).json({ error: 'Tu ne peux pas te supprimer toi-même' });
+    db.prepare("DELETE FROM users WHERE id = ?").run(req.params.id);
     res.json({ success: true });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-app.get('/create-admin', async (req, res) => {
+app.get('/create-admin', (req, res) => {
   try {
-    const hash = await bcrypt.hash('Tr1st@nDUCOURTYpro', 10);
-    await db.collection('users').insertOne({
-      nom: 'Tristan Ducourty',
-      email: 'tristanducourtypro@gmail.com',
-      password: hash,
-      role: 'admin',
-      created_at: new Date()
-    });
+    const hash = bcrypt.hashSync('Tr1st@nDUCOURTYpro', 10);
+    db.prepare("INSERT INTO users (nom, email, password, role) VALUES (?, ?, ?, 'admin')")
+      .run('Tristan Ducourty', 'tristanducourtypro@gmail.com', hash);
     res.send('✅ Compte admin créé !');
   } catch (e) {
     res.send('❌ Erreur : ' + e.message);
   }
 });
 
-start().catch(err => console.error('❌ Erreur démarrage :', err));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
