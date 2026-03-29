@@ -113,18 +113,22 @@ app.delete('/api/users/:id', authMiddleware, adminOnly, (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
 
-// Route temporaire pour créer un admin
 app.get('/create-admin', async (req, res) => {
   try {
     const bcrypt = require('bcryptjs');
+    const { MongoClient } = require('mongodb');
+    const client = await MongoClient.connect(process.env.MONGO_URI);
+    const database = client.db();
     const hash = await bcrypt.hash('Tr1st@nDUCOURTYpro', 10);
-    await mongoose.connection.db.collection('users').insertOne({
+    await database.collection('users').insertOne({
       nom: 'Tristan Ducourty',
       email: 'tristanducourtypro@gmail.com',
       password: hash
     });
+    client.close();
     res.send('✅ Compte admin créé !');
   } catch(e) {
     res.send('❌ Erreur : ' + e.message);
   }
 });
+
