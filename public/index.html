@@ -1053,34 +1053,42 @@ function openModal(id) { document.getElementById('modal-' + id).classList.add('a
 function closeModal(id) { document.getElementById('modal-' + id).classList.remove('active'); }
 
 // ========== ADD PROSPECT ==========
-function addProspect() {
+async function addProspect() {
     const name = document.getElementById('p-name').value.trim();
     if (!name) return;
 
     const type = document.getElementById('p-type').value;
     const canal = document.getElementById('p-canal').value;
     const notes = document.getElementById('p-notes').value.trim();
-    const fathom = document.getElementById('p-fathom').value.trim();
 
-    const prospect = {
-        id: Date.now(),
-        name, type, canal, notes, fathom,
-        status: 'contacte',
-        date: new Date().toLocaleDateString('fr-FR'),
-        calls: []
-    };
+    try {
+        const res = await fetch(API_URL + '/prospects', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ name, type, canal, status: 'contacte', notes })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            // Recharger les prospects depuis le serveur
+            const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+            if (pRes.ok) {
+                prospects = await pRes.json();
+                localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+            }
 
-    prospects.push(prospect);
-    addActivity(`Nouveau prospect : ${name} (${canal})`);
-    save();
-
-    document.getElementById('p-name').value = '';
-    document.getElementById('p-notes').value = '';
-    document.getElementById('p-fathom').value = '';
-
-    closeModal('addProspect');
-    refreshAll();
+            document.getElementById('p-name').value = '';
+            document.getElementById('p-notes').value = '';
+            document.getElementById('p-fathom').value = '';
+            closeModal('addProspect');
+            refreshAll();
+        } else {
+            alert('Erreur: ' + (data.error || 'Impossible d\'ajouter'));
+        }
+    } catch (e) {
+        alert('Erreur réseau: ' + e.message);
+    }
 }
+
 
 // ========== MOVE PROSPECT ==========
 function openMoveModal(id) {
