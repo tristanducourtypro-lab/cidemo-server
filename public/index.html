@@ -6,11 +6,7 @@
     <title>CidemoContent — CRM</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --creme: #FAF8F3;
@@ -26,1446 +22,968 @@
             --orange-light: rgba(184, 134, 11, 0.1);
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--creme);
-            color: var(--noir);
-            min-height: 100vh;
-        }
-
-        /* LOGIN */
-        .login-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-box {
-            background: white;
-            border-radius: 16px;
-            padding: 48px 40px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 4px 24px rgba(43, 43, 43, 0.06);
-        }
-
-        .login-logo {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
-        .login-tagline {
-            font-size: 10px;
-            color: var(--beige);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--beige);
-            margin-bottom: 6px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--beige-medium);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            background: var(--creme);
-            color: var(--noir);
-            transition: border-color 0.15s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--beige);
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s;
-            width: 100%;
-        }
-
-        .btn-primary {
-            background: var(--noir);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #1a1a1a;
-        }
-
-        .btn-secondary {
-            background: var(--beige-light);
-            color: var(--noir);
-        }
-
-        .btn-danger {
-            background: var(--red-light);
-            color: var(--red);
-        }
-
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 11px;
-            width: auto;
-        }
-
-        .error-msg {
-            color: var(--red);
-            font-size: 12px;
-            margin-bottom: 12px;
-            display: none;
-        }
-
-        /* APP LAYOUT */
-        .app {
-            display: none;
-            min-height: 100vh;
-        }
-
-        .app.active {
-            display: flex;
-        }
-
-        .sidebar {
-            width: 240px;
-            background: white;
-            border-right: 1px solid var(--beige-medium);
-            padding: 24px 0;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-        }
-
-        .sidebar-logo {
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            padding: 0 24px;
-            margin-bottom: 4px;
-        }
-
-        .sidebar-tagline {
-            font-size: 10px;
-            color: var(--beige);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 0 24px;
-            margin-bottom: 32px;
-        }
-
-        .sidebar-section {
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--beige);
-            padding: 0 24px;
-            margin: 24px 0 8px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 24px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--noir);
-            transition: all 0.15s;
-            border-left: 3px solid transparent;
-        }
-
-        .nav-item:hover {
-            background: var(--beige-light);
-        }
-
-        .nav-item.active {
-            background: var(--beige-light);
-            border-left-color: var(--noir);
-            font-weight: 600;
-        }
-
-        .main-content {
-            margin-left: 240px;
-            padding: 32px;
-            flex: 1;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .page-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .page-subtitle {
-            font-size: 13px;
-            color: var(--beige);
-            margin-bottom: 24px;
-        }
-
-        /* CARDS */
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 4px rgba(43, 43, 43, 0.04);
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        /* KPI */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .kpi-card {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 1px 4px rgba(43, 43, 43, 0.04);
-        }
-
-        .kpi-label {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--beige);
-        }
-
-        .kpi-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-
-        .kpi-value.green {
-            color: var(--green);
-        }
-
-        .kpi-sub {
-            font-size: 11px;
-            color: var(--beige);
-            margin-top: 2px;
-        }
-
-        /* PIPELINE */
-        .pipeline {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 12px;
-        }
-
-        .pipeline-col {
-            min-width: 200px;
-            flex: 1;
-        }
-
-        .pipeline-header {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--beige);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .pipeline-count {
-            background: var(--beige-light);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-        }
-
-        .pipeline-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .p-card {
-            background: white;
-            border: 1px solid var(--beige-light);
-            border-radius: 8px;
-            padding: 10px;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .p-card:hover {
-            border-color: var(--beige);
-            box-shadow: 0 2px 8px rgba(43, 43, 43, 0.08);
-        }
-
-        .p-card-name {
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .p-card-meta {
-            font-size: 10px;
-            color: var(--beige);
-            margin-top: 2px;
-        }
-
-        /* PROSPECT TYPE BADGES */
-        .prospect-type {
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        .type-createur {
-            background: #E8F0FE;
-            color: #1967D2;
-        }
-
-        .type-pro {
-            background: #FEF3E8;
-            color: #B8860B;
-        }
-
-        .fathom-link {
-            font-size: 11px;
-            color: var(--green);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .fathom-link:hover {
-            text-decoration: underline;
-        }
-
-        /* TABLE */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--beige);
-            text-align: left;
-            padding: 8px 12px;
-            border-bottom: 1px solid var(--beige-medium);
-        }
-
-        td {
-            padding: 12px;
-            font-size: 13px;
-            border-bottom: 1px solid var(--beige-light);
-        }
-
-        /* MODAL */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(43, 43, 43, 0.4);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 16px;
-            padding: 32px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 24px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 24px;
-            justify-content: flex-end;
-        }
-
-        /* BADGES */
-        .badge {
-            font-size: 10px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-
-        .badge-prospect {
-            background: var(--beige-light);
-            color: var(--noir);
-        }
-
-        .badge-r1 {
-            background: var(--orange-light);
-            color: var(--orange);
-        }
-
-        .badge-r2 {
-            background: rgba(74, 124, 89, 0.15);
-            color: var(--green);
-        }
-
-        .badge-client {
-            background: var(--green-light);
-            color: var(--green);
-        }
-
-        .badge-perdu {
-            background: var(--red-light);
-            color: var(--red);
-        }
-
-        /* STATS BAR */
-        .stat-bar {
-            height: 6px;
-            background: var(--beige-light);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .stat-bar-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
-        .fill-green {
-            background: var(--green);
-        }
-
-        .fill-orange {
-            background: var(--orange);
-        }
-
-        .fill-beige {
-            background: var(--beige);
-        }
-
-        .tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 24px;
-            background: var(--beige-light);
-            border-radius: 10px;
-            padding: 4px;
-        }
-
-        .tab {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .tab:hover {
-            background: white;
-        }
-
-        .tab.active {
-            background: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 32px;
-            color: var(--beige);
-            font-size: 13px;
-        }
-
-        /* ACTIVITY */
-        .activity-item {
-            display: flex;
-            gap: 10px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--beige-light);
-            font-size: 12px;
-        }
-
-        .activity-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-top: 4px;
-            flex-shrink: 0;
-        }
-
-        .activity-time {
-            color: var(--beige);
-            font-size: 10px;
-        }
-
-        .dot-green {
-            background: var(--green);
-        }
-
-        .dot-orange {
-            background: var(--orange);
-        }
-
-        .dot-beige {
-            background: var(--beige);
-        }
-
-        .dot-red {
-            background: var(--red);
-        }
-
-        /* DATE FILTER BAR */
-        .date-filter-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            font-size: 12px;
-        }
-
-        .date-filter-bar label {
-            font-weight: 600;
-            color: var(--beige);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .date-filter-bar input[type="date"] {
-            padding: 8px 12px;
-            border: 1px solid var(--beige-medium);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 12px;
-            background: white;
-            color: var(--noir);
-        }
-
-        .date-filter-bar input[type="date"]:focus {
-            outline: none;
-            border-color: var(--beige);
-        }
-
-        .date-filter-bar .quick-filters {
-            display: flex;
-            gap: 4px;
-            margin-left: auto;
-        }
-
-        .quick-filter-btn {
-            padding: 6px 12px;
-            border: 1px solid var(--beige-medium);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            background: white;
-            color: var(--noir);
-            transition: all 0.15s;
-        }
-
-        .quick-filter-btn:hover,
-        .quick-filter-btn.active {
-            background: var(--noir);
-            color: white;
-            border-color: var(--noir);
-        }
+        body { font-family: 'Inter', sans-serif; background: var(--creme); color: var(--noir); min-height: 100vh; }
+
+        .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-box { background: white; border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 400px; box-shadow: 0 4px 24px rgba(43,43,43,0.06); }
+        .login-logo { font-size: 18px; font-weight: 700; letter-spacing: 3px; text-align: center; margin-bottom: 4px; }
+        .login-tagline { font-size: 10px; color: var(--beige); letter-spacing: 2px; text-transform: uppercase; text-align: center; margin-bottom: 32px; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--beige); margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--beige-medium); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; background: var(--creme); color: var(--noir); transition: border-color 0.15s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--beige); }
+
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .btn-primary { background: var(--noir); color: white; }
+        .btn-primary:hover { background: #1a1a1a; }
+        .btn-secondary { background: var(--beige-light); color: var(--noir); }
+        .btn-danger { background: var(--red-light); color: var(--red); }
+        .btn-small { padding: 6px 12px; font-size: 11px; }
+        .btn-full { width: 100%; }
+
+        .error-msg { color: var(--red); font-size: 12px; margin-bottom: 12px; display: none; }
+
+        .app { display: none; min-height: 100vh; }
+        .app.active { display: flex; }
+
+        .sidebar { width: 240px; background: white; border-right: 1px solid var(--beige-medium); padding: 24px 0; position: fixed; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+        .sidebar-logo { font-size: 16px; font-weight: 700; letter-spacing: 2px; padding: 0 24px; margin-bottom: 4px; }
+        .sidebar-tagline { font-size: 10px; color: var(--beige); letter-spacing: 2px; text-transform: uppercase; padding: 0 24px; margin-bottom: 32px; }
+        .sidebar-section { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--beige); padding: 0 24px; margin: 24px 0 8px; }
+
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 24px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--noir); transition: all 0.15s; border-left: 3px solid transparent; text-decoration: none; }
+        .nav-item:hover { background: var(--beige-light); }
+        .nav-item.active { background: var(--beige-light); border-left-color: var(--noir); font-weight: 600; }
+
+        .sidebar-spacer { flex: 1; }
+        .sidebar-bottom { padding: 16px 24px; border-top: 1px solid var(--beige-light); }
+
+        .main-content { margin-left: 240px; padding: 32px; flex: 1; }
+
+        .page { display: none; }
+        .page.active { display: block; }
+        .page-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .page-subtitle { font-size: 13px; color: var(--beige); margin-bottom: 24px; }
+
+        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(43,43,43,0.04); }
+        .card-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+        .kpi-card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 1px 4px rgba(43,43,43,0.04); }
+        .kpi-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--beige); }
+        .kpi-value { font-size: 28px; font-weight: 700; margin-top: 4px; }
+        .kpi-value.green { color: var(--green); }
+        .kpi-sub { font-size: 11px; color: var(--beige); margin-top: 2px; }
+
+        .pipeline { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; }
+        .pipeline-col { min-width: 200px; flex: 1; }
+        .pipeline-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--beige); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .pipeline-count { background: var(--beige-light); padding: 2px 8px; border-radius: 10px; font-size: 10px; }
+        .pipeline-cards { display: flex; flex-direction: column; gap: 6px; }
+
+        .p-card { background: white; border: 1px solid var(--beige-light); border-radius: 8px; padding: 10px; cursor: pointer; transition: all 0.15s; }
+        .p-card:hover { border-color: var(--beige); box-shadow: 0 2px 8px rgba(43,43,43,0.08); }
+        .p-card-name { font-size: 12px; font-weight: 600; }
+        .p-card-meta { font-size: 10px; color: var(--beige); margin-top: 2px; }
+
+        .prospect-type { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+        .type-createur { background: #E8F0FE; color: #1967D2; }
+        .type-pro { background: #FEF3E8; color: #B8860B; }
+
+        .fathom-link { font-size: 11px; color: var(--green); text-decoration: none; font-weight: 600; }
+        .fathom-link:hover { text-decoration: underline; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--beige); text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--beige-medium); }
+        td { padding: 12px; font-size: 13px; border-bottom: 1px solid var(--beige-light); }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(43,43,43,0.4); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: white; border-radius: 16px; padding: 32px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+        .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 24px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
+
+        .badge { font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+        .badge-prospect { background: var(--beige-light); color: var(--noir); }
+        .badge-r1 { background: var(--orange-light); color: var(--orange); }
+        .badge-r2 { background: rgba(74, 124, 89, 0.15); color: var(--green); }
+        .badge-client { background: var(--green-light); color: var(--green); }
+        .badge-perdu { background: var(--red-light); color: var(--red); }
+
+        .stat-bar { height: 6px; background: var(--beige-light); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+        .stat-bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+        .fill-green { background: var(--green); }
+        .fill-orange { background: var(--orange); }
+        .fill-beige { background: var(--beige); }
+
+        .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--beige-light); border-radius: 10px; padding: 4px; }
+        .tab { padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .tab:hover { background: white; }
+        .tab.active { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        .empty-state { text-align: center; padding: 32px; color: var(--beige); font-size: 13px; }
+
+        .activity-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--beige-light); font-size: 12px; }
+        .activity-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+        .activity-time { color: var(--beige); font-size: 10px; }
+        .dot-green { background: var(--green); }
+        .dot-orange { background: var(--orange); }
+        .dot-beige { background: var(--beige); }
+        .dot-red { background: var(--red); }
+
+        .date-filter-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; font-size: 12px; }
+        .date-filter-bar label { font-weight: 600; color: var(--beige); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .date-filter-bar input[type="date"] { padding: 8px 12px; border: 1px solid var(--beige-medium); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; background: white; color: var(--noir); }
+        .date-filter-bar input[type="date"]:focus { outline: none; border-color: var(--beige); }
+        .date-filter-bar .quick-filters { display: flex; gap: 4px; margin-left: auto; }
+
+        .quick-filter-btn { padding: 6px 12px; border: 1px solid var(--beige-medium); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; background: white; color: var(--noir); transition: all 0.15s; }
+        .quick-filter-btn:hover, .quick-filter-btn.active { background: var(--noir); color: white; border-color: var(--noir); }
+
+        .top-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
     </style>
 </head>
 <body>
 
-    <!-- LOGIN PAGE -->
-    <div class="login-page" id="login-page">
-        <div class="login-box">
-            <div class="login-logo">CIDEMOCONTENT</div>
-            <div class="login-tagline">Espace acquisition</div>
-            <div class="error-msg" id="login-error">Identifiants incorrects</div>
-            <div class="form-group">
-                <label>Identifiant</label>
-                <input type="text" id="login-user" placeholder="Email ou identifiant">
+<!-- LOGIN -->
+<div class="login-page" id="login-page">
+    <div class="login-box">
+        <div class="login-logo">CIDEMOCONTENT</div>
+        <div class="login-tagline">Espace acquisition</div>
+        <div class="error-msg" id="login-error">Identifiants incorrects</div>
+        <div class="form-group">
+            <label>Identifiant</label>
+            <input type="text" id="login-user" placeholder="Email ou identifiant">
+        </div>
+        <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+        </div>
+        <button class="btn btn-primary btn-full" onclick="login()">Se connecter</button>
+    </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">CIDEMOCONTENT</div>
+        <div class="sidebar-tagline">Espace acquisition</div>
+
+        <div class="sidebar-section">Menu</div>
+        <div class="nav-item active" onclick="showPage('dashboard', this)">
+            <span>◉</span> Dashboard
+        </div>
+        <div class="nav-item" onclick="showPage('pipeline', this)">
+            <span>◎</span> Pipeline
+        </div>
+        <div class="nav-item" onclick="showPage('prospects', this)">
+            <span>◇</span> Prospects
+        </div>
+        <div class="nav-item" onclick="showPage('clients', this)">
+            <span>◓</span> Clients
+        </div>
+        <div class="nav-item" onclick="showPage('calls', this)">
+            <span>◈</span> Appels R1/R2
+        </div>
+
+        <div class="sidebar-spacer"></div>
+
+        <div class="sidebar-bottom">
+            <a href="/client.html" target="_blank" class="nav-item" style="padding:10px 0;color:var(--beige);border:none;">
+                <span>👤</span> Espace Client
+            </a>
+            <div class="nav-item" onclick="logout()" style="padding:10px 0;color:var(--red);border:none;">
+                <span>⏻</span> Déconnexion
             </div>
-            <div class="form-group">
-                <label>Mot de passe</label>
-                <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="main-content">
+
+        <!-- DASHBOARD -->
+        <div class="page active" id="page-dashboard">
+            <div class="page-title">Dashboard</div>
+            <div class="page-subtitle">Vue d'ensemble de ton acquisition</div>
+
+            <div class="date-filter-bar">
+                <label>Du</label>
+                <input type="date" id="dash-date-from" onchange="refreshAll()">
+                <label>Au</label>
+                <input type="date" id="dash-date-to" onchange="refreshAll()">
+                <button class="quick-filter-btn" onclick="clearDateFilter('dash', this)">Tout</button>
+                <div class="quick-filters">
+                    <button class="quick-filter-btn" onclick="setQuickFilter('dash', 7, this)">7j</button>
+                    <button class="quick-filter-btn" onclick="setQuickFilter('dash', 30, this)">30j</button>
+                    <button class="quick-filter-btn" onclick="setQuickFilter('dash', 90, this)">90j</button>
+                </div>
             </div>
-            <button class="btn btn-primary" onclick="login()">Se connecter</button>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Total prospects</div>
+                    <div class="kpi-value" id="kpi-total">0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Taux réponse</div>
+                    <div class="kpi-value" id="kpi-reponse">0%</div>
+                    <div class="stat-bar"><div class="stat-bar-fill fill-beige" id="bar-reponse" style="width:0%"></div></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Taux booking</div>
+                    <div class="kpi-value" id="kpi-booking">0%</div>
+                    <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-booking" style="width:0%"></div></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Taux show-up</div>
+                    <div class="kpi-value" id="kpi-showup">0%</div>
+                    <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-showup" style="width:0%"></div></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Taux closing</div>
+                    <div class="kpi-value" id="kpi-closing">0%</div>
+                    <div class="stat-bar"><div class="stat-bar-fill fill-green" id="bar-closing" style="width:0%"></div></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Clients signés</div>
+                    <div class="kpi-value green" id="kpi-clients">0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Créateurs</div>
+                    <div class="kpi-value" id="kpi-createurs">0</div>
+                    <div class="kpi-sub">dont <strong id="kpi-c3">0</strong> clients</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Entrepreneurs</div>
+                    <div class="kpi-value" id="kpi-entrepreneurs">0</div>
+                    <div class="kpi-sub">dont <strong id="kpi-ccc">0</strong> clients</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Dernières activités</div>
+                <div id="activity-feed">
+                    <div class="empty-state">Aucune activité pour le moment</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PIPELINE -->
+        <div class="page" id="page-pipeline">
+            <div class="page-title">Pipeline</div>
+            <div class="page-subtitle">Ton tunnel d'acquisition visuel</div>
+            <div class="pipeline">
+                <div class="pipeline-col">
+                    <div class="pipeline-header">Contacté <span class="pipeline-count" id="count-contacte">0</span></div>
+                    <div class="pipeline-cards" id="col-contacte"></div>
+                </div>
+                <div class="pipeline-col">
+                    <div class="pipeline-header">Répondu <span class="pipeline-count" id="count-repondu">0</span></div>
+                    <div class="pipeline-cards" id="col-repondu"></div>
+                </div>
+                <div class="pipeline-col">
+                    <div class="pipeline-header">R1 Booké <span class="pipeline-count" id="count-r1">0</span></div>
+                    <div class="pipeline-cards" id="col-r1"></div>
+                </div>
+                <div class="pipeline-col">
+                    <div class="pipeline-header">R2 Closing <span class="pipeline-count" id="count-r2">0</span></div>
+                    <div class="pipeline-cards" id="col-r2"></div>
+                </div>
+                <div class="pipeline-col">
+                    <div class="pipeline-header">Client ✓ <span class="pipeline-count" id="count-client">0</span></div>
+                    <div class="pipeline-cards" id="col-client"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROSPECTS -->
+        <div class="page" id="page-prospects">
+            <div class="page-title">Prospects</div>
+            <div class="page-subtitle">Gestion de tous tes prospects</div>
+
+            <div class="top-bar">
+                <button class="btn btn-primary" onclick="openModal('addProspect')">+ Nouveau prospect</button>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="filterProspects('all', this)">Tous</div>
+                <div class="tab" onclick="filterProspects('createur', this)">Créateurs</div>
+                <div class="tab" onclick="filterProspects('pro', this)">Entrepreneurs</div>
+            </div>
+
+            <div class="date-filter-bar">
+                <label>Du</label>
+                <input type="date" id="prospect-date-from" onchange="refreshProspectsTable()">
+                <label>Au</label>
+                <input type="date" id="prospect-date-to" onchange="refreshProspectsTable()">
+                <button class="quick-filter-btn" onclick="clearDateFilter('prospect', this)">Tout</button>
+                <div class="quick-filters">
+                    <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 7, this)">7j</button>
+                    <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 30, this)">30j</button>
+                    <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 90, this)">90j</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Type</th>
+                            <th>Canal</th>
+                            <th>Statut</th>
+                            <th>Fathom</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prospects-table"></tbody>
+                </table>
+                <div class="empty-state" id="prospects-empty">Aucun prospect pour le moment</div>
+            </div>
+        </div>
+
+        <!-- CLIENTS -->
+        <div class="page" id="page-clients">
+            <div class="page-title">Clients</div>
+            <div class="page-subtitle">Tes clients actifs en accompagnement</div>
+
+            <div class="top-bar">
+                <button class="btn btn-primary" onclick="openModal('addClient')">+ Nouveau client</button>
+            </div>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Type</th>
+                            <th>Programme</th>
+                            <th>Phase</th>
+                            <th>Depuis</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-table"></tbody>
+                </table>
+                <div class="empty-state" id="clients-empty">Aucun client pour le moment</div>
+            </div>
+        </div>
+
+        <!-- CALLS -->
+        <div class="page" id="page-calls">
+            <div class="page-title">Appels R1 / R2</div>
+            <div class="page-subtitle">Historique de tous tes calls</div>
+
+            <div class="date-filter-bar">
+                <label>Du</label>
+                <input type="date" id="calls-date-from" onchange="refreshCallsTable()">
+                <label>Au</label>
+                <input type="date" id="calls-date-to" onchange="refreshCallsTable()">
+                <button class="quick-filter-btn" onclick="clearDateFilter('calls', this)">Tout</button>
+                <div class="quick-filters">
+                    <button class="quick-filter-btn" onclick="setQuickFilter('calls', 7, this)">7j</button>
+                    <button class="quick-filter-btn" onclick="setQuickFilter('calls', 30, this)">30j</button>
+                    <button class="quick-filter-btn" onclick="setQuickFilter('calls', 90, this)">90j</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Type call</th>
+                            <th>Date</th>
+                            <th>Fathom</th>
+                            <th>Résultat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calls-table"></tbody>
+                </table>
+                <div class="empty-state" id="calls-empty">Aucun appel pour le moment</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL: ADD PROSPECT -->
+<div class="modal-overlay" id="modal-addProspect">
+    <div class="modal">
+        <div class="modal-title">Nouveau prospect</div>
+        <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" id="p-name" placeholder="Prénom Nom">
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <select id="p-type">
+                <option value="createur">Créateur de contenu</option>
+                <option value="pro">Entrepreneur</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Canal d'acquisition</label>
+            <select id="p-canal">
+                <option value="Instagram">Instagram</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="TikTok">TikTok</option>
+                <option value="Referral">Referral</option>
+                <option value="Autre">Autre</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Lien Fathom (optionnel)</label>
+            <input type="url" id="p-fathom" placeholder="https://fathom.video/...">
+        </div>
+        <div class="form-group">
+            <label>Notes</label>
+            <textarea id="p-notes" rows="3" placeholder="Notes sur ce prospect..."></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('addProspect')">Annuler</button>
+            <button class="btn btn-primary" onclick="addProspect()">Ajouter</button>
         </div>
     </div>
+</div>
 
-    <!-- APP -->
-    <div class="app" id="app">
-        <div class="sidebar">
-            <div class="sidebar-logo">CIDEMOCONTENT</div>
-            <div class="sidebar-tagline">Espace acquisition</div>
-
-            <div class="sidebar-section">Menu</div>
-            <div class="nav-item active" onclick="showPage('dashboard', this)">📊 Dashboard</div>
-            <div class="nav-item" onclick="showPage('pipeline', this)">🔄 Pipeline</div>
-            <div class="nav-item" onclick="showPage('prospects', this)">👥 Prospects</div>
-            <div class="nav-item" onclick="showPage('clients', this)">⭐ Clients</div>
-            <div class="nav-item" onclick="showPage('calls', this)">📞 Appels</div>
-
-            <div class="sidebar-section">Compte</div>
-            <div class="nav-item" onclick="logout()">🚪 Déconnexion</div>
+<!-- MODAL: MOVE PROSPECT -->
+<div class="modal-overlay" id="modal-moveProspect">
+    <div class="modal">
+        <div class="modal-title">Gérer le prospect</div>
+        <p style="font-size:13px;margin-bottom:16px;font-weight:600;" id="move-prospect-name"></p>
+        <div class="form-group">
+            <label>Nouveau statut</label>
+            <select id="move-status">
+                <option value="contacte">Contacté</option>
+                <option value="repondu">A répondu</option>
+                <option value="r1">R1 booké</option>
+                <option value="r2">R2 closing</option>
+                <option value="client">Client ✓</option>
+                <option value="perdu">Perdu</option>
+            </select>
         </div>
-
-        <div class="main-content">
-            <!-- DASHBOARD -->
-            <div class="page active" id="page-dashboard">
-                <div class="page-title">Dashboard</div>
-                <div class="page-subtitle">Vue d'ensemble de ton acquisition</div>
-
-                <div class="date-filter-bar">
-                    <label>Du</label>
-                    <input type="date" id="dash-date-from" onchange="refreshAll()">
-                    <label>Au</label>
-                    <input type="date" id="dash-date-to" onchange="refreshAll()">
-                    <button class="quick-filter-btn" onclick="clearDateFilter('dash', this)">Tout</button>
-                    <div class="quick-filters">
-                        <button class="quick-filter-btn" onclick="setQuickFilter('dash', 7, this)">7j</button>
-                        <button class="quick-filter-btn" onclick="setQuickFilter('dash', 30, this)">30j</button>
-                        <button class="quick-filter-btn" onclick="setQuickFilter('dash', 90, this)">90j</button>
-                    </div>
-                </div>
-
-                <div class="kpi-grid">
-                    <div class="kpi-card">
-                        <div class="kpi-label">Total prospects</div>
-                        <div class="kpi-value" id="kpi-total">0</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Taux réponse</div>
-                        <div class="kpi-value" id="kpi-reponse">0%</div>
-                        <div class="stat-bar"><div class="stat-bar-fill fill-beige" id="bar-reponse" style="width:0%"></div></div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Taux booking</div>
-                        <div class="kpi-value" id="kpi-booking">0%</div>
-                        <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-booking" style="width:0%"></div></div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Taux show-up</div>
-                        <div class="kpi-value" id="kpi-showup">0%</div>
-                        <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-showup" style="width:0%"></div></div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Taux closing</div>
-                        <div class="kpi-value" id="kpi-closing">0%</div>
-                        <div class="stat-bar"><div class="stat-bar-fill fill-green" id="bar-closing" style="width:0%"></div></div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Clients signés</div>
-                        <div class="kpi-value green" id="kpi-clients">0</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Créateurs</div>
-                        <div class="kpi-value" id="kpi-createurs">0</div>
-                        <div class="kpi-sub">dont <strong id="kpi-c3">0</strong> clients</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Entrepreneurs</div>
-                        <div class="kpi-value" id="kpi-entrepreneurs">0</div>
-                        <div class="kpi-sub">dont <strong id="kpi-ccc">0</strong> clients</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-title">Dernières activités</div>
-                    <div id="activity-feed">
-                        <div class="empty-state">Aucune activité pour le moment</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PIPELINE -->
-            <div class="page" id="page-pipeline">
-                <div class="page-title">Pipeline</div>
-                <div class="page-subtitle">Ton tunnel d'acquisition visuel</div>
-                <div class="pipeline">
-                    <div class="pipeline-col">
-                        <div class="pipeline-header">Contacté <span class="pipeline-count" id="count-contacte">0</span></div>
-                        <div class="pipeline-cards" id="col-contacte"></div>
-                    </div>
-                    <div class="pipeline-col">
-                        <div class="pipeline-header">Répondu <span class="pipeline-count" id="count-repondu">0</span></div>
-                        <div class="pipeline-cards" id="col-repondu"></div>
-                    </div>
-                    <div class="pipeline-col">
-                        <div class="pipeline-header">R1 Booké <span class="pipeline-count" id="count-r1">0</span></div>
-                        <div class="pipeline-cards" id="col-r1"></div>
-                    </div>
-                    <div class="pipeline-col">
-                        <div class="pipeline-header">R2 Closing <span class="pipeline-count" id="count-r2">0</span></div>
-                        <div class="pipeline-cards" id="col-r2"></div>
-                    </div>
-                    <div class="pipeline-col">
-                        <div class="pipeline-header">Client ✓ <span class="pipeline-count" id="count-client">0</span></div>
-                        <div class="pipeline-cards" id="col-client"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROSPECTS -->
-            <div class="page" id="page-prospects">
-                <div class="page-title">Prospects</div>
-                <div class="page-subtitle">Gestion de tous tes prospects</div>
-
-                <div style="display:flex;gap:10px;margin-bottom:20px;align-items:center;">
-                    <button class="btn btn-primary" style="width:auto;padding:10px 20px;" onclick="openModal('addProspect')">+ Nouveau prospect</button>
-                </div>
-
-                <div class="tabs">
-                    <div class="tab active" onclick="filterProspects('all', this)">Tous</div>
-                    <div class="tab" onclick="filterProspects('createur', this)">Créateurs</div>
-                    <div class="tab" onclick="filterProspects('pro', this)">Entrepreneurs</div>
-                </div>
-
-                <div class="date-filter-bar">
-                    <label>Du</label>
-                    <input type="date" id="prospect-date-from" onchange="refreshProspectsTable()">
-                    <label>Au</label>
-                    <input type="date" id="prospect-date-to" onchange="refreshProspectsTable()">
-                    <button class="quick-filter-btn" onclick="clearDateFilter('prospect', this)">Tout</button>
-                    <div class="quick-filters">
-                        <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 7, this)">7j</button>
-                        <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 30, this)">30j</button>
-                        <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 90, this)">90j</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Type</th>
-                                <th>Canal</th>
-                                <th>Statut</th>
-                                <th>Fathom</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="prospects-table"></tbody>
-                    </table>
-                    <div class="empty-state" id="prospects-empty">Aucun prospect pour le moment</div>
-                </div>
-            </div>
-
-            <!-- CLIENTS -->
-            <div class="page" id="page-clients">
-                <div class="page-title">Clients</div>
-                <div class="page-subtitle">Tes clients actifs en accompagnement</div>
-
-                <div class="card">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Type</th>
-                                <th>Programme</th>
-                                <th>Phase</th>
-                                <th>Depuis</th>
-                            </tr>
-                        </thead>
-                        <tbody id="clients-table"></tbody>
-                    </table>
-                    <div class="empty-state" id="clients-empty">Aucun client pour le moment</div>
-                </div>
-            </div>
-
-            <!-- CALLS -->
-            <div class="page" id="page-calls">
-                <div class="page-title">Appels R1 / R2</div>
-                <div class="page-subtitle">Historique de tous tes calls</div>
-
-                <div class="date-filter-bar">
-                    <label>Du</label>
-                    <input type="date" id="calls-date-from" onchange="refreshCallsTable()">
-                    <label>Au</label>
-                    <input type="date" id="calls-date-to" onchange="refreshCallsTable()">
-                    <button class="quick-filter-btn" onclick="clearDateFilter('calls', this)">Tout</button>
-                    <div class="quick-filters">
-                        <button class="quick-filter-btn" onclick="setQuickFilter('calls', 7, this)">7j</button>
-                        <button class="quick-filter-btn" onclick="setQuickFilter('calls', 30, this)">30j</button>
-                        <button class="quick-filter-btn" onclick="setQuickFilter('calls', 90, this)">90j</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Prospect</th>
-                                <th>Type call</th>
-                                <th>Date</th>
-                                <th>Fathom</th>
-                                <th>Résultat</th>
-                            </tr>
-                        </thead>
-                        <tbody id="calls-table"></tbody>
-                    </table>
-                    <div class="empty-state" id="calls-empty">Aucun appel enregistré</div>
-                </div>
-            </div>
+        <div class="form-group">
+            <label>Lien Fathom (call)</label>
+            <input type="url" id="move-fathom" placeholder="https://fathom.video/...">
+        </div>
+        <div class="form-group">
+            <label>Notes</label>
+            <textarea id="move-notes" rows="3" placeholder="Notes sur cet avancement..."></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('moveProspect')">Annuler</button>
+            <button class="btn btn-danger btn-small" onclick="deleteCurrentProspect()">Supprimer</button>
+            <button class="btn btn-primary" onclick="moveProspect()">Mettre à jour</button>
         </div>
     </div>
+</div>
 
-    <!-- MODAL: ADD PROSPECT -->
-    <div class="modal-overlay" id="modal-addProspect">
-        <div class="modal">
-            <div class="modal-title">Nouveau prospect</div>
-            <div class="form-group">
-                <label>Nom / Pseudo</label>
-                <input type="text" id="p-name" placeholder="Nom du prospect">
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                <select id="p-type">
-                    <option value="createur">Créateur de contenu</option>
-                    <option value="pro">Entrepreneur / PME</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Canal d'acquisition</label>
-                <select id="p-canal">
-                    <option value="Instagram DM">Instagram DM</option>
-                    <option value="LinkedIn">LinkedIn</option>
-                    <option value="Email">Email</option>
-                    <option value="Bouche à oreille">Bouche à oreille</option>
-                    <option value="Autre">Autre</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Lien Fathom (optionnel)</label>
-                <input type="url" id="p-fathom" placeholder="https://fathom.video/...">
-            </div>
-            <div class="form-group">
-                <label>Notes</label>
-                <textarea id="p-notes" rows="3" placeholder="Notes sur ce prospect..."></textarea>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('addProspect')">Annuler</button>
-                <button class="btn btn-primary" style="width:auto" onclick="addProspect()">Ajouter</button>
-            </div>
+<!-- MODAL: ADD CLIENT -->
+<div class="modal-overlay" id="modal-addClient">
+    <div class="modal">
+        <div class="modal-title">Nouveau client</div>
+        <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" id="c-name" placeholder="Prénom Nom">
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <select id="c-type">
+                <option value="createur">Créateur de contenu</option>
+                <option value="pro">Entrepreneur</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Programme</label>
+            <select id="c-programme">
+                <option value="CréateurContent">CréateurContent</option>
+                <option value="ContentPro">ContentPro</option>
+                <option value="Custom">Custom</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Notes</label>
+            <textarea id="c-notes" rows="3" placeholder="Notes..."></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('addClient')">Annuler</button>
+            <button class="btn btn-primary" onclick="addClient()">Ajouter</button>
         </div>
     </div>
+</div>
 
-    <!-- MODAL: MOVE PROSPECT -->
-    <div class="modal-overlay" id="modal-moveProspect">
-        <div class="modal">
-            <div class="modal-title">Avancer le prospect</div>
-            <p style="font-size:13px;margin-bottom:16px;" id="move-prospect-name"></p>
-            <div class="form-group">
-                <label>Nouveau statut</label>
-                <select id="move-status">
-                    <option value="contacte">Contacté</option>
-                    <option value="repondu">A répondu</option>
-                    <option value="r1">R1 booké</option>
-                    <option value="r2">R2 closing</option>
-                    <option value="client">Client ✓</option>
-                    <option value="perdu">Perdu</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Lien Fathom (call)</label>
-                <input type="url" id="move-fathom" placeholder="https://fathom.video/...">
-            </div>
-            <div class="form-group">
-                <label>Notes</label>
-                <textarea id="move-notes" rows="3" placeholder="Notes sur cet avancement..."></textarea>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('moveProspect')">Annuler</button>
-                <button class="btn btn-danger btn-small" onclick="deleteCurrentProspect()">Supprimer</button>
-                <button class="btn btn-primary" style="width:auto" onclick="moveProspect()">Mettre à jour</button>
-            </div>
-        </div>
-    </div>
+<script>
+    const API_URL = 'https://cidemo-server.onrender.com/api';
+    let token = localStorage.getItem('cidemo_token') || null;
+    let prospects = [];
+    let activities = [];
+    let currentProspectId = null;
+    let currentTypeFilter = 'all';
 
-    <script>
-        const API_URL = 'https://cidemo-server.onrender.com/api';
-        let token = localStorage.getItem('cidemo_token') || null;
-        let prospects = JSON.parse(localStorage.getItem('cidemo_prospects') || '[]');
-        let activities = JSON.parse(localStorage.getItem('cidemo_activities') || '[]');
-        let currentProspectId = null;
-        let currentTypeFilter = 'all';
-
-        // Ensure arrays
-        if (!Array.isArray(prospects)) prospects = [];
-        if (!Array.isArray(activities)) activities = [];
-
-        // ========== SAFE PARSE ==========
-        function safeArray(data, key) {
-            if (Array.isArray(data)) return data;
-            if (data && Array.isArray(data[key])) return data[key];
-            if (data && typeof data === 'object') {
-                // Try to find any array in the response
-                for (const k of Object.keys(data)) {
-                    if (Array.isArray(data[k])) return data[k];
-                }
-            }
-            return [];
-        }
-
-        // ========== DATE UTILS ==========
-        function parseFRDate(str) {
-            if (!str) return null;
-            const parts = str.split('/');
-            if (parts.length === 3) {
-                return new Date(parts[2], parts[1] - 1, parts[0]);
-            }
-            return new Date(str);
-        }
-
-        function isInDateRange(dateStr, fromId, toId) {
-            const fromEl = document.getElementById(fromId);
-            const toEl = document.getElementById(toId);
-            if (!fromEl || !toEl) return true;
-            const from = fromEl.value;
-            const to = toEl.value;
-            if (!from && !to) return true;
-
-            const d = parseFRDate(dateStr);
-            if (!d || isNaN(d)) return true;
-
-            if (from) {
-                const fromDate = new Date(from);
-                fromDate.setHours(0, 0, 0, 0);
-                if (d < fromDate) return false;
-            }
-            if (to) {
-                const toDate = new Date(to);
-                toDate.setHours(23, 59, 59, 999);
-                if (d > toDate) return false;
-            }
-            return true;
-        }
-
-        function setQuickFilter(prefix, days, btn) {
-            const to = new Date();
-            const from = new Date();
-            from.setDate(from.getDate() - days);
-
-            document.getElementById(prefix + '-date-from').value = from.toISOString().split('T')[0];
-            document.getElementById(prefix + '-date-to').value = to.toISOString().split('T')[0];
-
-            btn.closest('.date-filter-bar').querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            refreshAll();
-        }
-
-        function clearDateFilter(prefix, btn) {
-            document.getElementById(prefix + '-date-from').value = '';
-            document.getElementById(prefix + '-date-to').value = '';
-
-            btn.closest('.date-filter-bar').querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            refreshAll();
-        }
-
-        // ========== SAVE ==========
-        async function save() {
-            try {
-                await fetch(API_URL + '/prospects', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                    body: JSON.stringify(prospects)
-                });
-                await fetch(API_URL + '/activities', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                    body: JSON.stringify(activities)
-                });
-            } catch (e) {
-                console.error("Erreur sauvegarde:", e);
+    // ========== SAFE ARRAY ==========
+    function safeArray(data, key) {
+        if (Array.isArray(data)) return data;
+        if (data && Array.isArray(data[key])) return data[key];
+        if (data && typeof data === 'object') {
+            const keys = Object.keys(data);
+            for (let k of keys) {
+                if (Array.isArray(data[k])) return data[k];
             }
         }
+        return [];
+    }
 
-        // ========== AUTH ==========
-        async function login() {
-            const user = document.getElementById('login-user').value;
-            const pass = document.getElementById('login-pass').value;
-            try {
-                const res = await fetch(API_URL + '/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: user, password: pass })
-                });
-                const data = await res.json();
-                if (res.ok && data.token) {
-                    token = data.token;
-                    localStorage.setItem('cidemo_token', token);
+    // ========== DATE UTILS ==========
+    function parseFRDate(str) {
+        if (!str) return null;
+        const parts = str.split('/');
+        if (parts.length === 3) return new Date(parts[2], parts[1] - 1, parts[0]);
+        return new Date(str);
+    }
 
-                    // Load prospects
-                    const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-                    if (pRes.ok) {
-                        const pData = await pRes.json();
-                        prospects = safeArray(pData, 'prospects');
-                        localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
-                    }
+    function isInDateRange(dateStr, fromId, toId) {
+        const fromEl = document.getElementById(fromId);
+        const toEl = document.getElementById(toId);
+        if (!fromEl || !toEl) return true;
+        const from = fromEl.value;
+        const to = toEl.value;
+        if (!from && !to) return true;
+        const d = parseFRDate(dateStr);
+        if (!d || isNaN(d)) return true;
+        if (from) { const fd = new Date(from); fd.setHours(0,0,0,0); if (d < fd) return false; }
+        if (to) { const td = new Date(to); td.setHours(23,59,59,999); if (d > td) return false; }
+        return true;
+    }
 
-                    // Load activities
-                    const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
-                    if (aRes.ok) {
-                        const aData = await aRes.json();
-                        activities = safeArray(aData, 'activities');
-                        localStorage.setItem('cidemo_activities', JSON.stringify(activities));
-                    }
+    function setQuickFilter(prefix, days, btn) {
+        const to = new Date();
+        const from = new Date();
+        from.setDate(from.getDate() - days);
+        document.getElementById(prefix + '-date-from').value = from.toISOString().split('T')[0];
+        document.getElementById(prefix + '-date-to').value = to.toISOString().split('T')[0];
+        btn.parentElement.querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        refreshAll();
+    }
 
-                    showApp();
-                } else {
-                    document.getElementById('login-error').style.display = 'block';
-                }
-            } catch (e) {
-                document.getElementById('login-error').textContent = 'Erreur réseau: ' + e.message;
+    function clearDateFilter(prefix, btn) {
+        document.getElementById(prefix + '-date-from').value = '';
+        document.getElementById(prefix + '-date-to').value = '';
+        if (btn) {
+            const bar = btn.closest('.date-filter-bar');
+            if (bar) bar.querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
+        }
+        refreshAll();
+    }
+
+    // ========== SAVE ==========
+    async function save() {
+        try {
+            await fetch(API_URL + '/activities', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify(activities)
+            });
+        } catch (e) {
+            console.error("Erreur sauvegarde:", e);
+        }
+    }
+
+    // ========== AUTH ==========
+    async function login() {
+        const user = document.getElementById('login-user').value;
+        const pass = document.getElementById('login-pass').value;
+        try {
+            const res = await fetch(API_URL + '/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: user, password: pass })
+            });
+            const data = await res.json();
+            if (res.ok && data.token) {
+                token = data.token;
+                localStorage.setItem('cidemo_token', token);
+                await loadData();
+                showApp();
+            } else {
                 document.getElementById('login-error').style.display = 'block';
             }
+        } catch (e) {
+            document.getElementById('login-error').textContent = 'Erreur réseau: ' + e.message;
+            document.getElementById('login-error').style.display = 'block';
         }
+    }
 
-        async function checkAuth() {
-            if (!token) return;
-            try {
-                const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-                if (pRes.ok) {
-                    const pData = await pRes.json();
-                    prospects = safeArray(pData, 'prospects');
-                    localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
-                }
-
-                const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
-                if (aRes.ok) {
-                    const aData = await aRes.json();
-                    activities = safeArray(aData, 'activities');
-                    localStorage.setItem('cidemo_activities', JSON.stringify(activities));
-                }
-
-                showApp();
-            } catch (e) {
-                console.log("Auth check failed, using local data");
-                showApp();
+    async function loadData() {
+        try {
+            const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+            if (pRes.ok) {
+                const pData = await pRes.json();
+                prospects = safeArray(pData, 'prospects');
             }
-        }
+        } catch (e) { console.error('Load prospects error:', e); }
 
-        function showApp() {
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('app').classList.add('active');
-            refreshAll();
-        }
-
-        function logout() {
-            token = null;
-            localStorage.removeItem('cidemo_token');
-            location.reload();
-        }
-
-        // ========== NAVIGATION ==========
-        function showPage(page, el) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-' + page).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if (el) el.classList.add('active');
-        }
-
-        function openModal(name) {
-            document.getElementById('modal-' + name).classList.add('active');
-        }
-
-        function closeModal(name) {
-            document.getElementById('modal-' + name).classList.remove('active');
-        }
-
-        // ========== ADD PROSPECT ==========
-        async function addProspect() {
-            const name = document.getElementById('p-name').value.trim();
-            const type = document.getElementById('p-type').value;
-            const canal = document.getElementById('p-canal').value;
-            const fathom = document.getElementById('p-fathom').value.trim();
-            const notes = document.getElementById('p-notes').value.trim();
-
-            if (!name) return alert('Nom requis');
-
-            try {
-                const res = await fetch(API_URL + '/prospects', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                    body: JSON.stringify({ name, type, canal, status: 'contacte', notes, fathom })
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    // Reload prospects from server
-                    const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-                    if (pRes.ok) {
-                        const pData = await pRes.json();
-                        prospects = safeArray(pData, 'prospects');
-                        localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
-                    }
-
-                    // Add activity
-                    activities.unshift({
-                        text: 'Nouveau prospect: ' + name,
-                        date: new Date().toLocaleDateString('fr-FR'),
-                        type: 'new'
-                    });
-                    localStorage.setItem('cidemo_activities', JSON.stringify(activities));
-
-                    document.getElementById('p-name').value = '';
-                    document.getElementById('p-notes').value = '';
-                    document.getElementById('p-fathom').value = '';
-                    closeModal('addProspect');
-                    refreshAll();
-                    save();
-                } else {
-                    alert('Erreur: ' + (data.error || 'Impossible d\'ajouter'));
-                }
-            } catch (e) {
-                alert('Erreur réseau: ' + e.message);
+        try {
+            const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
+            if (aRes.ok) {
+                const aData = await aRes.json();
+                activities = safeArray(aData, 'activities');
             }
-        }
+        } catch (e) { console.error('Load activities error:', e); }
 
-        // ========== MOVE PROSPECT ==========
-        function openMoveModal(id) {
-            const p = prospects.find(x => x.id === id || x._id === id);
-            if (!p) return;
-            currentProspectId = id;
-            document.getElementById('move-prospect-name').textContent = p.name;
-            document.getElementById('move-status').value = p.status;
-            document.getElementById('move-fathom').value = '';
-            document.getElementById('move-notes').value = '';
-            openModal('moveProspect');
-        }
+        localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+        localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+    }
 
-        async function moveProspect() {
-            const newStatus = document.getElementById('move-status').value;
-            const fathom = document.getElementById('move-fathom').value.trim();
-            const notes = document.getElementById('move-notes').value.trim();
-
-            try {
-                const res = await fetch(API_URL + '/prospects/' + currentProspectId, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                    body: JSON.stringify({ status: newStatus, fathom, notes })
-                });
-
-                if (res.ok) {
-                    // Reload prospects
-                    const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-                    if (pRes.ok) {
-                        const pData = await pRes.json();
-                        prospects = safeArray(pData, 'prospects');
-                        localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
-                    }
-
-                    activities.unshift({
-                        text: 'Prospect avancé → ' + statusLabel(newStatus),
-                        date: new Date().toLocaleDateString('fr-FR'),
-                        type: newStatus === 'client' ? 'win' : (newStatus === 'perdu' ? 'lost' : 'move')
-                    });
-                    localStorage.setItem('cidemo_activities', JSON.stringify(activities));
-
-                    closeModal('moveProspect');
-                    refreshAll();
-                    save();
-                }
-            } catch (e) {
-                alert('Erreur: ' + e.message);
-            }
-        }
-
-        async function deleteCurrentProspect() {
-            if (!confirm('Supprimer ce prospect ?')) return;
-            try {
-                await fetch(API_URL + '/prospects/' + currentProspectId, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': 'Bearer ' + token }
-                });
-                const res = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-                if (res.ok) {
-                    const pData = await res.json();
-                    prospects = safeArray(pData, 'prospects');
-                    localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
-                }
-                closeModal('moveProspect');
-                refreshAll();
-            } catch (e) {
-                alert('Erreur: ' + e.message);
-            }
-        }
-
-        // ========== HELPERS ==========
-        function statusLabel(s) {
-            const labels = { contacte: 'Contacté', repondu: 'A répondu', r1: 'R1 booké', r2: 'R2 closing', client: 'Client ✓', perdu: 'Perdu' };
-            return labels[s] || s;
-        }
-
-        function statusBadge(s) {
-            const cls = { contacte: 'badge-prospect', repondu: 'badge-r1', r1: 'badge-r1', r2: 'badge-r2', client: 'badge-client', perdu: 'badge-perdu' };
-            return '<span class="badge ' + (cls[s] || '') + '">' + statusLabel(s) + '</span>';
-        }
-
-        function typeBadge(t) {
-            return t === 'createur'
-                ? '<span class="prospect-type type-createur">Créateur</span>'
-                : '<span class="prospect-type type-pro">Entrepreneur</span>';
-        }
-
-        function fathomBadge(url) {
-            if (!url) return '<span style="color:var(--beige);font-size:11px;">—</span>';
-            return '<a href="' + url + '" target="_blank" class="fathom-link">▶ Revoir</a>';
-        }
-
-        function getProspectId(p) {
-            return p.id || p._id || '';
-        }
-
-        // ========== REFRESH ==========
-        function refreshAll() {
+    async function checkAuth() {
+        if (!token) return;
+        try {
+            await loadData();
+            showApp();
+        } catch (e) {
+            // Try with local data
+            prospects = JSON.parse(localStorage.getItem('cidemo_prospects') || '[]');
+            activities = JSON.parse(localStorage.getItem('cidemo_activities') || '[]');
             if (!Array.isArray(prospects)) prospects = [];
             if (!Array.isArray(activities)) activities = [];
-            refreshKPIs();
-            refreshPipeline();
-            refreshProspectsTable();
-            refreshClientsTable();
-            refreshCallsTable();
-            refreshActivityFeed();
+            showApp();
         }
+    }
 
-        function getFilteredProspects(prefix) {
-            if (!Array.isArray(prospects)) return [];
-            return prospects.filter(p => isInDateRange(p.date, prefix + '-date-from', prefix + '-date-to'));
-        }
+    function showApp() {
+        document.getElementById('login-page').style.display = 'none';
+        document.getElementById('app').classList.add('active');
+        refreshAll();
+    }
 
-        // KPIs
-        function refreshKPIs() {
-            const filtered = getFilteredProspects('dash');
-            const total = filtered.length;
-            const repondus = filtered.filter(p => p.status !== 'contacte').length;
-            const booked = filtered.filter(p => ['r1', 'r2', 'client'].includes(p.status)).length;
-            const showups = filtered.filter(p => p.calls && p.calls.length > 0).length;
-            const clients = filtered.filter(p => p.status === 'client').length;
+    function logout() {
+        token = null;
+        localStorage.removeItem('cidemo_token');
+        location.reload();
+    }
 
-            const rReponse = total > 0 ? Math.round(repondus / total * 100) : 0;
-            const rBooking = repondus > 0 ? Math.round(booked / repondus * 100) : 0;
-            const rShowup = booked > 0 ? Math.round(showups / booked * 100) : 0;
-            const rClosing = showups > 0 ? Math.round(clients / showups * 100) : 0;
+    // ========== NAVIGATION ==========
+    function showPage(page, el) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-' + page).classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        if (el) el.classList.add('active');
+    }
 
-            document.getElementById('kpi-total').textContent = total;
-            document.getElementById('kpi-reponse').textContent = rReponse + '%';
-            document.getElementById('kpi-booking').textContent = rBooking + '%';
-            document.getElementById('kpi-showup').textContent = rShowup + '%';
-            document.getElementById('kpi-closing').textContent = rClosing + '%';
-            document.getElementById('kpi-clients').textContent = clients;
+    function openModal(name) { document.getElementById('modal-' + name).classList.add('active'); }
+    function closeModal(name) { document.getElementById('modal-' + name).classList.remove('active'); }
 
-            document.getElementById('bar-reponse').style.width = rReponse + '%';
-            document.getElementById('bar-booking').style.width = rBooking + '%';
-            document.getElementById('bar-showup').style.width = rShowup + '%';
-            document.getElementById('bar-closing').style.width = rClosing + '%';
+    // ========== ADD PROSPECT ==========
+    async function addProspect() {
+        const name = document.getElementById('p-name').value.trim();
+        const type = document.getElementById('p-type').value;
+        const canal = document.getElementById('p-canal').value;
+        const fathom = document.getElementById('p-fathom').value.trim();
+        const notes = document.getElementById('p-notes').value.trim();
+        if (!name) return alert('Nom requis');
 
-            const createurs = filtered.filter(p => p.type === 'createur');
-            const entrepreneurs = filtered.filter(p => p.type === 'pro');
-            document.getElementById('kpi-createurs').textContent = createurs.length;
-            document.getElementById('kpi-entrepreneurs').textContent = entrepreneurs.length;
-            document.getElementById('kpi-c3').textContent = createurs.filter(p => p.status === 'client').length;
-            document.getElementById('kpi-ccc').textContent = entrepreneurs.filter(p => p.status === 'client').length;
-        }
+        try {
+            const res = await fetch(API_URL + '/prospects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ name, type, canal, status: 'contacte', notes, fathom })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                await loadData();
+                activities.unshift({ text: 'Nouveau prospect: ' + name, date: new Date().toLocaleDateString('fr-FR'), type: 'new' });
+                localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+                document.getElementById('p-name').value = '';
+                document.getElementById('p-notes').value = '';
+                document.getElementById('p-fathom').value = '';
+                closeModal('addProspect');
+                refreshAll();
+                save();
+            } else {
+                alert('Erreur: ' + (data.error || 'Impossible d\'ajouter'));
+            }
+        } catch (e) { alert('Erreur réseau: ' + e.message); }
+    }
 
-        // Pipeline
-        function refreshPipeline() {
-            const statuses = ['contacte', 'repondu', 'r1', 'r2', 'client'];
-            statuses.forEach(s => {
-                const col = document.getElementById('col-' + s);
-                const list = prospects.filter(p => p.status === s);
-                document.getElementById('count-' + s).textContent = list.length;
-                col.innerHTML = list.map(p => 
-                    '<div class="p-card" onclick="openMoveModal(\'' + getProspectId(p) + '\')">' +
+    // ========== ADD CLIENT MANUALLY ==========
+    async function addClient() {
+        const name = document.getElementById('c-name').value.trim();
+        const type = document.getElementById('c-type').value;
+        const programme = document.getElementById('c-programme').value;
+        const notes = document.getElementById('c-notes').value.trim();
+        if (!name) return alert('Nom requis');
+
+        try {
+            const res = await fetch(API_URL + '/prospects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ name, type, canal: 'Direct', status: 'client', notes, programme })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                await loadData();
+                activities.unshift({ text: 'Nouveau client ajouté: ' + name, date: new Date().toLocaleDateString('fr-FR'), type: 'win' });
+                localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+                document.getElementById('c-name').value = '';
+                document.getElementById('c-notes').value = '';
+                closeModal('addClient');
+                refreshAll();
+                save();
+            } else {
+                alert('Erreur: ' + (data.error || 'Impossible d\'ajouter'));
+            }
+        } catch (e) { alert('Erreur réseau: ' + e.message); }
+    }
+
+    // ========== MOVE PROSPECT ==========
+    function openMoveModal(id) {
+        const p = prospects.find(function(x) { return (x.id || x._id) == id; });
+        if (!p) return;
+        currentProspectId = id;
+        document.getElementById('move-prospect-name').textContent = p.name;
+        document.getElementById('move-status').value = p.status;
+        document.getElementById('move-fathom').value = '';
+        document.getElementById('move-notes').value = '';
+        openModal('moveProspect');
+    }
+
+    async function moveProspect() {
+        const newStatus = document.getElementById('move-status').value;
+        const fathom = document.getElementById('move-fathom').value.trim();
+        const notes = document.getElementById('move-notes').value.trim();
+
+        try {
+            const res = await fetch(API_URL + '/prospects/' + currentProspectId, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ status: newStatus, fathom: fathom || undefined, notes: notes || undefined })
+            });
+
+            if (res.ok) {
+                await loadData();
+                const statusText = statusLabel(newStatus);
+                const actType = newStatus === 'client' ? 'win' : (newStatus === 'perdu' ? 'lost' : 'move');
+                activities.unshift({ text: 'Prospect → ' + statusText, date: new Date().toLocaleDateString('fr-FR'), type: actType });
+                localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+                closeModal('moveProspect');
+                refreshAll();
+                save();
+            }
+        } catch (e) { alert('Erreur: ' + e.message); }
+    }
+
+    async function deleteCurrentProspect() {
+        if (!confirm('Supprimer ce prospect ?')) return;
+        try {
+            await fetch(API_URL + '/prospects/' + currentProspectId, {
+                method: 'DELETE',
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            await loadData();
+            closeModal('moveProspect');
+            refreshAll();
+        } catch (e) { alert('Erreur: ' + e.message); }
+    }
+
+    // ========== HELPERS ==========
+    function statusLabel(s) {
+        var labels = { contacte: 'Contacté', repondu: 'A répondu', r1: 'R1 booké', r2: 'R2 closing', client: 'Client ✓', perdu: 'Perdu' };
+        return labels[s] || s;
+    }
+
+    function statusBadge(s) {
+        var cls = { contacte: 'badge-prospect', repondu: 'badge-r1', r1: 'badge-r1', r2: 'badge-r2', client: 'badge-client', perdu: 'badge-perdu' };
+        return '<span class="badge ' + (cls[s] || '') + '">' + statusLabel(s) + '</span>';
+    }
+
+    function typeBadge(t) {
+        return t === 'createur'
+            ? '<span class="prospect-type type-createur">Créateur</span>'
+            : '<span class="prospect-type type-pro">Entrepreneur</span>';
+    }
+
+    function fathomBadge(url) {
+        if (!url) return '<span style="color:var(--beige);font-size:11px;">—</span>';
+        return '<a href="' + url + '" target="_blank" class="fathom-link">▶ Revoir</a>';
+    }
+
+    function pid(p) { return p.id || p._id || ''; }
+
+    // ========== REFRESH ==========
+    function refreshAll() {
+        if (!Array.isArray(prospects)) prospects = [];
+        if (!Array.isArray(activities)) activities = [];
+        refreshKPIs();
+        refreshPipeline();
+        refreshProspectsTable();
+        refreshClientsTable();
+        refreshCallsTable();
+        refreshActivityFeed();
+    }
+
+    function getFilteredProspects(prefix) {
+        if (!Array.isArray(prospects)) return [];
+        return prospects.filter(function(p) { return isInDateRange(p.date, prefix + '-date-from', prefix + '-date-to'); });
+    }
+
+    function refreshKPIs() {
+        var filtered = getFilteredProspects('dash');
+        var total = filtered.length;
+        var repondus = filtered.filter(function(p) { return p.status !== 'contacte'; }).length;
+        var booked = filtered.filter(function(p) { return ['r1','r2','client'].indexOf(p.status) >= 0; }).length;
+        var showups = filtered.filter(function(p) { return p.calls && p.calls.length > 0; }).length;
+        var clients = filtered.filter(function(p) { return p.status === 'client'; }).length;
+
+        var rReponse = total > 0 ? Math.round(repondus / total * 100) : 0;
+        var rBooking = repondus > 0 ? Math.round(booked / repondus * 100) : 0;
+        var rShowup = booked > 0 ? Math.round(showups / booked * 100) : 0;
+        var rClosing = showups > 0 ? Math.round(clients / showups * 100) : 0;
+
+        document.getElementById('kpi-total').textContent = total;
+        document.getElementById('kpi-reponse').textContent = rReponse + '%';
+        document.getElementById('kpi-booking').textContent = rBooking + '%';
+        document.getElementById('kpi-showup').textContent = rShowup + '%';
+        document.getElementById('kpi-closing').textContent = rClosing + '%';
+        document.getElementById('kpi-clients').textContent = clients;
+        document.getElementById('bar-reponse').style.width = rReponse + '%';
+        document.getElementById('bar-booking').style.width = rBooking + '%';
+        document.getElementById('bar-showup').style.width = rShowup + '%';
+        document.getElementById('bar-closing').style.width = rClosing + '%';
+
+        var createurs = filtered.filter(function(p) { return p.type === 'createur'; });
+        var entrepreneurs = filtered.filter(function(p) { return p.type === 'pro'; });
+        document.getElementById('kpi-createurs').textContent = createurs.length;
+        document.getElementById('kpi-entrepreneurs').textContent = entrepreneurs.length;
+        document.getElementById('kpi-c3').textContent = createurs.filter(function(p) { return p.status === 'client'; }).length;
+        document.getElementById('kpi-ccc').textContent = entrepreneurs.filter(function(p) { return p.status === 'client'; }).length;
+    }
+
+    function refreshPipeline() {
+        var statuses = ['contacte', 'repondu', 'r1', 'r2', 'client'];
+        statuses.forEach(function(s) {
+            var col = document.getElementById('col-' + s);
+            var list = prospects.filter(function(p) { return p.status === s; });
+            document.getElementById('count-' + s).textContent = list.length;
+            col.innerHTML = list.map(function(p) {
+                var id = pid(p);
+                return '<div class="p-card" onclick="openMoveModal(' + JSON.stringify(String(id)) + ')">' +
                     '<div class="p-card-name">' + (p.name || '') + '</div>' +
                     '<div class="p-card-meta">' + (p.canal || '') + ' · ' + (p.date || '') + '</div>' +
-                    '</div>'
-                ).join('');
-            });
+                    '</div>';
+            }).join('');
+        });
+    }
+
+    function refreshProspectsTable() {
+        var filtered = getFilteredProspects('prospect');
+        if (currentTypeFilter !== 'all') {
+            filtered = filtered.filter(function(p) { return p.type === currentTypeFilter; });
         }
 
-        // Prospects table
-        function refreshProspectsTable() {
-            let filtered = getFilteredProspects('prospect');
+        var tbody = document.getElementById('prospects-table');
+        var empty = document.getElementById('prospects-empty');
 
-            if (currentTypeFilter !== 'all') {
-                filtered = filtered.filter(p => p.type === currentTypeFilter);
-            }
+        if (filtered.length === 0) {
+            tbody.innerHTML = '';
+            empty.style.display = 'block';
+            return;
+        }
 
-            const tbody = document.getElementById('prospects-table');
-            const empty = document.getElementById('prospects-empty');
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '';
-                empty.style.display = 'block';
-                return;
-            }
-
-            empty.style.display = 'none';
-            tbody.innerHTML = filtered.map(p =>
-                '<tr>' +
+        empty.style.display = 'none';
+        tbody.innerHTML = filtered.map(function(p) {
+            var id = pid(p);
+            return '<tr>' +
                 '<td><strong>' + (p.name || '') + '</strong></td>' +
                 '<td>' + typeBadge(p.type) + '</td>' +
                 '<td>' + (p.canal || '') + '</td>' +
                 '<td>' + statusBadge(p.status) + '</td>' +
                 '<td>' + fathomBadge(p.fathom) + '</td>' +
                 '<td style="font-size:11px;color:var(--beige)">' + (p.date || '') + '</td>' +
-                '<td><button class="btn btn-secondary btn-small" onclick="openMoveModal(\'' + getProspectId(p) + '\')">Gérer</button></td>' +
-                '</tr>'
-            ).join('');
+                '<td><button class="btn btn-secondary btn-small" onclick="openMoveModal(' + JSON.stringify(String(id)) + ')">Gérer</button></td>' +
+                '</tr>';
+        }).join('');
+    }
+
+    function filterProspects(type, el) {
+        currentTypeFilter = type;
+        document.querySelectorAll('.tabs .tab').forEach(function(t) { t.classList.remove('active'); });
+        if (el) el.classList.add('active');
+        refreshProspectsTable();
+    }
+
+    function refreshClientsTable() {
+        var clients = prospects.filter(function(p) { return p.status === 'client'; });
+        var tbody = document.getElementById('clients-table');
+        var empty = document.getElementById('clients-empty');
+
+        if (clients.length === 0) {
+            tbody.innerHTML = '';
+            empty.style.display = 'block';
+            return;
         }
 
-        function filterProspects(type, el) {
-            currentTypeFilter = type;
-            document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
-            if (el) el.classList.add('active');
-            refreshProspectsTable();
-        }
-
-        // Clients table
-        function refreshClientsTable() {
-            const clients = prospects.filter(p => p.status === 'client');
-            const tbody = document.getElementById('clients-table');
-            const empty = document.getElementById('clients-empty');
-
-            if (clients.length === 0) {
-                tbody.innerHTML = '';
-                empty.style.display = 'block';
-                return;
-            }
-
-            empty.style.display = 'none';
-            tbody.innerHTML = clients.map(p =>
-                '<tr>' +
+        empty.style.display = 'none';
+        tbody.innerHTML = clients.map(function(p) {
+            var prog = p.programme || (p.type === 'createur' ? 'CréateurContent' : 'ContentPro');
+            var id = pid(p);
+            return '<tr>' +
                 '<td><strong>' + (p.name || '') + '</strong></td>' +
                 '<td>' + typeBadge(p.type) + '</td>' +
-                '<td>' + (p.type === 'createur' ? 'CréateurContent' : 'ContentPro') + '</td>' +
-                '<td>En cours</td>' +
+                '<td>' + prog + '</td>' +
+                '<td><span class="badge badge-client">En cours</span></td>' +
                 '<td style="font-size:11px;color:var(--beige)">' + (p.date || '') + '</td>' +
-                '</tr>'
-            ).join('');
+                '<td><button class="btn btn-secondary btn-small" onclick="openMoveModal(' + JSON.stringify(String(id)) + ')">Gérer</button></td>' +
+                '</tr>';
+        }).join('');
+    }
+
+    function refreshCallsTable() {
+        var withCalls = prospects.filter(function(p) { return ['r1','r2','client','perdu'].indexOf(p.status) >= 0; });
+        var filtered = withCalls.filter(function(p) { return isInDateRange(p.date, 'calls-date-from', 'calls-date-to'); });
+        var tbody = document.getElementById('calls-table');
+        var empty = document.getElementById('calls-empty');
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '';
+            empty.style.display = 'block';
+            return;
         }
 
-        // Calls table
-        function refreshCallsTable() {
-            const withCalls = prospects.filter(p => ['r1', 'r2', 'client', 'perdu'].includes(p.status));
-            const filtered = withCalls.filter(p => isInDateRange(p.date, 'calls-date-from', 'calls-date-to'));
-            const tbody = document.getElementById('calls-table');
-            const empty = document.getElementById('calls-empty');
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '';
-                empty.style.display = 'block';
-                return;
-            }
-
-            empty.style.display = 'none';
-            tbody.innerHTML = filtered.map(p =>
-                '<tr>' +
+        empty.style.display = 'none';
+        tbody.innerHTML = filtered.map(function(p) {
+            var callType = p.status === 'r1' ? 'R1' : (p.status === 'r2' ? 'R2' : (p.status === 'client' ? 'Closing' : 'Call'));
+            return '<tr>' +
                 '<td><strong>' + (p.name || '') + '</strong></td>' +
-                '<td>' + (p.status === 'r1' ? 'R1' : (p.status === 'r2' ? 'R2' : (p.status === 'client' ? 'Closing' : 'Call'))) + '</td>' +
+                '<td>' + callType + '</td>' +
                 '<td style="font-size:11px;color:var(--beige)">' + (p.date || '') + '</td>' +
                 '<td>' + fathomBadge(p.fathom) + '</td>' +
                 '<td>' + statusBadge(p.status) + '</td>' +
-                '</tr>'
-            ).join('');
+                '</tr>';
+        }).join('');
+    }
+
+    function refreshActivityFeed() {
+        var feed = document.getElementById('activity-feed');
+        if (!activities || activities.length === 0) {
+            feed.innerHTML = '<div class="empty-state">Aucune activité pour le moment</div>';
+            return;
         }
-
-        // Activity feed
-        function refreshActivityFeed() {
-            const feed = document.getElementById('activity-feed');
-            if (!activities || activities.length === 0) {
-                feed.innerHTML = '<div class="empty-state">Aucune activité pour le moment</div>';
-                return;
-            }
-
-            const dotClass = { new: 'dot-beige', move: 'dot-orange', win: 'dot-green', lost: 'dot-red' };
-            feed.innerHTML = activities.slice(0, 20).map(a =>
-                '<div class="activity-item">' +
+        var dotClass = { 'new': 'dot-beige', move: 'dot-orange', win: 'dot-green', lost: 'dot-red' };
+        feed.innerHTML = activities.slice(0, 20).map(function(a) {
+            return '<div class="activity-item">' +
                 '<div class="activity-dot ' + (dotClass[a.type] || 'dot-beige') + '"></div>' +
                 '<div><div>' + (a.text || '') + '</div><div class="activity-time">' + (a.date || '') + '</div></div>' +
-                '</div>'
-            ).join('');
-        }
+                '</div>';
+        }).join('');
+    }
 
-        // ========== INIT ==========
-        checkAuth();
-    </script>
+    // ========== INIT ==========
+    checkAuth();
+</script>
 </body>
 </html>
