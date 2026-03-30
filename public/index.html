@@ -856,6 +856,45 @@
     </div>
 </div>
 
+<!-- MODAL: ADD PROSPECT -->
+<div class="modal-overlay" id="modal-addProspect">
+    <div class="modal">
+        <div class="modal-title">Nouveau prospect</div>
+        <div class="form-group">
+            <label>Nom</label>
+            <input type="text" id="p-name" placeholder="Nom du prospect">
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <select id="p-type">
+                <option value="createur">Créateur</option>
+                <option value="pro">Entrepreneur</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Canal</label>
+            <select id="p-canal">
+                <option value="Instagram">Instagram</option>
+                <option value="TikTok">TikTok</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="Bouche à oreille">Bouche à oreille</option>
+                <option value="Autre">Autre</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Lien Fathom</label>
+            <input type="url" id="p-fathom" placeholder="https://fathom.video/...">
+        </div>
+        <div class="form-group">
+            <label>Notes</label>
+            <textarea id="p-notes" rows="3" placeholder="Notes..."></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('addProspect')">Annuler</button>
+            <button class="btn btn-primary" style="width:auto" onclick="addProspect()">Ajouter</button>
+        </div>
+    </div>
+</div>
 
 <!-- MODAL: MOVE PROSPECT -->
 <div class="modal-overlay" id="modal-moveProspect">
