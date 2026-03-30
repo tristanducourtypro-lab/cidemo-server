@@ -1127,15 +1127,22 @@ function moveProspect() {
     refreshAll();
 }
 
-function deleteCurrentProspect() {
+async function deleteCurrentProspect() {
     if (!confirm('Supprimer ce prospect ?')) return;
-    const p = prospects.find(x => x.id === currentProspectId);
-    prospects = prospects.filter(x => x.id !== currentProspectId);
-    addActivity(`${p.name} supprimé`);
-    save();
-    closeModal('moveProspect');
-    refreshAll();
+    try {
+        await fetch(API_URL + '/prospects/' + currentProspectId, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const res = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+        if (res.ok) prospects = await res.json();
+        closeModal('moveProspect');
+        refreshAll();
+    } catch (e) {
+        alert('Erreur: ' + e.message);
+    }
 }
+
 
 // ========== HELPERS ==========
 function statusLabel(s) {
