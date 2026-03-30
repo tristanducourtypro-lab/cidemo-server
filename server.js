@@ -132,6 +132,17 @@ app.delete('/api/prospects/:id', authMiddleware, async (req, res) => {
 });
 
 // ← FIN AJOUT
+app.get('/api/activities', authMiddleware, async (req, res) => {
+  try {
+    const result = await query(
+      "SELECT * FROM activities WHERE user_id = $1 ORDER BY id DESC LIMIT 50",
+      [req.user.id]
+    );
+    res.json(result.rows);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 // ... app.listen(...) tout en bas ...
 await query(`ALTER TABLE prospects ADD COLUMN IF NOT EXISTS fathom TEXT`);
