@@ -64,6 +64,77 @@ async function initDB() {
       notes TEXT
     )
   `);
+async function initDB() {
+  await query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      nom TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      role TEXT DEFAULT 'client',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  await query(`
+    CREATE TABLE IF NOT EXISTS prospects (
+      id SERIAL PRIMARY KEY,
+      name TEXT NOT NULL,
+      type TEXT NOT NULL,
+      canal TEXT,
+      status TEXT NOT NULL,
+      notes TEXT,
+      date TEXT,
+      user_id INTEGER
+    )
+  `);
+
+  // ← AJOUTE ICI, juste après la création de prospects
+  await query(`ALTER TABLE prospects ADD COLUMN IF NOT EXISTS fathom TEXT`);
+
+  await query(`
+    CREATE TABLE IF NOT EXISTS activities (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER,
+      text TEXT NOT NULL,
+      date TEXT
+    )
+  `);
+}
+// ... ta route POST /api/prospects existante ...
+
+// ← AJOUTE ICI ↓
+
+app.put('/api/prospects/:id', authMiddleware, async (req, res) => {
+  try {
+    const { status, notes, fathom } = req.body;
+    const result = await query(
+      "UPDATE prospects SET status = $1, notes = COALESCE($2, notes), fathom = $3 WHERE id = $4 AND user_id = $5 RETURNING *",
+      [status, notes, fathom, req.params.id, req.user.id]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Prospect non trouvé' });
+    const p = result.rows[0];
+    await query("INSERT INTO activities (user_id, text, date) VALUES ($1, $2, $3)",
+      [req.user.id, `${p.name} passé en ${status}`, new Date().toLocaleDateString('fr-FR')]);
+    res.json({ success: true, prospect: p });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.delete('/api/prospects/:id', authMiddleware, async (req, res) => {
+  try {
+    await query("DELETE FROM prospects WHERE id = $1 AND user_id = $2", [req.params.id, req.user.id]);
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ← FIN AJOUT
+
+// ... app.listen(...) tout en bas ...
+await query(`ALTER TABLE prospects ADD COLUMN IF NOT EXISTS fathom TEXT`);
 
   // Admin par défaut
   const adminCheck = await query("SELECT id FROM users WHERE role = 'admin' LIMIT 1");
@@ -187,31 +258,40 @@ app.get('/create-admin', async (req, res) => {
 });
 
 // ===== ROUTES PROSPECTS =====
-app.get('/api/prospects', authMiddleware, async (req, res) => {
-  try {
-    const result = await query("SELECT * FROM prospects WHERE user_id = $1 ORDER BY date DESC", [req.user.id]);
-    res.json(result.rows);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
+// ... ta route POST /api/prospects existante ...
 
-app.post('/api/prospects', authMiddleware, async (req, res) => {
+// ← AJOUTE ICI ↓
+
+app.put('/api/prospects/:id', authMiddleware, async (req, res) => {
   try {
-    const { name, type, canal, status, notes } = req.body;
-    const date = new Date().toLocaleDateString('fr-FR');
+    const { status, notes, fathom } = req.body;
     const result = await query(
-      "INSERT INTO prospects (name, type, canal, status, notes, date, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
-      [name, type, canal, status, notes, date, req.user.id]);
-
+      "UPDATE prospects SET status = $1, notes = COALESCE($2, notes), fathom = $3 WHERE id = $4 AND user_id = $5 RETURNING *",
+      [status, notes, fathom, req.params.id, req.user.id]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Prospect non trouvé' });
+    const p = result.rows[0];
     await query("INSERT INTO activities (user_id, text, date) VALUES ($1, $2, $3)",
-      [req.user.id, `${name} ajouté en tant que prospect (${type === 'createur' ? 'Créateur' : 'Entrepreneur'})`, date]);
-
-    res.json({ success: true, id: result.rows[0].id });
+      [req.user.id, `${p.name} passé en ${status}`, new Date().toLocaleDateString('fr-FR')]);
+    res.json({ success: true, prospect: p });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
+
+app.delete('/api/prospects/:id', authMiddleware, async (req, res) => {
+  try {
+    await query("DELETE FROM prospects WHERE id = $1 AND user_id = $2", [req.params.id, req.user.id]);
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ← FIN AJOUT
+
+// ... app.listen(...) tout en bas ...
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
