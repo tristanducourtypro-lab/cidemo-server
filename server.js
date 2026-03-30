@@ -13,13 +13,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 const SECRET = 'cidemo_secret_key_2025';
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-// Fonction helper pour les requêtes
 async function query(text, params) {
   const result = await pool.query(text, params);
   return result;
 }
 
-// ===== CRÉATION DES TABLES =====
+// ===== INIT DB =====
 async function initDB() {
   await query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -45,6 +44,8 @@ async function initDB() {
     )
   `);
 
+  await query(`ALTER TABLE prospects ADD COLUMN IF NOT EXISTS fathom TEXT`);
+
   await query(`
     CREATE TABLE IF NOT EXISTS activities (
       id SERIAL PRIMARY KEY,
@@ -64,90 +65,7 @@ async function initDB() {
       notes TEXT
     )
   `);
-async function initDB() {
-  await query(`
-    CREATE TABLE IF NOT EXISTS users (
-      id SERIAL PRIMARY KEY,
-      nom TEXT NOT NULL,
-      email TEXT UNIQUE NOT NULL,
-      password TEXT NOT NULL,
-      role TEXT DEFAULT 'client',
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
 
-  await query(`
-    CREATE TABLE IF NOT EXISTS prospects (
-      id SERIAL PRIMARY KEY,
-      name TEXT NOT NULL,
-      type TEXT NOT NULL,
-      canal TEXT,
-      status TEXT NOT NULL,
-      notes TEXT,
-      date TEXT,
-      user_id INTEGER
-    )
-  `);
-
-  // ← AJOUTE ICI, juste après la création de prospects
-  await query(`ALTER TABLE prospects ADD COLUMN IF NOT EXISTS fathom TEXT`);
-
-  await query(`
-    CREATE TABLE IF NOT EXISTS activities (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER,
-      text TEXT NOT NULL,
-      date TEXT
-    )
-  `);
-}
-// ... ta route POST /api/prospects existante ...
-
-// ← AJOUTE ICI ↓
-
-app.put('/api/prospects/:id', authMiddleware, async (req, res) => {
-  try {
-    const { status, notes, fathom } = req.body;
-    const result = await query(
-      "UPDATE prospects SET status = $1, notes = COALESCE($2, notes), fathom = $3 WHERE id = $4 AND user_id = $5 RETURNING *",
-      [status, notes, fathom, req.params.id, req.user.id]
-    );
-    if (result.rows.length === 0) return res.status(404).json({ error: 'Prospect non trouvé' });
-    const p = result.rows[0];
-    await query("INSERT INTO activities (user_id, text, date) VALUES ($1, $2, $3)",
-      [req.user.id, `${p.name} passé en ${status}`, new Date().toLocaleDateString('fr-FR')]);
-    res.json({ success: true, prospect: p });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-app.delete('/api/prospects/:id', authMiddleware, async (req, res) => {
-  try {
-    await query("DELETE FROM prospects WHERE id = $1 AND user_id = $2", [req.params.id, req.user.id]);
-    res.json({ success: true });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-// ← FIN AJOUT
-app.get('/api/activities', authMiddleware, async (req, res) => {
-  try {
-    const result = await query(
-      "SELECT * FROM activities WHERE user_id = $1 ORDER BY id DESC LIMIT 50",
-      [req.user.id]
-    );
-    res.json(result.rows);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-// ... app.listen(...) tout en bas ...
-await query(`ALTER TABLE prospects ADD COLUMN IF NOT EXISTS fathom TEXT`);
-
-  // Admin par défaut
   const adminCheck = await query("SELECT id FROM users WHERE role = 'admin' LIMIT 1");
   if (adminCheck.rows.length === 0) {
     const hash = bcrypt.hashSync('admin123', 10);
@@ -178,7 +96,7 @@ function adminOnly(req, res, next) {
   next();
 }
 
-// ===== ROUTES =====
+// ===== AUTH =====
 app.post('/api/register', async (req, res) => {
   try {
     const { nom, email, password } = req.body;
@@ -223,6 +141,7 @@ app.get('/api/me', authMiddleware, async (req, res) => {
   }
 });
 
+// ===== USERS (admin) =====
 app.get('/api/users', authMiddleware, adminOnly, async (req, res) => {
   try {
     const result = await query("SELECT id, nom, email, role, created_at FROM users ORDER BY created_at DESC");
@@ -268,10 +187,32 @@ app.get('/create-admin', async (req, res) => {
   }
 });
 
-// ===== ROUTES PROSPECTS =====
-// ... ta route POST /api/prospects existante ...
+// ===== PROSPECTS =====
+app.get('/api/prospects', authMiddleware, async (req, res) => {
+  try {
+    const result = await query("SELECT * FROM prospects WHERE user_id = $1 ORDER BY id DESC", [req.user.id]);
+    res.json(result.rows);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
-// ← AJOUTE ICI ↓
+app.post('/api/prospects', authMiddleware, async (req, res) => {
+  try {
+    const { name, type, canal, status, notes, fathom } = req.body;
+    if (!name || !type) return res.status(400).json({ error: 'Nom et type requis' });
+    const date = new Date().toLocaleDateString('fr-FR');
+    const result = await query(
+      "INSERT INTO prospects (name, type, canal, status, notes, fathom, date, user_id) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
+      [name, type, canal || '', status || 'contacte', notes || '', fathom || '', date, req.user.id]
+    );
+    await query("INSERT INTO activities (user_id, text, date) VALUES ($1, $2, $3)",
+      [req.user.id, `${name} ajouté en tant que prospect`, date]);
+    res.json({ success: true, prospect: result.rows[0] });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 app.put('/api/prospects/:id', authMiddleware, async (req, res) => {
   try {
@@ -299,10 +240,19 @@ app.delete('/api/prospects/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// ← FIN AJOUT
+// ===== ACTIVITIES =====
+app.get('/api/activities', authMiddleware, async (req, res) => {
+  try {
+    const result = await query(
+      "SELECT * FROM activities WHERE user_id = $1 ORDER BY id DESC LIMIT 50",
+      [req.user.id]
+    );
+    res.json(result.rows);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
-// ... app.listen(...) tout en bas ...
-
-
+// ===== START =====
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`CiDemo API sur port ${PORT}`));
