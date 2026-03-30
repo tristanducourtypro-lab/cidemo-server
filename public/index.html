@@ -112,16 +112,17 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.15s;
+            width: 100%;
         }
 
         .btn-primary {
             background: var(--noir);
             color: white;
-            width: 100%;
-            padding: 12px;
         }
 
-        .btn-primary:hover { opacity: 0.85; }
+        .btn-primary:hover {
+            background: #1a1a1a;
+        }
 
         .btn-secondary {
             background: var(--beige-light);
@@ -134,21 +135,22 @@
         }
 
         .btn-small {
-            padding: 6px 14px;
-            font-size: 12px;
+            padding: 6px 12px;
+            font-size: 11px;
+            width: auto;
         }
 
-        .login-error {
+        .error-msg {
             color: var(--red);
             font-size: 12px;
-            text-align: center;
-            margin-top: 12px;
+            margin-bottom: 12px;
             display: none;
         }
 
         /* APP LAYOUT */
         .app {
             display: none;
+            min-height: 100vh;
         }
 
         .app.active {
@@ -205,7 +207,9 @@
             border-left: 3px solid transparent;
         }
 
-        .nav-item:hover { background: var(--beige-light); }
+        .nav-item:hover {
+            background: var(--beige-light);
+        }
 
         .nav-item.active {
             background: var(--beige-light);
@@ -213,17 +217,19 @@
             font-weight: 600;
         }
 
-        .nav-icon { font-size: 16px; width: 20px; text-align: center; }
-
-        .main {
+        .main-content {
             margin-left: 240px;
-            flex: 1;
             padding: 32px;
-            max-width: 1200px;
+            flex: 1;
         }
 
-        .page { display: none; }
-        .page.active { display: block; }
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
 
         .page-title {
             font-size: 24px;
@@ -234,59 +240,74 @@
         .page-subtitle {
             font-size: 13px;
             color: var(--beige);
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
-        /* KPI CARDS */
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(43, 43, 43, 0.04);
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        /* KPI */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
         }
 
         .kpi-card {
             background: white;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(43, 43, 43, 0.04);
+            padding: 16px;
+            box-shadow: 0 1px 4px rgba(43, 43, 43, 0.04);
         }
 
         .kpi-label {
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             color: var(--beige);
-            margin-bottom: 8px;
         }
 
         .kpi-value {
             font-size: 28px;
             font-weight: 700;
+            margin-top: 4px;
         }
 
-        .kpi-value.green { color: var(--green); }
+        .kpi-value.green {
+            color: var(--green);
+        }
 
         .kpi-sub {
             font-size: 11px;
             color: var(--beige);
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         /* PIPELINE */
         .pipeline {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            display: flex;
             gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 12px;
         }
 
         .pipeline-col {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            min-height: 300px;
-            box-shadow: 0 2px 8px rgba(43, 43, 43, 0.04);
+            min-width: 200px;
+            flex: 1;
         }
 
         .pipeline-header {
@@ -295,82 +316,80 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--beige);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 6px;
         }
 
         .pipeline-count {
             background: var(--beige-light);
             padding: 2px 8px;
             border-radius: 10px;
-            font-size: 11px;
+            font-size: 10px;
         }
 
-        .pipeline-cards { margin-top: 12px; }
+        .pipeline-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
 
-        .prospect-card {
-            background: var(--creme);
+        .p-card {
+            background: white;
+            border: 1px solid var(--beige-light);
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 8px;
+            padding: 10px;
             cursor: pointer;
             transition: all 0.15s;
-            border: 1px solid transparent;
         }
 
-        .prospect-card:hover {
+        .p-card:hover {
             border-color: var(--beige);
+            box-shadow: 0 2px 8px rgba(43, 43, 43, 0.08);
         }
 
-        .prospect-name {
-            font-size: 13px;
+        .p-card-name {
+            font-size: 12px;
             font-weight: 600;
-            margin-bottom: 2px;
         }
 
+        .p-card-meta {
+            font-size: 10px;
+            color: var(--beige);
+            margin-top: 2px;
+        }
+
+        /* PROSPECT TYPE BADGES */
         .prospect-type {
             font-size: 10px;
             padding: 2px 8px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 6px;
+            border-radius: 4px;
+            font-weight: 600;
         }
 
         .type-createur {
-            background: rgba(74, 124, 89, 0.12);
-            color: var(--green);
+            background: #E8F0FE;
+            color: #1967D2;
         }
 
         .type-pro {
-            background: rgba(184, 134, 11, 0.12);
-            color: var(--orange);
+            background: #FEF3E8;
+            color: #B8860B;
         }
 
-        .prospect-detail {
+        .fathom-link {
             font-size: 11px;
-            color: var(--beige);
+            color: var(--green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .fathom-link:hover {
+            text-decoration: underline;
         }
 
         /* TABLE */
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(43, 43, 43, 0.04);
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -397,14 +416,19 @@
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(43, 43, 43, 0.4);
             z-index: 1000;
             align-items: center;
             justify-content: center;
         }
 
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active {
+            display: flex;
+        }
 
         .modal {
             background: white;
@@ -437,11 +461,30 @@
             font-weight: 600;
         }
 
-        .badge-prospect { background: var(--beige-light); color: var(--noir); }
-        .badge-r1 { background: var(--orange-light); color: var(--orange); }
-        .badge-r2 { background: rgba(74, 124, 89, 0.15); color: var(--green); }
-        .badge-client { background: var(--green-light); color: var(--green); }
-        .badge-perdu { background: var(--red-light); color: var(--red); }
+        .badge-prospect {
+            background: var(--beige-light);
+            color: var(--noir);
+        }
+
+        .badge-r1 {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .badge-r2 {
+            background: rgba(74, 124, 89, 0.15);
+            color: var(--green);
+        }
+
+        .badge-client {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .badge-perdu {
+            background: var(--red-light);
+            color: var(--red);
+        }
 
         /* STATS BAR */
         .stat-bar {
@@ -458,9 +501,17 @@
             transition: width 0.5s ease;
         }
 
-        .fill-green { background: var(--green); }
-        .fill-orange { background: var(--orange); }
-        .fill-beige { background: var(--beige); }
+        .fill-green {
+            background: var(--green);
+        }
+
+        .fill-orange {
+            background: var(--orange);
+        }
+
+        .fill-beige {
+            background: var(--beige);
+        }
 
         .tabs {
             display: flex;
@@ -480,929 +531,941 @@
             transition: all 0.15s;
         }
 
+        .tab:hover {
+            background: white;
+        }
+
         .tab.active {
             background: white;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px;
+            padding: 32px;
             color: var(--beige);
             font-size: 13px;
         }
 
-        .logout-btn {
-            position: absolute;
-            bottom: 24px;
-            left: 24px;
+        /* ACTIVITY */
+        .activity-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--beige-light);
             font-size: 12px;
+        }
+
+        .activity-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .activity-time {
             color: var(--beige);
-            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .dot-green {
+            background: var(--green);
+        }
+
+        .dot-orange {
+            background: var(--orange);
+        }
+
+        .dot-beige {
+            background: var(--beige);
+        }
+
+        .dot-red {
+            background: var(--red);
+        }
+
+        /* DATE FILTER BAR */
+        .date-filter-bar {
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        .logout-btn:hover { color: var(--red); }
-
-        .fathom-link {
-            color: var(--green);
-            font-weight: 600;
-            text-decoration: none;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
             font-size: 12px;
-            display: inline-flex;
-            align-items: center;
+        }
+
+        .date-filter-bar label {
+            font-weight: 600;
+            color: var(--beige);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .date-filter-bar input[type="date"] {
+            padding: 8px 12px;
+            border: 1px solid var(--beige-medium);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            background: white;
+            color: var(--noir);
+        }
+
+        .date-filter-bar input[type="date"]:focus {
+            outline: none;
+            border-color: var(--beige);
+        }
+
+        .date-filter-bar .quick-filters {
+            display: flex;
             gap: 4px;
+            margin-left: auto;
         }
 
-        .fathom-link:hover {
-            text-decoration: underline;
+        .quick-filter-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--beige-medium);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            background: white;
+            color: var(--noir);
+            transition: all 0.15s;
         }
 
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main { margin-left: 0; padding: 16px; }
-            .pipeline { grid-template-columns: 1fr; }
-            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+        .quick-filter-btn:hover,
+        .quick-filter-btn.active {
+            background: var(--noir);
+            color: white;
+            border-color: var(--noir);
         }
-        .date-filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.date-filter-bar label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--beige);
-}
-
-.date-filter-bar input[type="date"] {
-    padding: 8px 12px;
-    border: 1px solid var(--beige-medium);
-    border-radius: 8px;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    background: white;
-    color: var(--noir);
-}
-
-.date-filter-bar input[type="date"]:focus {
-    outline: none;
-    border-color: var(--beige);
-}
-
-.date-filter-bar .quick-filters {
-    display: flex;
-    gap: 4px;
-    margin-left: auto;
-}
-
-.quick-filter-btn {
-    padding: 6px 12px;
-    border: 1px solid var(--beige-medium);
-    border-radius: 8px;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    background: white;
-    color: var(--noir);
-    transition: all 0.15s;
-}
-
-.quick-filter-btn:hover,
-.quick-filter-btn.active {
-    background: var(--noir);
-    color: white;
-    border-color: var(--noir);
-}
-
     </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div class="login-page" id="loginPage">
-    <div class="login-box">
-        <div class="login-logo">CIDEMO</div>
-        <div class="login-tagline">Content · Strategy · Growth</div>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="login-email" placeholder="ton@email.com">
-        </div>
-        <div class="form-group">
-            <label>Mot de passe</label>
-            <input type="password" id="login-password" placeholder="••••••••">
-        </div>
-        <button class="btn btn-primary" onclick="login()">Se connecter</button>
-        <div class="login-error" id="login-error">Email ou mot de passe incorrect</div>
-    </div>
-</div>
-
-<!-- APP -->
-<div class="app" id="app">
-    <nav class="sidebar">
-        <div class="sidebar-logo">CIDEMO</div>
-        <div class="sidebar-tagline">Content · Strategy · Growth</div>
-
-        <div class="sidebar-section">Général</div>
-        <div class="nav-item active" onclick="showPage('dashboard')">
-            <span class="nav-icon">◐</span> Dashboard
-        </div>
-
-        <div class="sidebar-section">Acquisition</div>
-        <div class="nav-item" onclick="showPage('pipeline')">
-            <span class="nav-icon">◑</span> Pipeline
-        </div>
-        <div class="nav-item" onclick="showPage('prospects')">
-            <span class="nav-icon">◒</span> Prospects
-        </div>
-
-        <div class="sidebar-section">Clients</div>
-        <div class="nav-item" onclick="showPage('clients')">
-            <span class="nav-icon">◓</span> Clients
-        </div>
-
-        <div class="sidebar-section">Suivi</div>
-        <div class="nav-item" onclick="showPage('calls')">
-            <span class="nav-icon">◈</span> Appels R1/R2
-            <a href="/client.html" target="_blank" class="nav-item" style="margin-top:auto; color:var(--beige);">
-    <span class="nav-icon">👤</span> Espace Client
-</a>
-
-        </div>
-
-        <div class="logout-btn" onclick="logout()">⏻ Déconnexion</div>
-    </nav>
-
-    <div class="main">
-
-       <div class="page active" id="page-dashboard">
-    <div class="page-title">Dashboard</div>
-    <div class="page-subtitle">Vue d'ensemble de ton acquisition</div>
-
-    <div class="date-filter-bar">
-        <label>Du</label>
-        <input type="date" id="dash-date-from" onchange="refreshAll()">
-        <label>Au</label>
-        <input type="date" id="dash-date-to" onchange="refreshAll()">
-        <button class="quick-filter-btn" onclick="clearDateFilter('dash', this)">Tout</button>
-        <div class="quick-filters">
-            <button class="quick-filter-btn" onclick="setQuickFilter('dash', 7, this)">7j</button>
-            <button class="quick-filter-btn" onclick="setQuickFilter('dash', 30, this)">30j</button>
-            <button class="quick-filter-btn" onclick="setQuickFilter('dash', 90, this)">90j</button>
+    <!-- LOGIN PAGE -->
+    <div class="login-page" id="login-page">
+        <div class="login-box">
+            <div class="login-logo">CIDEMOCONTENT</div>
+            <div class="login-tagline">Espace acquisition</div>
+            <div class="error-msg" id="login-error">Identifiants incorrects</div>
+            <div class="form-group">
+                <label>Identifiant</label>
+                <input type="text" id="login-user" placeholder="Email ou identifiant">
+            </div>
+            <div class="form-group">
+                <label>Mot de passe</label>
+                <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+            </div>
+            <button class="btn btn-primary" onclick="login()">Se connecter</button>
         </div>
     </div>
 
-    <div class="kpi-grid">
-        <div class="kpi-card">
-            <div class="kpi-label">Total contactés</div>
-            <div class="kpi-value" id="kpi-total">0</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Taux de réponse</div>
-            <div class="kpi-value" id="kpi-reponse">0%</div>
-            <div class="stat-bar"><div class="stat-bar-fill fill-beige" id="bar-reponse" style="width:0%"></div></div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Taux de booking</div>
-            <div class="kpi-value" id="kpi-booking">0%</div>
-            <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-booking" style="width:0%"></div></div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Taux de show-up</div>
-            <div class="kpi-value" id="kpi-showup">0%</div>
-            <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-showup" style="width:0%"></div></div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Taux de closing</div>
-            <div class="kpi-value" id="kpi-closing">0%</div>
-            <div class="stat-bar"><div class="stat-bar-fill fill-green" id="bar-closing" style="width:0%"></div></div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Clients actifs</div>
-            <div class="kpi-value green" id="kpi-clients">0</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Créateurs</div>
-            <div class="kpi-value" id="kpi-createurs">0</div>
-            <div class="kpi-sub">dont <strong id="kpi-c3">0</strong> clients</div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Entrepreneurs</div>
-            <div class="kpi-value" id="kpi-entrepreneurs">0</div>
-            <div class="kpi-sub">dont <strong id="kpi-ccc">0</strong> clients</div>
-        </div>
-    </div>
+    <!-- APP -->
+    <div class="app" id="app">
+        <div class="sidebar">
+            <div class="sidebar-logo">CIDEMOCONTENT</div>
+            <div class="sidebar-tagline">Espace acquisition</div>
 
-    <div class="card">
-        <div class="card-title">Dernières activités</div>
-        <div id="activity-feed">
-            <div class="empty-state">Aucune activité pour le moment</div>
+            <div class="sidebar-section">Menu</div>
+            <div class="nav-item active" onclick="showPage('dashboard', this)">📊 Dashboard</div>
+            <div class="nav-item" onclick="showPage('pipeline', this)">🔄 Pipeline</div>
+            <div class="nav-item" onclick="showPage('prospects', this)">👥 Prospects</div>
+            <div class="nav-item" onclick="showPage('clients', this)">⭐ Clients</div>
+            <div class="nav-item" onclick="showPage('calls', this)">📞 Appels</div>
+
+            <div class="sidebar-section">Compte</div>
+            <div class="nav-item" onclick="logout()">🚪 Déconnexion</div>
         </div>
-    </div>
-</div>
 
+        <div class="main-content">
+            <!-- DASHBOARD -->
+            <div class="page active" id="page-dashboard">
+                <div class="page-title">Dashboard</div>
+                <div class="page-subtitle">Vue d'ensemble de ton acquisition</div>
 
-            <div class="card">
-                <div class="card-title">Dernières activités</div>
-                <div id="activity-feed">
-                    <div class="empty-state">Aucune activité pour le moment</div>
+                <div class="date-filter-bar">
+                    <label>Du</label>
+                    <input type="date" id="dash-date-from" onchange="refreshAll()">
+                    <label>Au</label>
+                    <input type="date" id="dash-date-to" onchange="refreshAll()">
+                    <button class="quick-filter-btn" onclick="clearDateFilter('dash', this)">Tout</button>
+                    <div class="quick-filters">
+                        <button class="quick-filter-btn" onclick="setQuickFilter('dash', 7, this)">7j</button>
+                        <button class="quick-filter-btn" onclick="setQuickFilter('dash', 30, this)">30j</button>
+                        <button class="quick-filter-btn" onclick="setQuickFilter('dash', 90, this)">90j</button>
+                    </div>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Total prospects</div>
+                        <div class="kpi-value" id="kpi-total">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Taux réponse</div>
+                        <div class="kpi-value" id="kpi-reponse">0%</div>
+                        <div class="stat-bar"><div class="stat-bar-fill fill-beige" id="bar-reponse" style="width:0%"></div></div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Taux booking</div>
+                        <div class="kpi-value" id="kpi-booking">0%</div>
+                        <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-booking" style="width:0%"></div></div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Taux show-up</div>
+                        <div class="kpi-value" id="kpi-showup">0%</div>
+                        <div class="stat-bar"><div class="stat-bar-fill fill-orange" id="bar-showup" style="width:0%"></div></div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Taux closing</div>
+                        <div class="kpi-value" id="kpi-closing">0%</div>
+                        <div class="stat-bar"><div class="stat-bar-fill fill-green" id="bar-closing" style="width:0%"></div></div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Clients signés</div>
+                        <div class="kpi-value green" id="kpi-clients">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Créateurs</div>
+                        <div class="kpi-value" id="kpi-createurs">0</div>
+                        <div class="kpi-sub">dont <strong id="kpi-c3">0</strong> clients</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Entrepreneurs</div>
+                        <div class="kpi-value" id="kpi-entrepreneurs">0</div>
+                        <div class="kpi-sub">dont <strong id="kpi-ccc">0</strong> clients</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Dernières activités</div>
+                    <div id="activity-feed">
+                        <div class="empty-state">Aucune activité pour le moment</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIPELINE -->
+            <div class="page" id="page-pipeline">
+                <div class="page-title">Pipeline</div>
+                <div class="page-subtitle">Ton tunnel d'acquisition visuel</div>
+                <div class="pipeline">
+                    <div class="pipeline-col">
+                        <div class="pipeline-header">Contacté <span class="pipeline-count" id="count-contacte">0</span></div>
+                        <div class="pipeline-cards" id="col-contacte"></div>
+                    </div>
+                    <div class="pipeline-col">
+                        <div class="pipeline-header">Répondu <span class="pipeline-count" id="count-repondu">0</span></div>
+                        <div class="pipeline-cards" id="col-repondu"></div>
+                    </div>
+                    <div class="pipeline-col">
+                        <div class="pipeline-header">R1 Booké <span class="pipeline-count" id="count-r1">0</span></div>
+                        <div class="pipeline-cards" id="col-r1"></div>
+                    </div>
+                    <div class="pipeline-col">
+                        <div class="pipeline-header">R2 Closing <span class="pipeline-count" id="count-r2">0</span></div>
+                        <div class="pipeline-cards" id="col-r2"></div>
+                    </div>
+                    <div class="pipeline-col">
+                        <div class="pipeline-header">Client ✓ <span class="pipeline-count" id="count-client">0</span></div>
+                        <div class="pipeline-cards" id="col-client"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROSPECTS -->
+            <div class="page" id="page-prospects">
+                <div class="page-title">Prospects</div>
+                <div class="page-subtitle">Gestion de tous tes prospects</div>
+
+                <div style="display:flex;gap:10px;margin-bottom:20px;align-items:center;">
+                    <button class="btn btn-primary" style="width:auto;padding:10px 20px;" onclick="openModal('addProspect')">+ Nouveau prospect</button>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" onclick="filterProspects('all', this)">Tous</div>
+                    <div class="tab" onclick="filterProspects('createur', this)">Créateurs</div>
+                    <div class="tab" onclick="filterProspects('pro', this)">Entrepreneurs</div>
+                </div>
+
+                <div class="date-filter-bar">
+                    <label>Du</label>
+                    <input type="date" id="prospect-date-from" onchange="refreshProspectsTable()">
+                    <label>Au</label>
+                    <input type="date" id="prospect-date-to" onchange="refreshProspectsTable()">
+                    <button class="quick-filter-btn" onclick="clearDateFilter('prospect', this)">Tout</button>
+                    <div class="quick-filters">
+                        <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 7, this)">7j</button>
+                        <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 30, this)">30j</button>
+                        <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 90, this)">90j</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Canal</th>
+                                <th>Statut</th>
+                                <th>Fathom</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prospects-table"></tbody>
+                    </table>
+                    <div class="empty-state" id="prospects-empty">Aucun prospect pour le moment</div>
+                </div>
+            </div>
+
+            <!-- CLIENTS -->
+            <div class="page" id="page-clients">
+                <div class="page-title">Clients</div>
+                <div class="page-subtitle">Tes clients actifs en accompagnement</div>
+
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Programme</th>
+                                <th>Phase</th>
+                                <th>Depuis</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clients-table"></tbody>
+                    </table>
+                    <div class="empty-state" id="clients-empty">Aucun client pour le moment</div>
+                </div>
+            </div>
+
+            <!-- CALLS -->
+            <div class="page" id="page-calls">
+                <div class="page-title">Appels R1 / R2</div>
+                <div class="page-subtitle">Historique de tous tes calls</div>
+
+                <div class="date-filter-bar">
+                    <label>Du</label>
+                    <input type="date" id="calls-date-from" onchange="refreshCallsTable()">
+                    <label>Au</label>
+                    <input type="date" id="calls-date-to" onchange="refreshCallsTable()">
+                    <button class="quick-filter-btn" onclick="clearDateFilter('calls', this)">Tout</button>
+                    <div class="quick-filters">
+                        <button class="quick-filter-btn" onclick="setQuickFilter('calls', 7, this)">7j</button>
+                        <button class="quick-filter-btn" onclick="setQuickFilter('calls', 30, this)">30j</button>
+                        <button class="quick-filter-btn" onclick="setQuickFilter('calls', 90, this)">90j</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Prospect</th>
+                                <th>Type call</th>
+                                <th>Date</th>
+                                <th>Fathom</th>
+                                <th>Résultat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calls-table"></tbody>
+                    </table>
+                    <div class="empty-state" id="calls-empty">Aucun appel enregistré</div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- PIPELINE -->
-        <div class="page" id="page-pipeline">
-            <div class="page-title">Pipeline</div>
-            <div class="page-subtitle">Ton tunnel d'acquisition visuel</div>
-            <div class="pipeline">
-                <div class="pipeline-col">
-                    <div class="pipeline-header">Contacté <span class="pipeline-count" id="count-contacte">0</span></div>
-                    <div class="pipeline-cards" id="col-contacte"></div>
-                </div>
-                <div class="pipeline-col">
-                    <div class="pipeline-header">Répondu <span class="pipeline-count" id="count-repondu">0</span></div>
-                    <div class="pipeline-cards" id="col-repondu"></div>
-                </div>
-                <div class="pipeline-col">
-                    <div class="pipeline-header">R1 Booké <span class="pipeline-count" id="count-r1">0</span></div>
-                    <div class="pipeline-cards" id="col-r1"></div>
-                </div>
-                <div class="pipeline-col">
-                    <div class="pipeline-header">R2 Closing <span class="pipeline-count" id="count-r2">0</span></div>
-                    <div class="pipeline-cards" id="col-r2"></div>
-                </div>
-                <div class="pipeline-col">
-                    <div class="pipeline-header">Client ✓ <span class="pipeline-count" id="count-client">0</span></div>
-                    <div class="pipeline-cards" id="col-client"></div>
-                </div>
+    <!-- MODAL: ADD PROSPECT -->
+    <div class="modal-overlay" id="modal-addProspect">
+        <div class="modal">
+            <div class="modal-title">Nouveau prospect</div>
+            <div class="form-group">
+                <label>Nom / Pseudo</label>
+                <input type="text" id="p-name" placeholder="Nom du prospect">
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select id="p-type">
+                    <option value="createur">Créateur de contenu</option>
+                    <option value="pro">Entrepreneur / PME</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Canal d'acquisition</label>
+                <select id="p-canal">
+                    <option value="Instagram DM">Instagram DM</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Email">Email</option>
+                    <option value="Bouche à oreille">Bouche à oreille</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Lien Fathom (optionnel)</label>
+                <input type="url" id="p-fathom" placeholder="https://fathom.video/...">
+            </div>
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea id="p-notes" rows="3" placeholder="Notes sur ce prospect..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('addProspect')">Annuler</button>
+                <button class="btn btn-primary" style="width:auto" onclick="addProspect()">Ajouter</button>
             </div>
         </div>
-
-        <div class="page" id="page-prospects">
-    <div class="page-title">Prospects</div>
-    <div class="page-subtitle">Gestion de tous tes prospects</div>
-
-    <div style="display:flex;gap:10px;margin-bottom:20px;align-items:center;">
-        <button class="btn btn-primary" style="width:auto;padding:10px 20px;" onclick="openModal('addProspect')">+ Nouveau prospect</button>
     </div>
 
-    <div class="tabs">
-        <div class="tab active" onclick="filterProspects('all', this)">Tous</div>
-        <div class="tab" onclick="filterProspects('createur', this)">Créateurs</div>
-        <div class="tab" onclick="filterProspects('pro', this)">Entrepreneurs</div>
-    </div>
-
-    <div class="date-filter-bar">
-        <label>Du</label>
-        <input type="date" id="prospect-date-from" onchange="refreshProspectsTable()">
-        <label>Au</label>
-        <input type="date" id="prospect-date-to" onchange="refreshProspectsTable()">
-        <button class="quick-filter-btn" onclick="clearDateFilter('prospect', this)">Tout</button>
-        <div class="quick-filters">
-            <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 7, this)">7j</button>
-            <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 30, this)">30j</button>
-            <button class="quick-filter-btn" onclick="setQuickFilter('prospect', 90, this)">90j</button>
-        </div>
-    </div>
-
-    <div class="card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Type</th>
-                    <th>Canal</th>
-                    <th>Statut</th>
-                    <th>Fathom</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="prospects-table"></tbody>
-        </table>
-        <div class="empty-state" id="prospects-empty">Aucun prospect pour le moment</div>
-    </div>
-</div>
-
-        <!-- CLIENTS -->
-        <div class="page" id="page-clients">
-            <div class="page-title">Clients</div>
-            <div class="page-subtitle">Tes clients actifs en accompagnement</div>
-
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Type</th>
-                            <th>Programme</th>
-                            <th>Phase</th>
-                            <th>Depuis</th>
-                        </tr>
-                    </thead>
-                    <tbody id="clients-table"></tbody>
-                </table>
-                <div class="empty-state" id="clients-empty">Aucun client pour le moment</div>
+    <!-- MODAL: MOVE PROSPECT -->
+    <div class="modal-overlay" id="modal-moveProspect">
+        <div class="modal">
+            <div class="modal-title">Avancer le prospect</div>
+            <p style="font-size:13px;margin-bottom:16px;" id="move-prospect-name"></p>
+            <div class="form-group">
+                <label>Nouveau statut</label>
+                <select id="move-status">
+                    <option value="contacte">Contacté</option>
+                    <option value="repondu">A répondu</option>
+                    <option value="r1">R1 booké</option>
+                    <option value="r2">R2 closing</option>
+                    <option value="client">Client ✓</option>
+                    <option value="perdu">Perdu</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Lien Fathom (call)</label>
+                <input type="url" id="move-fathom" placeholder="https://fathom.video/...">
+            </div>
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea id="move-notes" rows="3" placeholder="Notes sur cet avancement..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('moveProspect')">Annuler</button>
+                <button class="btn btn-danger btn-small" onclick="deleteCurrentProspect()">Supprimer</button>
+                <button class="btn btn-primary" style="width:auto" onclick="moveProspect()">Mettre à jour</button>
             </div>
         </div>
-
-       <div class="page" id="page-calls">
-    <div class="page-title">Appels R1 / R2</div>
-    <div class="page-subtitle">Historique de tous tes calls</div>
-
-    <div class="tabs">
-        <div class="tab active" onclick="filterCalls('all', this)">Tous</div>
-        <div class="tab" onclick="filterCalls('r1', this)">R1</div>
-        <div class="tab" onclick="filterCalls('r2', this)">R2</div>
     </div>
 
-    <div class="date-filter-bar">
-        <label>Du</label>
-        <input type="date" id="calls-date-from" onchange="refreshCallsTable()">
-        <label>Au</label>
-        <input type="date" id="calls-date-to" onchange="refreshCallsTable()">
-        <button class="quick-filter-btn" onclick="clearDateFilter('calls', this)">Tout</button>
-        <div class="quick-filters">
-            <button class="quick-filter-btn" onclick="setQuickFilter('calls', 7, this)">7j</button>
-            <button class="quick-filter-btn" onclick="setQuickFilter('calls', 30, this)">30j</button>
-            <button class="quick-filter-btn" onclick="setQuickFilter('calls', 90, this)">90j</button>
-        </div>
-    </div>
+    <script>
+        const API_URL = 'https://cidemo-server.onrender.com/api';
+        let token = localStorage.getItem('cidemo_token') || null;
+        let prospects = JSON.parse(localStorage.getItem('cidemo_prospects') || '[]');
+        let activities = JSON.parse(localStorage.getItem('cidemo_activities') || '[]');
+        let currentProspectId = null;
+        let currentTypeFilter = 'all';
 
-    <div class="card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Prospect</th>
-                    <th>Type</th>
-                    <th>Appel</th>
-                    <th>Date</th>
-                    <th>Résultat</th>
-                    <th>Fathom</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody id="calls-table"></tbody>
-        </table>
-        <div class="empty-state" id="calls-empty">Aucun appel enregistré</div>
-    </div>
-</div>
+        // Ensure arrays
+        if (!Array.isArray(prospects)) prospects = [];
+        if (!Array.isArray(activities)) activities = [];
 
-<!-- MODAL: ADD PROSPECT -->
-<div class="modal-overlay" id="modal-addProspect">
-    <div class="modal">
-        <div class="modal-title">Nouveau prospect</div>
-        <div class="form-group">
-            <label>Nom</label>
-            <input type="text" id="p-name" placeholder="Nom du prospect">
-        </div>
-        <div class="form-group">
-            <label>Type</label>
-            <select id="p-type">
-                <option value="createur">Créateur</option>
-                <option value="pro">Entrepreneur</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Canal</label>
-            <select id="p-canal">
-                <option value="Instagram">Instagram</option>
-                <option value="TikTok">TikTok</option>
-                <option value="LinkedIn">LinkedIn</option>
-                <option value="Bouche à oreille">Bouche à oreille</option>
-                <option value="Autre">Autre</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Lien Fathom</label>
-            <input type="url" id="p-fathom" placeholder="https://fathom.video/...">
-        </div>
-        <div class="form-group">
-            <label>Notes</label>
-            <textarea id="p-notes" rows="3" placeholder="Notes..."></textarea>
-        </div>
-        <div class="modal-actions">
-            <button class="btn btn-secondary" onclick="closeModal('addProspect')">Annuler</button>
-            <button class="btn btn-primary" style="width:auto" onclick="addProspect()">Ajouter</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL: MOVE PROSPECT -->
-<div class="modal-overlay" id="modal-moveProspect">
-    <div class="modal">
-        <div class="modal-title">Avancer le prospect</div>
-        <p style="font-size:13px;margin-bottom:16px;" id="move-prospect-name"></p>
-        <div class="form-group">
-            <label>Nouveau statut</label>
-            <select id="move-status">
-                <option value="contacte">Contacté</option>
-                <option value="repondu">A répondu</option>
-                <option value="r1">R1 booké</option>
-                <option value="r2">R2 closing</option>
-                <option value="client">Client ✓</option>
-                <option value="perdu">Perdu</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Lien Fathom (call)</label>
-            <input type="url" id="move-fathom" placeholder="https://fathom.video/...">
-        </div>
-        <div class="form-group">
-            <label>Notes</label>
-            <textarea id="move-notes" rows="3" placeholder="Notes sur cet avancement..."></textarea>
-        </div>
-        <div class="modal-actions">
-            <button class="btn btn-secondary" onclick="closeModal('moveProspect')">Annuler</button>
-            <button class="btn btn-danger btn-small" onclick="deleteCurrentProspect()">Supprimer</button>
-            <button class="btn btn-primary" style="width:auto" onclick="moveProspect()">Mettre à jour</button>
-        </div>
-    </div>
-</div>
-
-<script>
-const API_URL = 'https://cidemo-server.onrender.com/api';
-let token = localStorage.getItem('cidemo_token') || null;
-let prospects = JSON.parse(localStorage.getItem('cidemo_prospects') || '[]');
-let activities = JSON.parse(localStorage.getItem('cidemo_activities') || '[]');
-let currentProspectId = null;
-
-// ========== DATE UTILS ==========
-function parseFRDate(str) {
-    if (!str) return null;
-    const parts = str.split('/');
-    if (parts.length === 3) {
-        return new Date(parts[2], parts[1] - 1, parts[0]);
-    }
-    return new Date(str);
-}
-
-function isInDateRange(dateStr, fromId, toId) {
-    const fromEl = document.getElementById(fromId);
-    const toEl = document.getElementById(toId);
-    if (!fromEl || !toEl) return true;
-    const from = fromEl.value;
-    const to = toEl.value;
-    if (!from && !to) return true;
-
-    const d = parseFRDate(dateStr);
-    if (!d || isNaN(d)) return true;
-
-    if (from) {
-        const fromDate = new Date(from);
-        fromDate.setHours(0, 0, 0, 0);
-        if (d < fromDate) return false;
-    }
-    if (to) {
-        const toDate = new Date(to);
-        toDate.setHours(23, 59, 59, 999);
-        if (d > toDate) return false;
-    }
-    return true;
-}
-
-function setQuickFilter(prefix, days, btn) {
-    const to = new Date();
-    const from = new Date();
-    from.setDate(from.getDate() - days);
-
-    document.getElementById(prefix + '-date-from').value = from.toISOString().split('T')[0];
-    document.getElementById(prefix + '-date-to').value = to.toISOString().split('T')[0];
-
-    // Active state
-    btn.closest('.date-filter-bar').querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    refreshAll();
-}
-
-function clearDateFilter(prefix, btn) {
-    document.getElementById(prefix + '-date-from').value = '';
-    document.getElementById(prefix + '-date-to').value = '';
-
-    btn.closest('.date-filter-bar').querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    refreshAll();
-}
-
-// ========== SAVE ==========
-async function save() {
-    try {
-        await fetch(API_URL + '/prospects', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify(prospects)
-        });
-        await fetch(API_URL + '/activities', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify(activities)
-        });
-    } catch (e) { console.error("Erreur sauvegarde:", e); }
-}
-
-// ========== ACTIVITY ==========
-async function addActivity(text) {
-    try {
-        const newActivity = { text, date: new Date().toLocaleDateString('fr-FR') };
-        activities.unshift(newActivity);
-        await fetch(API_URL + '/activities', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify(newActivity)
-        });
-    } catch (e) { console.error("Erreur activité:", e); }
-}
-
-// ========== AUTH ==========
-async function login() {
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    try {
-        const res = await fetch(API_URL + '/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-        const data = await res.json();
-        if (res.ok) {
-            token = data.token;
-            localStorage.setItem('cidemo_token', token);
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('app').classList.add('active');
-
-            const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-            if (pRes.ok) { prospects = await pRes.json(); localStorage.setItem('cidemo_prospects', JSON.stringify(prospects)); }
-
-            const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
-            if (aRes.ok) { activities = await aRes.json(); localStorage.setItem('cidemo_activities', JSON.stringify(activities)); }
-
-            refreshAll();
-        } else {
-            document.getElementById('login-error').style.display = 'block';
+        // ========== SAFE PARSE ==========
+        function safeArray(data, key) {
+            if (Array.isArray(data)) return data;
+            if (data && Array.isArray(data[key])) return data[key];
+            if (data && typeof data === 'object') {
+                // Try to find any array in the response
+                for (const k of Object.keys(data)) {
+                    if (Array.isArray(data[k])) return data[k];
+                }
+            }
+            return [];
         }
-    } catch (e) { document.getElementById('login-error').style.display = 'block'; }
-}
 
-function logout() {
-    token = null;
-    localStorage.removeItem('cidemo_token');
-    location.reload();
-}
+        // ========== DATE UTILS ==========
+        function parseFRDate(str) {
+            if (!str) return null;
+            const parts = str.split('/');
+            if (parts.length === 3) {
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            }
+            return new Date(str);
+        }
 
-async function checkAuth() {
-    if (!token) return;
-    try {
-        const res = await fetch(API_URL + '/me', { headers: { 'Authorization': 'Bearer ' + token } });
-        if (res.ok) {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('app').classList.add('active');
+        function isInDateRange(dateStr, fromId, toId) {
+            const fromEl = document.getElementById(fromId);
+            const toEl = document.getElementById(toId);
+            if (!fromEl || !toEl) return true;
+            const from = fromEl.value;
+            const to = toEl.value;
+            if (!from && !to) return true;
 
-            const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-            if (pRes.ok) { prospects = await pRes.json(); localStorage.setItem('cidemo_prospects', JSON.stringify(prospects)); }
+            const d = parseFRDate(dateStr);
+            if (!d || isNaN(d)) return true;
 
-            const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
-            if (aRes.ok) { activities = await aRes.json(); localStorage.setItem('cidemo_activities', JSON.stringify(activities)); }
+            if (from) {
+                const fromDate = new Date(from);
+                fromDate.setHours(0, 0, 0, 0);
+                if (d < fromDate) return false;
+            }
+            if (to) {
+                const toDate = new Date(to);
+                toDate.setHours(23, 59, 59, 999);
+                if (d > toDate) return false;
+            }
+            return true;
+        }
+
+        function setQuickFilter(prefix, days, btn) {
+            const to = new Date();
+            const from = new Date();
+            from.setDate(from.getDate() - days);
+
+            document.getElementById(prefix + '-date-from').value = from.toISOString().split('T')[0];
+            document.getElementById(prefix + '-date-to').value = to.toISOString().split('T')[0];
+
+            btn.closest('.date-filter-bar').querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
             refreshAll();
-        } else { localStorage.removeItem('cidemo_token'); token = null; }
-    } catch (e) {}
-}
-checkAuth();
+        }
 
-// ========== NAVIGATION ==========
-function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('page-' + id).classList.add('active');
-    event.currentTarget.classList.add('active');
-    refreshAll();
-}
+        function clearDateFilter(prefix, btn) {
+            document.getElementById(prefix + '-date-from').value = '';
+            document.getElementById(prefix + '-date-to').value = '';
 
-function openModal(id) { document.getElementById('modal-' + id).classList.add('active'); }
-function closeModal(id) { document.getElementById('modal-' + id).classList.remove('active'); }
+            btn.closest('.date-filter-bar').querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-// ========== ADD PROSPECT ==========
-async function addProspect() {
-    const name = document.getElementById('p-name').value.trim();
-    if (!name) return;
+            refreshAll();
+        }
 
-    const type = document.getElementById('p-type').value;
-    const canal = document.getElementById('p-canal').value;
-    const notes = document.getElementById('p-notes').value.trim();
+        // ========== SAVE ==========
+        async function save() {
+            try {
+                await fetch(API_URL + '/prospects', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify(prospects)
+                });
+                await fetch(API_URL + '/activities', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify(activities)
+                });
+            } catch (e) {
+                console.error("Erreur sauvegarde:", e);
+            }
+        }
 
-    try {
-        const res = await fetch(API_URL + '/prospects', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-            body: JSON.stringify({ name, type, canal, status: 'contacte', notes })
-        });
-        const data = await res.json();
-        if (res.ok) {
-            // Recharger les prospects depuis le serveur
-            const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-            if (pRes.ok) {
-                prospects = await pRes.json();
-                localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+        // ========== AUTH ==========
+        async function login() {
+            const user = document.getElementById('login-user').value;
+            const pass = document.getElementById('login-pass').value;
+            try {
+                const res = await fetch(API_URL + '/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pass })
+                });
+                const data = await res.json();
+                if (res.ok && data.token) {
+                    token = data.token;
+                    localStorage.setItem('cidemo_token', token);
+
+                    // Load prospects
+                    const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+                    if (pRes.ok) {
+                        const pData = await pRes.json();
+                        prospects = safeArray(pData, 'prospects');
+                        localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+                    }
+
+                    // Load activities
+                    const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
+                    if (aRes.ok) {
+                        const aData = await aRes.json();
+                        activities = safeArray(aData, 'activities');
+                        localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+                    }
+
+                    showApp();
+                } else {
+                    document.getElementById('login-error').style.display = 'block';
+                }
+            } catch (e) {
+                document.getElementById('login-error').textContent = 'Erreur réseau: ' + e.message;
+                document.getElementById('login-error').style.display = 'block';
+            }
+        }
+
+        async function checkAuth() {
+            if (!token) return;
+            try {
+                const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+                if (pRes.ok) {
+                    const pData = await pRes.json();
+                    prospects = safeArray(pData, 'prospects');
+                    localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+                }
+
+                const aRes = await fetch(API_URL + '/activities', { headers: { 'Authorization': 'Bearer ' + token } });
+                if (aRes.ok) {
+                    const aData = await aRes.json();
+                    activities = safeArray(aData, 'activities');
+                    localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+                }
+
+                showApp();
+            } catch (e) {
+                console.log("Auth check failed, using local data");
+                showApp();
+            }
+        }
+
+        function showApp() {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('app').classList.add('active');
+            refreshAll();
+        }
+
+        function logout() {
+            token = null;
+            localStorage.removeItem('cidemo_token');
+            location.reload();
+        }
+
+        // ========== NAVIGATION ==========
+        function showPage(page, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if (el) el.classList.add('active');
+        }
+
+        function openModal(name) {
+            document.getElementById('modal-' + name).classList.add('active');
+        }
+
+        function closeModal(name) {
+            document.getElementById('modal-' + name).classList.remove('active');
+        }
+
+        // ========== ADD PROSPECT ==========
+        async function addProspect() {
+            const name = document.getElementById('p-name').value.trim();
+            const type = document.getElementById('p-type').value;
+            const canal = document.getElementById('p-canal').value;
+            const fathom = document.getElementById('p-fathom').value.trim();
+            const notes = document.getElementById('p-notes').value.trim();
+
+            if (!name) return alert('Nom requis');
+
+            try {
+                const res = await fetch(API_URL + '/prospects', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify({ name, type, canal, status: 'contacte', notes, fathom })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    // Reload prospects from server
+                    const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+                    if (pRes.ok) {
+                        const pData = await pRes.json();
+                        prospects = safeArray(pData, 'prospects');
+                        localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+                    }
+
+                    // Add activity
+                    activities.unshift({
+                        text: 'Nouveau prospect: ' + name,
+                        date: new Date().toLocaleDateString('fr-FR'),
+                        type: 'new'
+                    });
+                    localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+
+                    document.getElementById('p-name').value = '';
+                    document.getElementById('p-notes').value = '';
+                    document.getElementById('p-fathom').value = '';
+                    closeModal('addProspect');
+                    refreshAll();
+                    save();
+                } else {
+                    alert('Erreur: ' + (data.error || 'Impossible d\'ajouter'));
+                }
+            } catch (e) {
+                alert('Erreur réseau: ' + e.message);
+            }
+        }
+
+        // ========== MOVE PROSPECT ==========
+        function openMoveModal(id) {
+            const p = prospects.find(x => x.id === id || x._id === id);
+            if (!p) return;
+            currentProspectId = id;
+            document.getElementById('move-prospect-name').textContent = p.name;
+            document.getElementById('move-status').value = p.status;
+            document.getElementById('move-fathom').value = '';
+            document.getElementById('move-notes').value = '';
+            openModal('moveProspect');
+        }
+
+        async function moveProspect() {
+            const newStatus = document.getElementById('move-status').value;
+            const fathom = document.getElementById('move-fathom').value.trim();
+            const notes = document.getElementById('move-notes').value.trim();
+
+            try {
+                const res = await fetch(API_URL + '/prospects/' + currentProspectId, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify({ status: newStatus, fathom, notes })
+                });
+
+                if (res.ok) {
+                    // Reload prospects
+                    const pRes = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+                    if (pRes.ok) {
+                        const pData = await pRes.json();
+                        prospects = safeArray(pData, 'prospects');
+                        localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+                    }
+
+                    activities.unshift({
+                        text: 'Prospect avancé → ' + statusLabel(newStatus),
+                        date: new Date().toLocaleDateString('fr-FR'),
+                        type: newStatus === 'client' ? 'win' : (newStatus === 'perdu' ? 'lost' : 'move')
+                    });
+                    localStorage.setItem('cidemo_activities', JSON.stringify(activities));
+
+                    closeModal('moveProspect');
+                    refreshAll();
+                    save();
+                }
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
+        }
+
+        async function deleteCurrentProspect() {
+            if (!confirm('Supprimer ce prospect ?')) return;
+            try {
+                await fetch(API_URL + '/prospects/' + currentProspectId, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const res = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
+                if (res.ok) {
+                    const pData = await res.json();
+                    prospects = safeArray(pData, 'prospects');
+                    localStorage.setItem('cidemo_prospects', JSON.stringify(prospects));
+                }
+                closeModal('moveProspect');
+                refreshAll();
+            } catch (e) {
+                alert('Erreur: ' + e.message);
+            }
+        }
+
+        // ========== HELPERS ==========
+        function statusLabel(s) {
+            const labels = { contacte: 'Contacté', repondu: 'A répondu', r1: 'R1 booké', r2: 'R2 closing', client: 'Client ✓', perdu: 'Perdu' };
+            return labels[s] || s;
+        }
+
+        function statusBadge(s) {
+            const cls = { contacte: 'badge-prospect', repondu: 'badge-r1', r1: 'badge-r1', r2: 'badge-r2', client: 'badge-client', perdu: 'badge-perdu' };
+            return '<span class="badge ' + (cls[s] || '') + '">' + statusLabel(s) + '</span>';
+        }
+
+        function typeBadge(t) {
+            return t === 'createur'
+                ? '<span class="prospect-type type-createur">Créateur</span>'
+                : '<span class="prospect-type type-pro">Entrepreneur</span>';
+        }
+
+        function fathomBadge(url) {
+            if (!url) return '<span style="color:var(--beige);font-size:11px;">—</span>';
+            return '<a href="' + url + '" target="_blank" class="fathom-link">▶ Revoir</a>';
+        }
+
+        function getProspectId(p) {
+            return p.id || p._id || '';
+        }
+
+        // ========== REFRESH ==========
+        function refreshAll() {
+            if (!Array.isArray(prospects)) prospects = [];
+            if (!Array.isArray(activities)) activities = [];
+            refreshKPIs();
+            refreshPipeline();
+            refreshProspectsTable();
+            refreshClientsTable();
+            refreshCallsTable();
+            refreshActivityFeed();
+        }
+
+        function getFilteredProspects(prefix) {
+            if (!Array.isArray(prospects)) return [];
+            return prospects.filter(p => isInDateRange(p.date, prefix + '-date-from', prefix + '-date-to'));
+        }
+
+        // KPIs
+        function refreshKPIs() {
+            const filtered = getFilteredProspects('dash');
+            const total = filtered.length;
+            const repondus = filtered.filter(p => p.status !== 'contacte').length;
+            const booked = filtered.filter(p => ['r1', 'r2', 'client'].includes(p.status)).length;
+            const showups = filtered.filter(p => p.calls && p.calls.length > 0).length;
+            const clients = filtered.filter(p => p.status === 'client').length;
+
+            const rReponse = total > 0 ? Math.round(repondus / total * 100) : 0;
+            const rBooking = repondus > 0 ? Math.round(booked / repondus * 100) : 0;
+            const rShowup = booked > 0 ? Math.round(showups / booked * 100) : 0;
+            const rClosing = showups > 0 ? Math.round(clients / showups * 100) : 0;
+
+            document.getElementById('kpi-total').textContent = total;
+            document.getElementById('kpi-reponse').textContent = rReponse + '%';
+            document.getElementById('kpi-booking').textContent = rBooking + '%';
+            document.getElementById('kpi-showup').textContent = rShowup + '%';
+            document.getElementById('kpi-closing').textContent = rClosing + '%';
+            document.getElementById('kpi-clients').textContent = clients;
+
+            document.getElementById('bar-reponse').style.width = rReponse + '%';
+            document.getElementById('bar-booking').style.width = rBooking + '%';
+            document.getElementById('bar-showup').style.width = rShowup + '%';
+            document.getElementById('bar-closing').style.width = rClosing + '%';
+
+            const createurs = filtered.filter(p => p.type === 'createur');
+            const entrepreneurs = filtered.filter(p => p.type === 'pro');
+            document.getElementById('kpi-createurs').textContent = createurs.length;
+            document.getElementById('kpi-entrepreneurs').textContent = entrepreneurs.length;
+            document.getElementById('kpi-c3').textContent = createurs.filter(p => p.status === 'client').length;
+            document.getElementById('kpi-ccc').textContent = entrepreneurs.filter(p => p.status === 'client').length;
+        }
+
+        // Pipeline
+        function refreshPipeline() {
+            const statuses = ['contacte', 'repondu', 'r1', 'r2', 'client'];
+            statuses.forEach(s => {
+                const col = document.getElementById('col-' + s);
+                const list = prospects.filter(p => p.status === s);
+                document.getElementById('count-' + s).textContent = list.length;
+                col.innerHTML = list.map(p => 
+                    '<div class="p-card" onclick="openMoveModal(\'' + getProspectId(p) + '\')">' +
+                    '<div class="p-card-name">' + (p.name || '') + '</div>' +
+                    '<div class="p-card-meta">' + (p.canal || '') + ' · ' + (p.date || '') + '</div>' +
+                    '</div>'
+                ).join('');
+            });
+        }
+
+        // Prospects table
+        function refreshProspectsTable() {
+            let filtered = getFilteredProspects('prospect');
+
+            if (currentTypeFilter !== 'all') {
+                filtered = filtered.filter(p => p.type === currentTypeFilter);
             }
 
-            document.getElementById('p-name').value = '';
-            document.getElementById('p-notes').value = '';
-            document.getElementById('p-fathom').value = '';
-            closeModal('addProspect');
-            refreshAll();
-        } else {
-            alert('Erreur: ' + (data.error || 'Impossible d\'ajouter'));
+            const tbody = document.getElementById('prospects-table');
+            const empty = document.getElementById('prospects-empty');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            tbody.innerHTML = filtered.map(p =>
+                '<tr>' +
+                '<td><strong>' + (p.name || '') + '</strong></td>' +
+                '<td>' + typeBadge(p.type) + '</td>' +
+                '<td>' + (p.canal || '') + '</td>' +
+                '<td>' + statusBadge(p.status) + '</td>' +
+                '<td>' + fathomBadge(p.fathom) + '</td>' +
+                '<td style="font-size:11px;color:var(--beige)">' + (p.date || '') + '</td>' +
+                '<td><button class="btn btn-secondary btn-small" onclick="openMoveModal(\'' + getProspectId(p) + '\')">Gérer</button></td>' +
+                '</tr>'
+            ).join('');
         }
-    } catch (e) {
-        alert('Erreur réseau: ' + e.message);
-    }
-}
 
+        function filterProspects(type, el) {
+            currentTypeFilter = type;
+            document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+            if (el) el.classList.add('active');
+            refreshProspectsTable();
+        }
 
-// ========== MOVE PROSPECT ==========
-function openMoveModal(id) {
-    currentProspectId = id;
-    const p = prospects.find(x => x.id === id);
-    document.getElementById('move-prospect-name').textContent = `${p.name} — actuellement : ${statusLabel(p.status)}`;
-    document.getElementById('move-status').value = p.status;
-    document.getElementById('move-notes').value = '';
-    document.getElementById('move-fathom').value = p.fathom || '';
-    openModal('moveProspect');
-}
+        // Clients table
+        function refreshClientsTable() {
+            const clients = prospects.filter(p => p.status === 'client');
+            const tbody = document.getElementById('clients-table');
+            const empty = document.getElementById('clients-empty');
 
-function moveProspect() {
-    const p = prospects.find(x => x.id === currentProspectId);
-    const newStatus = document.getElementById('move-status').value;
-    const notes = document.getElementById('move-notes').value.trim();
-    const fathom = document.getElementById('move-fathom').value.trim();
-    const oldStatus = p.status;
+            if (clients.length === 0) {
+                tbody.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
 
-    p.status = newStatus;
-    if (notes) p.notes = notes;
-    if (fathom) p.fathom = fathom;
+            empty.style.display = 'none';
+            tbody.innerHTML = clients.map(p =>
+                '<tr>' +
+                '<td><strong>' + (p.name || '') + '</strong></td>' +
+                '<td>' + typeBadge(p.type) + '</td>' +
+                '<td>' + (p.type === 'createur' ? 'CréateurContent' : 'ContentPro') + '</td>' +
+                '<td>En cours</td>' +
+                '<td style="font-size:11px;color:var(--beige)">' + (p.date || '') + '</td>' +
+                '</tr>'
+            ).join('');
+        }
 
-    if ((newStatus === 'r1' || newStatus === 'r2') && oldStatus !== newStatus) {
-        p.calls.push({
-            type: newStatus,
-            date: new Date().toLocaleDateString('fr-FR'),
-            notes, fathom,
-            result: newStatus === 'r1' ? 'R1 effectué' : 'R2 effectué'
-        });
-    }
+        // Calls table
+        function refreshCallsTable() {
+            const withCalls = prospects.filter(p => ['r1', 'r2', 'client', 'perdu'].includes(p.status));
+            const filtered = withCalls.filter(p => isInDateRange(p.date, 'calls-date-from', 'calls-date-to'));
+            const tbody = document.getElementById('calls-table');
+            const empty = document.getElementById('calls-empty');
 
-    addActivity(`${p.name} : ${statusLabel(oldStatus)} → ${statusLabel(newStatus)}`);
-    save();
-    closeModal('moveProspect');
-    refreshAll();
-}
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
 
-async function deleteCurrentProspect() {
-    if (!confirm('Supprimer ce prospect ?')) return;
-    try {
-        await fetch(API_URL + '/prospects/' + currentProspectId, {
-            method: 'DELETE',
-            headers: { 'Authorization': 'Bearer ' + token }
-        });
-        const res = await fetch(API_URL + '/prospects', { headers: { 'Authorization': 'Bearer ' + token } });
-        if (res.ok) prospects = await res.json();
-        closeModal('moveProspect');
-        refreshAll();
-    } catch (e) {
-        alert('Erreur: ' + e.message);
-    }
-}
+            empty.style.display = 'none';
+            tbody.innerHTML = filtered.map(p =>
+                '<tr>' +
+                '<td><strong>' + (p.name || '') + '</strong></td>' +
+                '<td>' + (p.status === 'r1' ? 'R1' : (p.status === 'r2' ? 'R2' : (p.status === 'client' ? 'Closing' : 'Call'))) + '</td>' +
+                '<td style="font-size:11px;color:var(--beige)">' + (p.date || '') + '</td>' +
+                '<td>' + fathomBadge(p.fathom) + '</td>' +
+                '<td>' + statusBadge(p.status) + '</td>' +
+                '</tr>'
+            ).join('');
+        }
 
+        // Activity feed
+        function refreshActivityFeed() {
+            const feed = document.getElementById('activity-feed');
+            if (!activities || activities.length === 0) {
+                feed.innerHTML = '<div class="empty-state">Aucune activité pour le moment</div>';
+                return;
+            }
 
-// ========== HELPERS ==========
-function statusLabel(s) {
-    const labels = { contacte: 'Contacté', repondu: 'A répondu', r1: 'R1 booké', r2: 'R2 closing', client: 'Client ✓', perdu: 'Perdu' };
-    return labels[s] || s;
-}
+            const dotClass = { new: 'dot-beige', move: 'dot-orange', win: 'dot-green', lost: 'dot-red' };
+            feed.innerHTML = activities.slice(0, 20).map(a =>
+                '<div class="activity-item">' +
+                '<div class="activity-dot ' + (dotClass[a.type] || 'dot-beige') + '"></div>' +
+                '<div><div>' + (a.text || '') + '</div><div class="activity-time">' + (a.date || '') + '</div></div>' +
+                '</div>'
+            ).join('');
+        }
 
-function statusBadge(s) {
-    const cls = { contacte: 'badge-prospect', repondu: 'badge-r1', r1: 'badge-r1', r2: 'badge-r2', client: 'badge-client', perdu: 'badge-perdu' };
-    return `<span class="badge ${cls[s]}">${statusLabel(s)}</span>`;
-}
-
-function typeBadge(t) {
-    return t === 'createur'
-        ? '<span class="prospect-type type-createur">Créateur</span>'
-        : '<span class="prospect-type type-pro">Entrepreneur</span>';
-}
-
-function fathomBadge(url) {
-    if (!url) return '<span style="color:var(--beige);font-size:11px;">—</span>';
-    return `<a href="${url}" target="_blank" class="fathom-link">▶ Revoir</a>`;
-}
-
-// ========== REFRESH ==========
-function refreshAll() {
-    refreshKPIs();
-    refreshPipeline();
-    refreshProspectsTable();
-    refreshClientsTable();
-    refreshCallsTable();
-    refreshActivityFeed();
-}
-
-function getFilteredProspects(prefix) {
-    return prospects.filter(p => isInDateRange(p.date, prefix + '-date-from', prefix + '-date-to'));
-}
-
-// KPIs
-function refreshKPIs() {
-    const filtered = getFilteredProspects('dash');
-    const total = filtered.length;
-    const repondus = filtered.filter(p => p.status !== 'contacte').length;
-    const booked = filtered.filter(p => ['r1', 'r2', 'client'].includes(p.status)).length;
-    const showups = filtered.filter(p => p.calls && p.calls.length > 0).length;
-    const clients = filtered.filter(p => p.status === 'client').length;
-
-    const rReponse = total > 0 ? Math.round(repondus / total * 100) : 0;
-    const rBooking = repondus > 0 ? Math.round(booked / repondus * 100) : 0;
-    const rShowup = booked > 0 ? Math.round(showups / booked * 100) : 0;
-    const rClosing = showups > 0 ? Math.round(clients / showups * 100) : 0;
-
-    document.getElementById('kpi-total').textContent = total;
-    document.getElementById('kpi-reponse').textContent = rReponse + '%';
-    document.getElementById('kpi-booking').textContent = rBooking + '%';
-    document.getElementById('kpi-showup').textContent = rShowup + '%';
-    document.getElementById('kpi-closing').textContent = rClosing + '%';
-    document.getElementById('kpi-clients').textContent = clients;
-
-    document.getElementById('bar-reponse').style.width = rReponse + '%';
-    document.getElementById('bar-booking').style.width = rBooking + '%';
-    document.getElementById('bar-showup').style.width = rShowup + '%';
-    document.getElementById('bar-closing').style.width = rClosing + '%';
-
-    const createurs = filtered.filter(p => p.type === 'createur');
-    const entrepreneurs = filtered.filter(p => p.type === 'pro');
-    document.getElementById('kpi-createurs').textContent = createurs.length;
-    document.getElementById('kpi-entrepreneurs').textContent = entrepreneurs.length;
-    document.getElementById('kpi-c3').textContent = createurs.filter(p => p.status === 'client').length;
-    document.getElementById('kpi-ccc').textContent = entrepreneurs.filter(p => p.status === 'client').length;
-}
-
-// PIPELINE
-function refreshPipeline() {
-    const cols = { contacte: 'col-contacte', repondu: 'col-repondu', r1: 'col-r1', r2: 'col-r2', client: 'col-client' };
-    Object.values(cols).forEach(id => document.getElementById(id).innerHTML = '');
-    const counts = { contacte: 0, repondu: 0, r1: 0, r2: 0, client: 0 };
-
-    prospects.filter(p => p.status !== 'perdu').forEach(p => {
-        if (!cols[p.status]) return;
-        counts[p.status]++;
-        document.getElementById(cols[p.status]).innerHTML += `
-            <div class="prospect-card" onclick="openMoveModal(${p.id})">
-                <div class="prospect-name">${p.name}</div>
-                ${typeBadge(p.type)}
-                <div class="prospect-detail">${p.canal}</div>
-                ${p.fathom ? '<div style="margin-top:4px;">' + fathomBadge(p.fathom) + '</div>' : ''}
-            </div>
-        `;
-    });
-
-    Object.keys(counts).forEach(k => {
-        document.getElementById('count-' + k).textContent = counts[k];
-    });
-}
-
-// PROSPECTS TABLE
-let currentFilter = 'all';
-function filterProspects(filter, el) {
-    currentFilter = filter;
-    el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    refreshProspectsTable();
-}
-
-function refreshProspectsTable() {
-    const tbody = document.getElementById('prospects-table');
-    let filtered = getFilteredProspects('prospect');
-    if (currentFilter !== 'all') filtered = filtered.filter(p => p.type === currentFilter);
-
-    if (filtered.length === 0) {
-        tbody.innerHTML = '';
-        document.getElementById('prospects-empty').style.display = 'block';
-        return;
-    }
-
-    document.getElementById('prospects-empty').style.display = 'none';
-    tbody.innerHTML = filtered.map(p => `
-        <tr>
-            <td><strong>${p.name}</strong></td>
-            <td>${typeBadge(p.type)}</td>
-            <td>${p.canal}</td>
-            <td>${statusBadge(p.status)}</td>
-            <td>${fathomBadge(p.fathom)}</td>
-            <td>${p.date}</td>
-            <td><button class="btn btn-secondary btn-small" onclick="openMoveModal(${p.id})">Gérer</button></td>
-        </tr>
-    `).join('');
-}
-
-// CLIENTS TABLE
-let currentClientFilter = 'all';
-function filterClients(filter, el) {
-    currentClientFilter = filter;
-    el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    refreshClientsTable();
-}
-
-function refreshClientsTable() {
-    const tbody = document.getElementById('clients-table');
-    let clients = prospects.filter(p => p.status === 'client');
-    if (currentClientFilter !== 'all') clients = clients.filter(p => p.type === currentClientFilter);
-
-    if (clients.length === 0) {
-        tbody.innerHTML = '';
-        document.getElementById('clients-empty').style.display = 'block';
-        return;
-    }
-
-    document.getElementById('clients-empty').style.display = 'none';
-    tbody.innerHTML = clients.map(p => `
-        <tr>
-            <td><strong>${p.name}</strong></td>
-            <td>${typeBadge(p.type)}</td>
-            <td>${p.type === 'createur' ? 'C³ · Clarté Contenu Croissance' : 'CCC · Clarté Contenu Conversion'}</td>
-            <td><span class="badge badge-client">Clarté</span></td>
-            <td>${p.date}</td>
-        </tr>
-    `).join('');
-}
-
-// CALLS TABLE
-let currentCallFilter = 'all';
-function filterCalls(filter, el) {
-    currentCallFilter = filter;
-    el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    refreshCallsTable();
-}
-
-function refreshCallsTable() {
-    const tbody = document.getElementById('calls-table');
-    let allCalls = [];
-    prospects.forEach(p => {
-        p.calls.forEach(c => {
-            allCalls.push({ ...c, prospectName: p.name, prospectType: p.type, prospectFathom: c.fathom || p.fathom });
-        });
-    });
-
-    if (currentCallFilter !== 'all') allCalls = allCalls.filter(c => c.type === currentCallFilter);
-
-    // Date filter for calls
-    allCalls = allCalls.filter(c => isInDateRange(c.date, 'calls-date-from', 'calls-date-to'));
-
-    if (allCalls.length === 0) {
-        tbody.innerHTML = '';
-        document.getElementById('calls-empty').style.display = 'block';
-        return;
-    }
-
-    document.getElementById('calls-empty').style.display = 'none';
-    tbody.innerHTML = allCalls.map(c => `
-        <tr>
-            <td><strong>${c.prospectName}</strong></td>
-            <td>${typeBadge(c.prospectType)}</td>
-            <td><span class="badge ${c.type === 'r1' ? 'badge-r1' : 'badge-r2'}">${c.type.toUpperCase()}</span></td>
-            <td>${c.date}</td>
-            <td>${c.result}</td>
-            <td>${fathomBadge(c.prospectFathom)}</td>
-            <td style="font-size:11px;color:var(--beige);">${c.notes || '—'}</td>
-        </tr>
-    `).join('');
-}
-
-// ACTIVITY FEED
-function refreshActivityFeed() {
-    const feed = document.getElementById('activity-feed');
-    if (activities.length === 0) {
-        feed.innerHTML = '<div class="empty-state">Aucune activité pour le moment</div>';
-        return;
-    }
-    feed.innerHTML = activities.slice(0, 10).map(a => `
-        <div style="padding:8px 0;border-bottom:1px solid var(--beige-light);font-size:13px;display:flex;justify-content:space-between;">
-            <span>${a.text}</span>
-            <span style="color:var(--beige);font-size:11px;">${a.date}</span>
-        </div>
-    `).join('');
-}
-
-refreshAll();
-</script>
-
+        // ========== INIT ==========
+        checkAuth();
+    </script>
 </body>
 </html>
